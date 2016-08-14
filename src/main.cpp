@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     wmenu = newwin(10, 12, 10, 10);
     wborder(wmenu,
             ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,     /* ls, rs, ts, bs */
-            ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET);    /* tl, tr, bl, br */
+            '+', '+', '+', '+');                                /* tl, tr, bl, br */
 
     for (i = 0; i < 2; i++) {
         if (i == 0) wattron(wmenu, A_STANDOUT);
