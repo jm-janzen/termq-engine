@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void menuShow(string title);
+void menuShow(WINDOW *wnd, string title);
 
 
 int main(int argc, char **argv) {
@@ -17,11 +17,19 @@ int main(int argc, char **argv) {
     char menuItem[7];
     int ch, i = 0, width = 7;
 
-    /*
-     * init term
-     */
 
     initscr();
+
+    /*
+     * init main window
+     */
+
+    wmain = newwin(40, 80, 1, 1);
+    box(wmain, 0, 0);
+
+    /*
+     * init menu window
+     */
 
     wmenu = newwin(10, 12, 10, 10);
 
@@ -36,9 +44,10 @@ int main(int argc, char **argv) {
     /*
      * init title, menu
      */
-    menuShow("TERMINAL QUEST");
 
+    wrefresh(wmain);
     wrefresh(wmenu);
+    menuShow(wmain, "TERMINAL QUEST");
     i = 0;
     noecho();
     keypad(wmenu, true);
@@ -75,15 +84,15 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-void menuShow(string title) {
+void menuShow(WINDOW *wnd, string title) {
 
-    move(5, 5);
+    wmove(wnd, 5, 5);
 
     for (size_t i = 0; i < title.size(); i++) {
-        addch(title[i]);
-        addch(' ');
+        waddch(wnd, title[i]);
+        waddch(wnd, ' ');
     }
 
-    refresh();
+    wrefresh(wnd);
 }
 
