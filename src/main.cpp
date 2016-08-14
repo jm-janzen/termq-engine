@@ -29,6 +29,10 @@ int main(int argc, char **argv) {
 
     /*
      * init info window
+     * TODO
+     *  [_] allow multiple info lines
+     *  [_] delete oldest line when full
+     *  [_] don't clear borders
      */
 
     winfo = newwin(10, 80, 40 + 1, 1);
@@ -64,7 +68,16 @@ int main(int argc, char **argv) {
     keypad(wmenu, true);
     curs_set(0);
 
+    string infoPos, infoKey, infoMsg;
     while (( ch = wgetch(wmenu)) != 'q') {
+        infoPos = to_string(ch);
+        infoKey = to_string(i);
+        infoMsg = to_string(KEY_ENTER);
+
+        box(winfo, 0, 0);
+        wmove(winfo, 1, 1);
+        wprintw(winfo, (infoPos + ' ' + infoKey + ' ' + infoMsg).c_str());
+
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
         switch (ch) {
@@ -78,13 +91,18 @@ int main(int argc, char **argv) {
                 i++;
                 i = (i > 1) ? 0: i;
                 break;
-            default: // XXX only displays on second input
-                string msg = "ch:" + to_string(ch) + ", i:" +to_string(i);
-                wmove(winfo, 1, 1);
-                wrefresh(winfo);
-                wprintw(winfo, msg.c_str());
+            case KEY_ENTER: /* numpad enter */
+            case '\n':      /* keyboard return */
+                /*
+                 * TODO
+                 *  check i and handle according to value
+                 */
                 break;
+
         }
+        wmove(winfo, 1, 1);
+        wrefresh(winfo);
+        werase(winfo);
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
