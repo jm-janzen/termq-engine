@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void menuShow();
+void menuShow(string title);
 void menuAdd(int pos, string str);
 void menuDone();
 
@@ -23,7 +23,7 @@ int main() {
     /*
      * init title
      */
-    menuShow();
+    menuShow("TERMINAL QUEST");
 
     refresh();
     while(true);
@@ -35,13 +35,12 @@ int main() {
     return 0;
 }
 
-void menuShow() {
+void menuShow(string title) {
 
     move(5, 5); // move cursor to (x,y)
 
-    string text = "TERMINAL QUEST";
-    for (size_t i = 0; i < text.size(); i++) {
-        addch(text[i]);
+    for (size_t i = 0; i < title.size(); i++) {
+        addch(title[i]);
         addch(' ');
     }
 
