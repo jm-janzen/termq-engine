@@ -9,7 +9,7 @@ void menuShow(WINDOW *wnd, string title);
 
 int main(int argc, char **argv) {
 
-    WINDOW *wmenu, *wmain;
+    WINDOW *wmenu, *wmain, *winfo;
     char menuItems[2][10] = {
         "start",
         "quit"
@@ -26,6 +26,13 @@ int main(int argc, char **argv) {
 
     wmain = newwin(40, 80, 1, 1);
     box(wmain, 0, 0);
+
+    /*
+     * init info window
+     */
+
+    winfo = newwin(10, 80, 40 + 1, 1);
+    box(winfo, 0, 0);
 
     /*
      * init menu window
@@ -50,6 +57,7 @@ int main(int argc, char **argv) {
 
     wrefresh(wmain);
     wrefresh(wmenu);
+    wrefresh(winfo);
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
     noecho();
@@ -70,7 +78,14 @@ int main(int argc, char **argv) {
                 i++;
                 i = (i > 1) ? 0: i;
                 break;
+            default: // XXX only displays on second input
+                string msg = "ch:" + to_string(ch) + ", i:" +to_string(i);
+                wmove(winfo, 1, 1);
+                wrefresh(winfo);
+                wprintw(winfo, msg.c_str());
+                break;
         }
+
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
@@ -83,6 +98,7 @@ int main(int argc, char **argv) {
 
     delwin(wmenu);
     delwin(wmain);
+    delwin(winfo);
     endwin();
     return 0;
 }
