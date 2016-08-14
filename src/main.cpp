@@ -5,6 +5,7 @@
 using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
+void startGame();
 
 
 int main(int argc, char **argv) {
@@ -47,6 +48,10 @@ int main(int argc, char **argv) {
             ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,     /* ls, rs, ts, bs */
             '+', '+', '+', '+');                                /* tl, tr, bl, br */
 
+    /*
+     * init title, menu
+     */
+
     for (i = 0; i < 2; i++) {
         if (i == 0) wattron(wmenu, A_STANDOUT);
         else wattroff(wmenu, A_STANDOUT);
@@ -54,10 +59,6 @@ int main(int argc, char **argv) {
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
     }
-
-    /*
-     * init title, menu
-     */
 
     wrefresh(wmain);
     wrefresh(wmenu);
@@ -69,10 +70,10 @@ int main(int argc, char **argv) {
     curs_set(0);
 
     string infoPos, infoKey, infoMsg;
+    bool exitRequested, gameRequested = false;
     while (( ch = wgetch(wmenu)) != 'q') {
         infoPos = to_string(ch);
         infoKey = to_string(i);
-        infoMsg = to_string(KEY_ENTER);
 
         box(winfo, 0, 0);
         wmove(winfo, 1, 1);
@@ -93,10 +94,8 @@ int main(int argc, char **argv) {
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
-                /*
-                 * TODO
-                 *  check i and handle according to value
-                 */
+                if (i == 1) exitRequested = true;
+                else if (i == 0) gameRequested = true;
                 break;
 
         }
@@ -108,6 +107,9 @@ int main(int argc, char **argv) {
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
         wattroff(wmenu, A_STANDOUT);
+
+        if (exitRequested == true) break;
+        else if (gameRequested) startGame();
     }
 
     /*
@@ -131,5 +133,22 @@ void menuShow(WINDOW *wnd, string title) {
     }
 
     wrefresh(wnd);
+}
+
+void startGame() {
+    endwin();
+
+    WINDOW *wgame = newwin(40, 80, 1, 1);
+    box(wgame, '-', '.');
+    wrefresh(wgame);
+
+    keypad(wgame, true);
+
+    wmove(wgame, 1, 1);
+    int ch, i;
+    while (( ch = wgetch(wgame)) != 'q') {
+        waddstr(wgame, to_string(ch).c_str());
+        wmove(wgame, 1, 1);
+    }
 }
 
