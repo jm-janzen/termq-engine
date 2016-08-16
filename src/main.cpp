@@ -6,10 +6,16 @@ using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
 void startGame();
+void startTitle();
 
 
 int main(int argc, char **argv) {
+    startTitle();
 
+    return 0;
+}
+
+void startTitle() {
     WINDOW *wmenu, *wmain, *winfo;
     char menuItems[2][10] = {
         "start",
@@ -70,7 +76,7 @@ int main(int argc, char **argv) {
     curs_set(0);
 
     string infoPos, infoKey, infoMsg;
-    bool exitRequested, gameRequested = false;
+    bool exitRequested = false, gameRequested = false;
     while (( ch = wgetch(wmenu)) != 'q') {
         infoPos = to_string(ch);
         infoKey = to_string(i);
@@ -108,19 +114,23 @@ int main(int argc, char **argv) {
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
         wattroff(wmenu, A_STANDOUT);
 
-        if (exitRequested == true) break;
-        else if (gameRequested) startGame();
+        if (exitRequested == true) {
+            break;
+        } else if (gameRequested) {
+            delwin(wmenu);
+            delwin(wmain);
+            delwin(winfo);
+            startGame();
+            break;
+        }
     }
 
     /*
      * exit
      */
 
-    delwin(wmenu);
-    delwin(wmain);
-    delwin(winfo);
     endwin();
-    return 0;
+
 }
 
 void menuShow(WINDOW *wnd, string title) {
@@ -150,5 +160,7 @@ void startGame() {
         waddstr(wgame, to_string(ch).c_str());
         wmove(wgame, 1, 1);
     }
+    delwin(wgame);
+    startTitle();
 }
 
