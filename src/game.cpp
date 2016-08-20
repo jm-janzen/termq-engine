@@ -40,6 +40,10 @@ int init() {
             ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,     /* ls, rs, ts, bs */
             '+', '+', '+', '+');                                /* tl, tr, bl, br */
 
+    noecho();
+    keypad(wmenu, true);
+    curs_set(0);
+
     return 0;
 }
 
@@ -69,9 +73,6 @@ void run() {
     wrefresh(winfo);
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
-    noecho();
-    keypad(wmenu, true);
-    curs_set(0);
 
     string infoPos, infoKey, infoMsg;
     bool exitRequested = false, gameRequested = false;
