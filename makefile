@@ -1,6 +1,13 @@
-bin/main: bin/main.o
-	g++ -g -o bin/main bin/main.o -std=c++11 -lncurses -fno-stack-protector # disable canaries (better err messages)
+CFLAGS = -std=c++11 -w -fno-stack-protector # disable canaries
+
+bin/main: bin/main.o bin/game.o
+	g++ -g -o bin/main bin/main.o bin/game.o $(CFLAGS) -lncurses
 
 bin/main.o: src/main.cpp
-	g++ -g -c -o bin/main.o src/main.cpp -std=c++11
+	mkdir -p bin
+	g++ -g -c -o bin/main.o src/main.cpp $(CFLAGS)
+
+bin/game.o: src/game.cpp src/game.h 
+	mkdir -p bin
+	g++ -g -c -o bin/game.o src/game.cpp $(CFLAGS)
 
