@@ -2,12 +2,17 @@
 
 #include <string>
 
+#include "game.h"
+#include "Winfo.h"
+
 using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
 void startGame();
 
 WINDOW *wmenu, *wmain, *winfo;
+
+Winfo w;
 
 int init() {
 
@@ -29,8 +34,9 @@ int init() {
      */
 
     winfo = newwin(10, 80, 40 + 1, 1);
-    box(winfo, 0, 0);
+    //box(winfo, 0, 0);
 
+    w.bindWindow(*winfo);
     /*
      * init menu window
      */
@@ -70,7 +76,7 @@ void run() {
 
     wrefresh(wmain);
     wrefresh(wmenu);
-    wrefresh(winfo);
+    w.update();
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
 
