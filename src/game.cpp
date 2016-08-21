@@ -31,6 +31,8 @@ int init() {
      *  [_] allow multiple info lines
      *  [_] delete oldest line when full
      *  [_] don't clear borders
+     *  [_] Replace all references to WINDOW *winfo with usages of class Winfo
+     *  [_] Rename Winfo to something less dorky ?
      */
 
     winfo = newwin(10, 80, 40 + 1, 1);
