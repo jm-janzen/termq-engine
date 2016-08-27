@@ -12,7 +12,7 @@ void startGame();
 
 WINDOW *wmenu, *wmain, *winfo;
 
-Winfo w;
+Winfo *w = new Winfo();
 
 int init() {
 
@@ -35,10 +35,9 @@ int init() {
      *  [_] Rename Winfo to something less dorky ?
      */
 
-    winfo = newwin(10, 80, 40 + 1, 1);
-    //box(winfo, 0, 0);
+    //*w = new Winfo();
+    //w->bindWindow(*winfo);
 
-    w.bindWindow(*winfo);
     /*
      * init menu window
      */
@@ -78,7 +77,7 @@ void run() {
 
     wrefresh(wmain);
     wrefresh(wmenu);
-    w.update();
+    w->update();
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
 
@@ -88,9 +87,10 @@ void run() {
         infoPos = to_string(ch);
         infoKey = to_string(i);
 
-        box(winfo, 0, 0);
-        wmove(winfo, 1, 1);
-        wprintw(winfo, (infoPos + ' ' + infoKey + ' ' + infoMsg).c_str());
+        //box(winfo, 0, 0);
+        //wmove(winfo, 1, 1);
+        //wprintw(winfo, (infoPos + ' ' + infoKey + ' ' + infoMsg).c_str());
+        w->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
 
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
@@ -112,9 +112,10 @@ void run() {
                 break;
 
         }
-        wmove(winfo, 1, 1);
-        wrefresh(winfo);
-        werase(winfo);
+        //wmove(winfo, 1, 1);
+        //wrefresh(winfo);
+        //werase(winfo);
+        w->clear();
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -126,7 +127,9 @@ void run() {
         } else if (gameRequested) {
             delwin(wmenu);
             delwin(wmain);
-            delwin(winfo);
+            //delwin(winfo);
+            w->delete_w();
+            delete w;
             startGame();
             break;
         }
