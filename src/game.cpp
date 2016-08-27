@@ -26,17 +26,6 @@ int init() {
     box(wmain, 0, 0);
 
     /*
-     * init info window
-     * TODO
-     *  [x] allow multiple info lines
-     *  [x] delete oldest line when full
-     *  [x] don't clear borders
-     *  [x] Replace all references to WINDOW *winfo with usages of class Winfo
-     *  [x] Rename Winfo to something less dorky ?
-     */
-
-
-    /*
      * init menu window
      */
 
