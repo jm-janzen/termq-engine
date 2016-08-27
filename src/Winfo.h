@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <array>
 
 #ifndef WINFO_H
 #define WINFO_H
@@ -19,6 +20,9 @@ class Winfo {
     private:
         rect bounds; // see game.h
         WINDOW *winfo;
+
+        int cursor_pos = 0;
+        std::array<std::string, 9> messages;
 };
 
 #endif

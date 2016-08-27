@@ -35,8 +35,6 @@ int init() {
      *  [_] Rename Winfo to something less dorky ?
      */
 
-    //*w = new Winfo();
-    //w->bindWindow(*winfo);
 
     /*
      * init menu window
@@ -87,9 +85,6 @@ void run() {
         infoPos = to_string(ch);
         infoKey = to_string(i);
 
-        //box(winfo, 0, 0);
-        //wmove(winfo, 1, 1);
-        //wprintw(winfo, (infoPos + ' ' + infoKey + ' ' + infoMsg).c_str());
         w->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
 
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -112,10 +107,6 @@ void run() {
                 break;
 
         }
-        //wmove(winfo, 1, 1);
-        //wrefresh(winfo);
-        //werase(winfo);
-        w->clear();
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -127,7 +118,6 @@ void run() {
         } else if (gameRequested) {
             delwin(wmenu);
             delwin(wmain);
-            //delwin(winfo);
             w->delete_w();
             delete w;
             startGame();

@@ -33,10 +33,34 @@ void Winfo::delete_w() {
 }
 
 void Winfo::push(std::string msg) {
-    /* TODO push new message line to info panel */
+
+    /*
+     * increment cursor position, push old messages up
+     */
+    if (cursor_pos < messages.max_size() - 1) {
+        cursor_pos++;
+    } else {
+        for (int i = 0; i < messages.max_size() - 1; i++) {
+            messages[i] = messages[i + 1];
+        }
+    }
+
+    messages[cursor_pos] = msg;
+
+    /*
+     * rewrite lines from top to bot
+     */
+    for (int i = 1; i < messages.max_size(); i++) {
+        wmove(winfo, i, 1);
+        wprintw(winfo, messages[i].c_str());
+    }
+
+
+    /*
+     * place a box around info panel and signal changes
+     */
     box(winfo, 0, 0);
-    wmove(winfo, 1, 1);
-    wprintw(winfo, msg.c_str());
+    wrefresh(winfo);
 };
 
 void Winfo::setBounds(rect a) {

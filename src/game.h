@@ -20,8 +20,8 @@ typedef struct {
     uint_fast16_t left()    { return offset.x; }
     uint_fast16_t right()   { return offset.x + bounds.x; }
 
-    uint_fast16_t width()  { return bounds.x; }
-    uint_fast16_t height()   { return bounds.y; }
+    uint_fast16_t width()   { return bounds.x; }
+    uint_fast16_t height()  { return bounds.y; }
 
     bool contains(vec2i a) {
         return (a.x >= offset.x && a.x < right())
