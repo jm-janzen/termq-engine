@@ -28,10 +28,10 @@ int init() {
     /*
      * init info window
      * TODO
-     *  [_] allow multiple info lines
-     *  [_] delete oldest line when full
-     *  [_] don't clear borders
-     *  [_] Replace all references to WINDOW *winfo with usages of class Winfo
+     *  [x] allow multiple info lines
+     *  [x] delete oldest line when full
+     *  [x] don't clear borders
+     *  [x] Replace all references to WINDOW *winfo with usages of class Winfo
      *  [_] Rename Winfo to something less dorky ?
      */
 
