@@ -3,16 +3,16 @@
 #include <string>
 
 #include "game.h"
-#include "Winfo.h"
+#include "InfoPanel.h"
 
 using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
 void startGame();
 
-WINDOW *wmenu, *wmain, *winfo;
+WINDOW *wmenu, *wmain;
 
-Winfo *w = new Winfo();
+InfoPanel *infoPanel = new InfoPanel();
 
 int init() {
 
@@ -32,7 +32,7 @@ int init() {
      *  [x] delete oldest line when full
      *  [x] don't clear borders
      *  [x] Replace all references to WINDOW *winfo with usages of class Winfo
-     *  [_] Rename Winfo to something less dorky ?
+     *  [x] Rename Winfo to something less dorky ?
      */
 
 
@@ -75,7 +75,7 @@ void run() {
 
     wrefresh(wmain);
     wrefresh(wmenu);
-    w->update();
+    infoPanel->update();
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
 
@@ -85,7 +85,7 @@ void run() {
         infoPos = to_string(ch);
         infoKey = to_string(i);
 
-        w->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
+        infoPanel->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
 
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
@@ -118,8 +118,8 @@ void run() {
         } else if (gameRequested) {
             delwin(wmenu);
             delwin(wmain);
-            w->delete_w();
-            delete w;
+            infoPanel->delete_w();
+            delete infoPanel;
             startGame();
             break;
         }

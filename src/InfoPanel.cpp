@@ -4,35 +4,30 @@
 #include <string>
 
 #include "game.h"
-#include "Winfo.h"
+#include "InfoPanel.h"
 
-Winfo::Winfo() {
+InfoPanel::InfoPanel() {
 
     initscr();
     winfo = newwin(10, 80, 40 + 1, 1);
     box(winfo, 0, 0);
 };
 
-void Winfo::bindWindow(WINDOW& w) {
-    winfo = &w;
-};
-
-void Winfo::update() {
-    /* TODO refresh and display new messages */
+void InfoPanel::update() {
     wrefresh(winfo);
 };
 
-void Winfo::clear() {
+void InfoPanel::clear() {
     wmove(winfo, 1, 1);
     wrefresh(winfo);
     werase(winfo);
 }
 
-void Winfo::delete_w() {
+void InfoPanel::delete_w() {
     delwin(winfo);
 }
 
-void Winfo::push(std::string msg) {
+void InfoPanel::push(std::string msg) {
 
     /*
      * increment cursor position, push old messages up
@@ -63,11 +58,11 @@ void Winfo::push(std::string msg) {
     wrefresh(winfo);
 };
 
-void Winfo::setBounds(rect a) {
+void InfoPanel::setBounds(rect a) {
     bounds = a;
 };
 
-rect Winfo::getBounds() {
+rect InfoPanel::getBounds() {
     return bounds;
 };
 

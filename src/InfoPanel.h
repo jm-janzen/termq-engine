@@ -1,18 +1,17 @@
 #include <ncurses.h>
 #include <array>
 
-#ifndef WINFO_H
-#define WINFO_H
+#ifndef INFOPANEL_H
+#define INFOPANEL_H
 
-class Winfo {
+class InfoPanel {
     public:
-        Winfo(); // ctor
+        InfoPanel(); // ctor
 
         void update();
         void clear();
         void delete_w();
 
-        void bindWindow(WINDOW&);
         void push(std::string);
 
         void setBounds(rect);
