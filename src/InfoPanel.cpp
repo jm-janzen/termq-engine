@@ -28,6 +28,7 @@ void InfoPanel::delete_w() {
 }
 
 void InfoPanel::push(std::string msg) {
+    InfoPanel::clear();
 
     /*
      * increment cursor position, push old messages up

@@ -71,23 +71,25 @@ void run() {
     string infoPos, infoKey, infoMsg;
     bool exitRequested = false, gameRequested = false;
     while (( ch = wgetch(wmenu)) != 'q') {
+        infoMsg = "";
         infoPos = to_string(ch);
         infoKey = to_string(i);
 
-        infoPanel->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
-
         sprintf(menuItem, "%-7s", menuItems[i]);
         mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
+
         switch (ch) {
             case KEY_UP:
             case 'k':
                 i--;
                 i = (i < 0) ? 1 : i;
+                infoMsg = "up";
                 break;
             case KEY_DOWN:
             case 'j':
                 i++;
                 i = (i > 1) ? 0: i;
+                infoMsg = "down";
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -96,6 +98,8 @@ void run() {
                 break;
 
         }
+
+        infoPanel->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -107,8 +111,7 @@ void run() {
         } else if (gameRequested) {
             delwin(wmenu);
             delwin(wmain);
-            infoPanel->delete_w();
-            delete infoPanel;
+
             startGame();
             break;
         }
@@ -152,6 +155,8 @@ void startGame() {
     while (( ch = wgetch(wgame)) != 'q') {
         waddstr(wgame, to_string(ch).c_str());
         wmove(wgame, 1, 1);
+
+        infoPanel->push(to_string(ch));
     }
     delwin(wgame);
 }
