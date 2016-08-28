@@ -14,6 +14,14 @@ WINDOW *wmenu, *wmain;
 
 InfoPanel *infoPanel = new InfoPanel();
 
+struct {
+    vec2i pos;
+    rect bounds;
+    char disp_char;
+} player;
+
+rect game_area;
+
 int init() {
 
     initscr();
@@ -142,22 +150,65 @@ void menuShow(WINDOW *wnd, string title) {
 }
 
 void startGame() {
-    endwin();
+
+    player.pos = {1, 1};
+    player.disp_char = '@';
+
+    //endwin();
+    game_area = {
+        {1, 1},
+        {40, 37} /* {40, 80} minus borders */
+    };
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
     box(wgame, '-', '.');
-    wrefresh(wgame);
-
     keypad(wgame, true);
-
     wmove(wgame, 1, 1);
-    int ch, i;
-    while (( ch = wgetch(wgame)) != 'q') {
-        waddstr(wgame, to_string(ch).c_str());
-        wmove(wgame, 1, 1);
 
-        infoPanel->push(to_string(ch));
+    int ch, i;
+    string infoKey, infoMsg;
+    vec2i infoPos;
+    while (( ch = wgetch(wgame)) != 'q') {
+
+        infoMsg = "";
+        infoKey = to_string(ch);
+
+
+        werase(wgame);
+        box(wgame, '-', '.');
+
+        switch (ch) {
+            case KEY_UP:
+            case 'k':
+                /* TODO check for area bounds */
+                if (player.pos.y > game_area.top()) player.pos.y--;
+                break;
+            case KEY_DOWN:
+            case 'j':
+                /* TODO check for area bounds */
+                if (player.pos.y < game_area.bot()) player.pos.y++;
+                break;
+            case KEY_ENTER: /* numpad enter */
+            case '\n':      /* keyboard return */
+                break;
+
+        }
+
+        wmove(wgame, player.pos.y, 1);
+        waddch(wgame, player.disp_char);
+
+        infoPanel->push('{'
+            + std::to_string(player.pos.x) + ','
+            + std::to_string(player.pos.y) + '}'
+            + '{'
+            + std::to_string(game_area.top()) + ','
+            + std::to_string(game_area.bot()) + '}'
+        );
+
+        wrefresh(wgame);
+
     }
+
     delwin(wgame);
 }
 
