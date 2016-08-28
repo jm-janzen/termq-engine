@@ -1,6 +1,7 @@
 #include <ncurses.h>
 
 #include <string>
+#include <random>
 
 #include "game.h"
 #include "InfoPanel.h"
@@ -151,14 +152,23 @@ void menuShow(WINDOW *wnd, string title) {
 
 void startGame() {
 
-    player.pos = {1, 1};
-    player.disp_char = '@';
-
-    //endwin();
     game_area = {
         {0, 0},
         {80, 40}
     };
+
+    /*
+     * Randomly place player anywhere in game area
+     */
+    random_device rd;
+    uniform_int_distribution<int> distx(game_area.left(), game_area.right());
+    uniform_int_distribution<int> disty(game_area.top(), game_area.bot());
+    int randx = distx(rd) + 1;
+    int randy = disty(rd) + 1;
+    player.pos = {
+        randx, randy
+    };
+    player.disp_char = '@';
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
     box(wgame, '-', '.');
@@ -172,7 +182,6 @@ void startGame() {
 
         infoMsg = "";
         infoKey = to_string(ch);
-
 
         werase(wgame);
         box(wgame, '-', '.');
