@@ -157,6 +157,10 @@ void startGame() {
         {80, 40}
     };
 
+    WINDOW *wgame = newwin(40, 80, 1, 1);
+    box(wgame, '-', '.');
+    keypad(wgame, true);
+
     /*
      * Randomly place player anywhere in game area
      */
@@ -170,10 +174,8 @@ void startGame() {
     };
     player.disp_char = '@';
 
-    WINDOW *wgame = newwin(40, 80, 1, 1);
-    box(wgame, '-', '.');
-    keypad(wgame, true);
-    wmove(wgame, 1, 1);
+    wmove(wgame, player.pos.y, player.pos.x);
+    waddch(wgame, player.disp_char);
 
     int ch, i;
     string infoKey, infoMsg;
