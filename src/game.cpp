@@ -156,8 +156,8 @@ void startGame() {
 
     //endwin();
     game_area = {
-        {1, 1},
-        {40, 37} /* {40, 80} minus borders */
+        {0, 0},
+        {80, 40}
     };
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
@@ -180,13 +180,19 @@ void startGame() {
         switch (ch) {
             case KEY_UP:
             case 'k':
-                /* TODO check for area bounds */
-                if (player.pos.y > game_area.top()) player.pos.y--;
+                if (player.pos.y > game_area.top() + 1) player.pos.y--;
                 break;
             case KEY_DOWN:
             case 'j':
-                /* TODO check for area bounds */
-                if (player.pos.y < game_area.bot()) player.pos.y++;
+                if (player.pos.y < game_area.bot() - 2) player.pos.y++;
+                break;
+            case KEY_LEFT:
+            case 'h':
+                if (player.pos.x > game_area.left() + 1) player.pos.x--;
+                break;
+            case KEY_RIGHT:
+            case 'l':
+                if (player.pos.x < game_area.right() - 2) player.pos.x++;
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -194,13 +200,16 @@ void startGame() {
 
         }
 
-        wmove(wgame, player.pos.y, 1);
+        wmove(wgame, player.pos.y, player.pos.x);
         waddch(wgame, player.disp_char);
 
         infoPanel->push('{'
             + std::to_string(player.pos.x) + ','
             + std::to_string(player.pos.y) + '}'
-            + '{'
+            + " - right & left: {"
+            + std::to_string(game_area.right()) + ','
+            + std::to_string(game_area.left()) + '}'
+            + " top & bot: {"
             + std::to_string(game_area.top()) + ','
             + std::to_string(game_area.bot()) + '}'
         );
