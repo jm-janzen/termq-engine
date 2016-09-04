@@ -150,6 +150,10 @@ void menuShow(WINDOW *wnd, string title) {
     wrefresh(wnd);
 }
 
+/*
+ * TODO
+ *  Split off into own source file
+ */
 void startGame() {
 
     game_area = {
