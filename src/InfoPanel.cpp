@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#include "game.h"
+#include "menu.h"
 #include "InfoPanel.h"
 
 InfoPanel::InfoPanel() {

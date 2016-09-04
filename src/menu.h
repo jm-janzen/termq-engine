@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef MENU_H
+#define MENU_H
 
 typedef struct {
     uint_fast8_t x;

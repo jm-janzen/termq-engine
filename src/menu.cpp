@@ -3,7 +3,7 @@
 #include <string>
 #include <random>
 
-#include "game.h"
+#include "menu.h"
 #include "InfoPanel.h"
 
 using namespace std;
