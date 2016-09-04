@@ -158,7 +158,7 @@ void startGame() {
     };
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
-    box(wgame, '-', '.');
+    box(wgame, 0, 0);
     keypad(wgame, true);
 
     /*
@@ -186,7 +186,7 @@ void startGame() {
         infoKey = to_string(ch);
 
         werase(wgame);
-        box(wgame, '-', '.');
+        box(wgame, 0, 0);
 
         switch (ch) {
             case KEY_UP:
