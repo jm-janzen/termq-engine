@@ -4,6 +4,7 @@
 #include <string>
 
 #include "menu.h"
+#include "game.h"
 #include "InfoPanel.h"
 
 InfoPanel::InfoPanel() {
