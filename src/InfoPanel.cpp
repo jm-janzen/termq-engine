@@ -26,6 +26,7 @@ void InfoPanel::clear() {
 
 void InfoPanel::delete_w() {
     delwin(winfo);
+    delete this;
 }
 
 void InfoPanel::push(std::string msg) {

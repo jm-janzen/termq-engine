@@ -113,6 +113,9 @@ void run() {
             delwin(wmenu);
             delwin(wmain);
 
+            // delete info panel from heap
+            infoPanel->delete_w();
+
             startGame();
             break;
         }
