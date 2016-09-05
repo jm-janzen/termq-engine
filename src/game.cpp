@@ -19,10 +19,6 @@ struct {
 
 rect game_area;
 
-/*
- * TODO
- *  Split off into own source file
- */
 void startGame() {
 
     game_area = {
