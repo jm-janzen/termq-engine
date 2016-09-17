@@ -13,7 +13,7 @@ void menuShow(WINDOW *wnd, string title);
 
 WINDOW *wmenu, *wmain;
 
-InfoPanel *infoPanel = new InfoPanel();
+InfoPanel *infoPanel_menu = new InfoPanel();
 
 int init() {
 
@@ -65,7 +65,7 @@ void run() {
 
     wrefresh(wmain);
     wrefresh(wmenu);
-    infoPanel->update();
+    infoPanel_menu->update();
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
 
@@ -100,7 +100,7 @@ void run() {
 
         }
 
-        infoPanel->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
+        infoPanel_menu->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -114,7 +114,7 @@ void run() {
             delwin(wmain);
 
             // delete info panel from heap
-            infoPanel->delete_w();
+            infoPanel_menu->delete_w();
 
             startGame();
             break;

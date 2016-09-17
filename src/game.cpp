@@ -9,11 +9,7 @@
 
 using namespace std;
 
-/*
- * XXX this is a messy way to avoid "duplicate definition"
- * compilation errors.
- */
-InfoPanel *infoP = new InfoPanel();
+InfoPanel *infoPanel_game = new InfoPanel();
 
 struct {
     vec2i pos;
@@ -87,7 +83,7 @@ void startGame() {
         wmove(wgame, player.pos.y, player.pos.x);
         waddch(wgame, player.disp_char);
 
-        infoP->push('{'
+        infoPanel_game->push('{'
             + std::to_string(player.pos.x) + ','
             + std::to_string(player.pos.y) + '}'
             + " - right & left: {"
