@@ -5,17 +5,13 @@
 
 #include "game.h"
 #include "menu.h"
+#include "Player.h"
 #include "InfoPanel.h"
 
 using namespace std;
 
 InfoPanel *infoPanel_game = new InfoPanel();
 
-struct {
-    vec2i pos;
-    rect bounds;
-    char disp_char;
-} player;
 
 rect game_area;
 
