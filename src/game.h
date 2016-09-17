@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <stdint.h> // Use <inttype.h> if portability important
+
 typedef struct {
     uint_fast8_t x;
     uint_fast8_t y;
