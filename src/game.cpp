@@ -11,6 +11,7 @@
 using namespace std;
 
 InfoPanel *infoPanel_game = new InfoPanel();
+Player *player = new Player();
 
 
 rect game_area;
@@ -36,13 +37,14 @@ void startGame() {
     int randy = disty(rd) + 1;
 
     // Cast int to vector's expected type
-    player.pos = {
+
+    vec2i initPos = {
         (int_fast8_t) randx, (int_fast8_t) randy
     };
-    player.disp_char = '@';
+    player->setPos(initPos);
 
-    wmove(wgame, player.pos.y, player.pos.x);
-    waddch(wgame, player.disp_char);
+    wmove(wgame, player->getPos().y, player->getPos().x);
+    waddch(wgame, player->getDispChar());
 
     int ch;
     string infoKey, infoMsg;
@@ -54,22 +56,25 @@ void startGame() {
         werase(wgame);
         box(wgame, 0, 0);
 
+        int_fast8_t x = player->getPos().x;
+        int_fast8_t y = player->getPos().y;
+
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (player.pos.y > game_area.top() + 1) player.pos.y--;
+                if (y > game_area.top() + 1) player->setPosY(y--);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (player.pos.y < game_area.bot() - 2) player.pos.y++;
+                if (y < game_area.bot() - 2) player->setPosY(y++);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (player.pos.x > game_area.left() + 1) player.pos.x--;
+                if (x > game_area.left() + 1) player->setPosX(x--);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (player.pos.x < game_area.right() - 2) player.pos.x++;
+                if (x < game_area.right() - 2) player->setPosX(x++);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -77,12 +82,12 @@ void startGame() {
 
         }
 
-        wmove(wgame, player.pos.y, player.pos.x);
-        waddch(wgame, player.disp_char);
+        wmove(wgame, y, x);
+        waddch(wgame, player->getDispChar());
 
         infoPanel_game->push('{'
-            + std::to_string(player.pos.x) + ','
-            + std::to_string(player.pos.y) + '}'
+            + std::to_string(x) + ','
+            + std::to_string(y) + '}'
             + " - right & left: {"
             + std::to_string(game_area.right()) + ','
             + std::to_string(game_area.left()) + '}'
