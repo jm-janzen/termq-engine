@@ -62,19 +62,19 @@ void startGame() {
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (y > game_area.top() + 1) player->setPosY(y--);
+                if (y > game_area.top() + 1) player->setPosY(y - 1);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (y < game_area.bot() - 2) player->setPosY(y++);
+                if (y < game_area.bot() - 2) player->setPosY(y + 1);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (x > game_area.left() + 1) player->setPosX(x--);
+                if (x > game_area.left() + 1) player->setPosX(x - 1);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (x < game_area.right() - 2) player->setPosX(x++);
+                if (x < game_area.right() - 2) player->setPosX(x + 1);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -82,7 +82,8 @@ void startGame() {
 
         }
 
-        wmove(wgame, y, x);
+        // Move to updates position
+        wmove(wgame, player->getPos().y, player->getPos().x);
         waddch(wgame, player->getDispChar());
 
         infoPanel_game->push('{'
