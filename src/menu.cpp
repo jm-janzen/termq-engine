@@ -48,7 +48,7 @@ void run() {
         "quit"
     };
     char menuItem[7];
-    int ch, i = 0, width = 7;
+    int ch, i = 0;
 
 
     /*

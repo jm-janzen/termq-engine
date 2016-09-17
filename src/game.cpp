@@ -38,17 +38,18 @@ void startGame() {
     uniform_int_distribution<int> disty(game_area.top(), game_area.bot());
     int randx = distx(rd) + 1;
     int randy = disty(rd) + 1;
+
+    // Cast int to vector's expected type
     player.pos = {
-        randx, randy
+        (int_fast8_t) randx, (int_fast8_t) randy
     };
     player.disp_char = '@';
 
     wmove(wgame, player.pos.y, player.pos.x);
     waddch(wgame, player.disp_char);
 
-    int ch, i;
+    int ch;
     string infoKey, infoMsg;
-    vec2i infoPos;
     while (( ch = wgetch(wgame)) != 'q') {
 
         infoMsg = "";
