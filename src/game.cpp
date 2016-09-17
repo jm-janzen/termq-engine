@@ -11,7 +11,7 @@
 using namespace std;
 
 InfoPanel *infoPanel_game = new InfoPanel();
-Player *player = new Player();
+Player player;
 
 
 rect game_area;
@@ -41,10 +41,10 @@ void startGame() {
     vec2i initPos = {
         (int_fast8_t) randx, (int_fast8_t) randy
     };
-    player->setPos(initPos);
+    player.setPos(initPos);
 
-    wmove(wgame, player->getPos().y, player->getPos().x);
-    waddch(wgame, player->getDispChar());
+    wmove(wgame, player.getPos().y, player.getPos().x);
+    waddch(wgame, player.getDispChar());
 
     int ch;
     string infoKey, infoMsg;
@@ -56,25 +56,25 @@ void startGame() {
         werase(wgame);
         box(wgame, 0, 0);
 
-        int_fast8_t x = player->getPos().x;
-        int_fast8_t y = player->getPos().y;
+        int_fast8_t x = player.getPos().x;
+        int_fast8_t y = player.getPos().y;
 
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (y > game_area.top() + 1) player->setPosY(y - 1);
+                if (y > game_area.top() + 1) player.setPosY(y - 1);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (y < game_area.bot() - 2) player->setPosY(y + 1);
+                if (y < game_area.bot() - 2) player.setPosY(y + 1);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (x > game_area.left() + 1) player->setPosX(x - 1);
+                if (x > game_area.left() + 1) player.setPosX(x - 1);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (x < game_area.right() - 2) player->setPosX(x + 1);
+                if (x < game_area.right() - 2) player.setPosX(x + 1);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -83,8 +83,8 @@ void startGame() {
         }
 
         // Move to updates position
-        wmove(wgame, player->getPos().y, player->getPos().x);
-        waddch(wgame, player->getDispChar());
+        wmove(wgame, player.getPos().y, player.getPos().x);
+        waddch(wgame, player.getDispChar());
 
         infoPanel_game->push('{'
             + std::to_string(x) + ','
