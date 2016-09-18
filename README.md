@@ -12,6 +12,11 @@ git clone https://github.com/jm-janzen/termq.git
 ```
 
 ```bash
+# Navigate to project directory
+cd termq
+```
+
+```bash
 # Build the project locally
 make
 ```
