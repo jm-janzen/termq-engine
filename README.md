@@ -17,7 +17,7 @@ make
 ```
 
 ```bash
-# Execute the compiles binary
+# Execute the compiled binary
 ./bin/main
 ```
 
