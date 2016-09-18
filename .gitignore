@@ -1,2 +1,9 @@
-*.sw*
+# ignore vim swap files
+*.sw[a-p]
+
+# ignore compiled binaries
 bin/*
+
+# ignore object files
+build/*
+
