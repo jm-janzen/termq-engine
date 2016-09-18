@@ -6,12 +6,14 @@
 #include "game.h"
 #include "menu.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "InfoPanel.h"
 
 using namespace std;
 
 InfoPanel *infoPanel_game = new InfoPanel();
 Player player;
+Enemy  enemy;
 
 
 rect game_area;
@@ -45,6 +47,9 @@ void startGame() {
 
     wmove(wgame, player.getPos().y, player.getPos().x);
     waddch(wgame, player.getDispChar());
+
+    wmove(wgame, enemy.getPos().y, enemy.getPos().x);
+    waddch(wgame, enemy.getDispChar());
 
     int ch;
     string infoKey, infoMsg;
