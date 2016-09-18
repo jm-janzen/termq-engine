@@ -2,8 +2,7 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-#include "game.h"
-#include "menu.h"
+#include "../game.h"
 
 class Actor {
     public:

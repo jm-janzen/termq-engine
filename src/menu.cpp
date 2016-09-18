@@ -5,7 +5,7 @@
 
 #include "menu.h"
 #include "game.h"
-#include "InfoPanel.h"
+#include "classes/InfoPanel.h"
 
 using namespace std;
 

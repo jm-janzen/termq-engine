@@ -5,9 +5,9 @@
 
 #include "game.h"
 #include "menu.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "InfoPanel.h"
+#include "classes/Player.h"
+#include "classes/Enemy.h"
+#include "classes/InfoPanel.h"
 
 using namespace std;
 
