@@ -86,9 +86,12 @@ void startGame() {
 
         }
 
-        // Move to updates position
+        // Move to updates position (Player & Enemy)
         wmove(wgame, player.getPos().y, player.getPos().x);
         waddch(wgame, player.getDispChar());
+
+        wmove(wgame, enemy.getPos().y, enemy.getPos().x);
+        waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'
             + std::to_string(x) + ','
