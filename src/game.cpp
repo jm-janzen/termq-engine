@@ -1,7 +1,7 @@
 #include <ncurses.h>
+#include <time.h>
 
 #include <string>
-#include <random>
 
 #include "game.h"
 #include "menu.h"
@@ -32,11 +32,9 @@ void startGame() {
     /*
      * Randomly place player anywhere in game area
      */
-    random_device rd;
-    uniform_int_distribution<int> distx(game_area.left(), game_area.right());
-    uniform_int_distribution<int> disty(game_area.top(), game_area.bot());
-    int randx = distx(rd) + 1;
-    int randy = disty(rd) + 1;
+    srand(time(NULL));
+    int randx = rand() % game_area.right() + game_area.left();
+    int randy = rand() % game_area.bot() + game_area.top();
 
     // Cast int to vector's expected type
     vec2i initPos = {
