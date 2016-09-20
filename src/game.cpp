@@ -60,25 +60,25 @@ void startGame() {
         werase(wgame);
         box(wgame, 0, 0);
 
-        int_fast8_t x = player.getPos().x;
-        int_fast8_t y = player.getPos().y;
+        int x = player.getPos().x;
+        int y = player.getPos().y;
 
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (y > (int_fast8_t) game_area.top() + 1) player.setPosY(y - 1);
+                if (y > (int) game_area.top() + 1) player.setPosY(y - 1);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (y < (int_fast8_t) game_area.bot() - 2) player.setPosY(y + 1);
+                if (y < (int) game_area.bot() - 2) player.setPosY(y + 1);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (x > (int_fast8_t) game_area.left() + 1) player.setPosX(x - 1);
+                if (x > (int) game_area.left() + 1) player.setPosX(x - 1);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (x < (int_fast8_t) game_area.right() - 2) player.setPosX(x + 1);
+                if (x < (int) game_area.right() - 2) player.setPosX(x + 1);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
