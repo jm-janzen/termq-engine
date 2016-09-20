@@ -39,7 +39,6 @@ void startGame() {
     int randy = disty(rd) + 1;
 
     // Cast int to vector's expected type
-
     vec2i initPos = {
         (int_fast8_t) randx, (int_fast8_t) randy
     };
@@ -67,19 +66,19 @@ void startGame() {
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (y > game_area.top() + 1) player.setPosY(y - 1);
+                if (y > (int_fast8_t) game_area.top() + 1) player.setPosY(y - 1);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (y < game_area.bot() - 2) player.setPosY(y + 1);
+                if (y < (int_fast8_t) game_area.bot() - 2) player.setPosY(y + 1);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (x > game_area.left() + 1) player.setPosX(x - 1);
+                if (x > (int_fast8_t) game_area.left() + 1) player.setPosX(x - 1);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (x < game_area.right() - 2) player.setPosX(x + 1);
+                if (x < (int_fast8_t) game_area.right() - 2) player.setPosX(x + 1);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
