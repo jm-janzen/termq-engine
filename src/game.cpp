@@ -60,6 +60,9 @@ void startGame() {
         int x = player.getPos().x;
         int y = player.getPos().y;
 
+        // Enemy only reacts to previous move
+        vec2i enemyPos = enemy.seek(player);
+
         switch (ch) {
             case KEY_UP:
             case 'k':
@@ -87,7 +90,7 @@ void startGame() {
         wmove(wgame, player.getPos().y, player.getPos().x);
         waddch(wgame, player.getDispChar());
 
-        wmove(wgame, enemy.getPos().y, enemy.getPos().x);
+        wmove(wgame, enemyPos.y, enemyPos.x);
         waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'

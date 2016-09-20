@@ -10,3 +10,12 @@ Enemy::Enemy() {
     setPosX(rand() % 15 + 1);
     setPosY(rand() % 15 + 1);
 };
+
+vec2i Enemy::seek(Actor a) {
+    // XXX just send back Actor target coords for now
+    vec2i targetPos = a.getPos();
+    vec2i newPos = {
+        targetPos.x, targetPos.y
+    };
+    return newPos;
+}

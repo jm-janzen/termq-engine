@@ -7,6 +7,8 @@
 class Enemy : public Actor {
     public:
         Enemy(); // ctor
+
+        vec2i seek(Actor a);
 };
 
 #endif
