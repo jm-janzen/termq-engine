@@ -12,10 +12,16 @@ Enemy::Enemy() {
 };
 
 vec2i Enemy::seek(Actor a) {
-    // XXX just send back Actor target coords for now
+    vec2i selfPos   = this->getPos();
     vec2i targetPos = a.getPos();
+
+    int_fast8_t newX = (targetPos.x >= selfPos.x) ? selfPos.x + 1 : selfPos.x - 1;
+    int_fast8_t newY = (targetPos.y >= selfPos.y) ? selfPos.y + 1 : selfPos.y - 1;
+
     vec2i newPos = {
-        targetPos.x, targetPos.y
+        newX, newY
     };
+    this->setPos(newPos);
+
     return newPos;
 }
