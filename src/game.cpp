@@ -86,22 +86,20 @@ void startGame() {
 
         }
 
-        // Move to updates position (Player & Enemy)
+        // Move to updated position
         wmove(wgame, player.getPos().y, player.getPos().x);
         waddch(wgame, player.getDispChar());
 
+        // Enemy, seek out player
         wmove(wgame, enemyPos.y, enemyPos.x);
         waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'
             + std::to_string(x) + ','
             + std::to_string(y) + '}'
-            + " - right & left: {"
-            + std::to_string(game_area.right()) + ','
-            + std::to_string(game_area.left()) + '}'
-            + " top & bot: {"
-            + std::to_string(game_area.top()) + ','
-            + std::to_string(game_area.bot()) + '}'
+            + '{'
+            + std::to_string(enemyPos.x) + ','
+            + std::to_string(enemyPos.y) + '}'
         );
 
         wrefresh(wgame);
