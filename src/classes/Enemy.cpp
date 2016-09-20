@@ -11,6 +11,11 @@ Enemy::Enemy() {
     setPosY(rand() % 15 + 1);
 };
 
+/*
+ * TODO
+ *  Move toward target actor, rather
+ *  than simply to the passed coordinates
+ */
 vec2i Enemy::seek(Actor a) {
     // XXX just send back Actor target coords for now
     vec2i targetPos = a.getPos();
