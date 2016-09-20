@@ -33,12 +33,11 @@ void startGame() {
      * Randomly place player anywhere in game area
      */
     srand(time(NULL));
-    int randx = rand() % game_area.right() + game_area.left();
-    int randy = rand() % game_area.bot() + game_area.top();
+    int_fast8_t randx = rand() % game_area.right() + game_area.left();
+    int_fast8_t randy = rand() % game_area.bot() + game_area.top();
 
-    // Cast int to vector's expected type
     vec2i initPos = {
-        (int_fast8_t) randx, (int_fast8_t) randy
+        randx, randy
     };
     player.setPos(initPos);
 

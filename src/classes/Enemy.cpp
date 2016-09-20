@@ -6,7 +6,7 @@
 
 Enemy::Enemy() {
     setChar('X');
-    srand(time(NULL));
+    srand(time(NULL));  // Init random seed
     setPosX(rand() % 15 + 1);
     setPosY(rand() % 15 + 1);
 };
