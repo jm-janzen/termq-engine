@@ -58,28 +58,30 @@ void startGame() {
         werase(wgame);
         box(wgame, 0, 0);
 
-        int x = player.getPos().x;
-        int y = player.getPos().y;
+        int px = player.getPos().x;
+        int py = player.getPos().y;
 
         // Enemy only reacts to previous move
-        vec2i enemyPos = enemy.seek(player);
+        enemy.seek(player);  // Discard return (updated pos)
+        int ex = enemy.getPos().x;
+        int ey = enemy.getPos().y;
 
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (y > (int) game_area.top() + 1) player.setPosY(y - 1);
+                if (py > (int) game_area.top() + 1) player.setPosY(py - 1);
                 break;
             case KEY_DOWN:
             case 'j':
-                if (y < (int) game_area.bot() - 2) player.setPosY(y + 1);
+                if (py < (int) game_area.bot() - 2) player.setPosY(py + 1);
                 break;
             case KEY_LEFT:
             case 'h':
-                if (x > (int) game_area.left() + 1) player.setPosX(x - 1);
+                if (px > (int) game_area.left() + 1) player.setPosX(px - 1);
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (x < (int) game_area.right() - 2) player.setPosX(x + 1);
+                if (px < (int) game_area.right() - 2) player.setPosX(px + 1);
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -98,15 +100,15 @@ void startGame() {
         waddch(wgame, player.getDispChar());
 
         // Enemy, seek out player
-        wmove(wgame, enemyPos.y, enemyPos.x);
+        wmove(wgame, ey, ex);
         waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'
-            + std::to_string(x) + ','
-            + std::to_string(y) + '}'
+            + std::to_string(px) + ','
+            + std::to_string(py) + '}'
             + '{'
-            + std::to_string(enemyPos.x) + ','
-            + std::to_string(enemyPos.y) + '}'
+            + std::to_string(ex) + ','
+            + std::to_string(ey) + '}'
         );
 
         wrefresh(wgame);
