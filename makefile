@@ -24,5 +24,11 @@ build/Player.o: src/classes/Player.cpp src/classes/Player.h build/Actor.o
 build/Enemy.o: src/classes/Enemy.cpp src/classes/Enemy.h build/Actor.o
 	g++ -g -c -o build/Enemy.o src/classes/Enemy.cpp $(CFLAGS)
 
+build/Item.o: src/classes/Item.cpp src/classes/Item.h
+	g++ -g -c -o build/Item.o src/classes/Item.cpp $(CFLAGS)
+
+build/Coin.o: src/classes/Coin.cpp src/classes/Coin.h build/Item.o
+	g++ -g -c -o build/Coin.o src/classes/Coin.cpp $(CFLAGS)
+
 clean:
 	rm -f build/*
