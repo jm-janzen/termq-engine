@@ -36,11 +36,17 @@ void startGame() {
     };
     player.setPos(initPos);
 
+    // Init placement of Player, Enemy, and Coins
     wmove(wgame, player.getPos().y, player.getPos().x);
     waddch(wgame, player.getDispChar());
 
     wmove(wgame, enemy.getPos().y, enemy.getPos().x);
     waddch(wgame, enemy.getDispChar());
+
+    for (auto &coin : coins) {
+        wmove(wgame, coin.getPos().x, coin.getPos().y);
+        waddch(wgame, coin.getDispChar());
+    }
 
     int ch;
     string infoKey, infoMsg;
@@ -51,12 +57,6 @@ void startGame() {
 
         werase(wgame);
         box(wgame, 0, 0);
-
-        // Place Coins
-        for (auto &coin : coins) {
-            wmove(wgame, coin.getPos().x, coin.getPos().y);
-            waddch(wgame, coin.getDispChar());
-        }
 
         int x = player.getPos().x;
         int y = player.getPos().y;
@@ -87,13 +87,19 @@ void startGame() {
 
         }
 
-        // Move to updated position
+        // Move Player to indicated position
         wmove(wgame, player.getPos().y, player.getPos().x);
         waddch(wgame, player.getDispChar());
 
         // Enemy, seek out player
         wmove(wgame, enemyPos.y, enemyPos.x);
         waddch(wgame, enemy.getDispChar());
+
+        // Draw Coins again (no changes)
+        for (auto &coin : coins) {
+            wmove(wgame, coin.getPos().x, coin.getPos().y);
+            waddch(wgame, coin.getDispChar());
+        }
 
         infoPanel_game->push('{'
             + std::to_string(x) + ','
