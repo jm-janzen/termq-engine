@@ -1,20 +1,25 @@
-#include <ncurses.h>
-
 #include <string>
 
 #include "menu.h"
-#include "game.h"
 
 using namespace std;
 
-int main(int argc, char **argv) {
+int main() {
     srand(time(0));
 
     if (init() == 0) run();
 
     close();
 
-    printf("GAME OVER\n");
+    /*
+     * TODO
+     *  1)  Calculate score.
+     *  2)  Display score here.
+     */
+    printf("\n~~~ GAME OVER ~~~\n");
+    printf("lifespan:   %d\n", 0);
+    printf("score:      %d\n", 0);
+    printf("~~~~~~~~~~~~~~~~~\n");
 
     return 0;
 }
