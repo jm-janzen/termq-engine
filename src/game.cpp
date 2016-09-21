@@ -87,6 +87,12 @@ void startGame() {
 
         }
 
+        // Draw Coins again (no changes)
+        for (auto &coin : coins) {
+            wmove(wgame, coin.getPos().x, coin.getPos().y);
+            waddch(wgame, coin.getDispChar());
+        }
+
         // Move Player to indicated position
         wmove(wgame, player.getPos().y, player.getPos().x);
         waddch(wgame, player.getDispChar());
@@ -94,12 +100,6 @@ void startGame() {
         // Enemy, seek out player
         wmove(wgame, enemyPos.y, enemyPos.x);
         waddch(wgame, enemy.getDispChar());
-
-        // Draw Coins again (no changes)
-        for (auto &coin : coins) {
-            wmove(wgame, coin.getPos().x, coin.getPos().y);
-            waddch(wgame, coin.getDispChar());
-        }
 
         infoPanel_game->push('{'
             + std::to_string(x) + ','
