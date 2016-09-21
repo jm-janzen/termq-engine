@@ -13,13 +13,15 @@
 
 using namespace std;
 
+const int numCoins = 10;
+
 InfoPanel *infoPanel_game = new InfoPanel();
 Player player;
 Enemy  enemy;
-Coin   coins[10];
+Coin   coins[numCoins];
 
 
-void startGame() {
+int startGame() {
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
     box(wgame, 0, 0);
@@ -58,8 +60,22 @@ void startGame() {
         werase(wgame);
         box(wgame, 0, 0);
 
+        vec2ui coinsPos[numCoins];
+        for (int i = 0; i < numCoins; i++) {
+            coinsPos[i] = { coins[i].getPos().x, coins[i].getPos().y};
+        }
+
+
         int px = player.getPos().x;
         int py = player.getPos().y;
+
+        // Check if Player is on Coin
+        for (auto &cp : coinsPos) {
+            if ((cp.x, cp.y) == (px, py)) {
+                player.addScore(100);  // TODO get value of coin
+                // TODO rm this Coin from game area
+            }
+        }
 
         // Enemy only reacts to previous move
         enemy.seek(player);  // Discard return (updated pos)
@@ -116,5 +132,6 @@ void startGame() {
     }
 
     delwin(wgame);
+    return player.getScore();
 }
 

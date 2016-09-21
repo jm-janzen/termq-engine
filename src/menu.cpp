@@ -42,7 +42,8 @@ int init() {
     return 0;
 }
 
-void run() {
+int run() {
+    int playerScore = 0;
     char menuItems[2][10] = {
         "start",
         "quit"
@@ -116,7 +117,7 @@ void run() {
             // delete info panel from heap
             infoPanel_menu->delete_w();
 
-            startGame();
+            playerScore = startGame();
             break;
         }
     }
@@ -127,6 +128,7 @@ void run() {
 
     endwin();
 
+    return playerScore;
 }
 
 void close() {

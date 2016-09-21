@@ -38,7 +38,7 @@ const rect game_area = {
 };
 
 
-void startGame();
+int startGame();
 
 #endif
 
