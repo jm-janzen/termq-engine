@@ -60,11 +60,3 @@ void InfoPanel::push(std::string msg) {
     wrefresh(winfo);
 };
 
-void InfoPanel::setBounds(rect a) {
-    bounds = a;
-};
-
-rect InfoPanel::getBounds() {
-    return bounds;
-};
-

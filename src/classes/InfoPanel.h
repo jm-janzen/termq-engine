@@ -1,8 +1,10 @@
+#ifndef INFOPANEL_H
+#define INFOPANEL_H
+
 #include <ncurses.h>
 #include <array>
 
-#ifndef INFOPANEL_H
-#define INFOPANEL_H
+#include "../game.h"
 
 class InfoPanel {
     public:
@@ -14,10 +16,7 @@ class InfoPanel {
 
         void push(std::string);
 
-        void setBounds(rect);
-        rect getBounds();
     private:
-        rect bounds; // see game.h
         WINDOW *winfo;
 
         int cursor_pos = 0;

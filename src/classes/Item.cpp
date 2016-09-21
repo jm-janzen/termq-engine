@@ -4,6 +4,10 @@ void Item::setPos(vec2i newPos) {
     pos = newPos;
 };
 
+void Item::setChar(char newChar) {
+    disp_char = newChar;
+};
+
 vec2i Item::getPos() {
     return pos;
 }

@@ -6,9 +6,10 @@
 class Item {
     public:
         void  setPos(vec2i newPos);
-        vec2i getPos();
+        void  setChar(char newChar);
         void  setValue(int newValue);
 
+        vec2i getPos();
         char  getDispChar();
         int   getValue();
 

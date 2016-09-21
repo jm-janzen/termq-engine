@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "classes/Player.h"
 #include "classes/Enemy.h"
+#include "classes/Coin.h"
 #include "classes/InfoPanel.h"
 
 using namespace std;
@@ -14,16 +15,10 @@ using namespace std;
 InfoPanel *infoPanel_game = new InfoPanel();
 Player player;
 Enemy  enemy;
+Coin   coins[10];
 
-
-rect game_area;
 
 void startGame() {
-
-    game_area = {
-        {0, 0},
-        {80, 40}
-    };
 
     WINDOW *wgame = newwin(40, 80, 1, 1);
     box(wgame, 0, 0);
@@ -32,7 +27,6 @@ void startGame() {
     /*
      * Randomly place player anywhere in game area
      */
-    srand(time(NULL));
     int_fast8_t randx = rand() % game_area.right() + game_area.left();
     int_fast8_t randy = rand() % game_area.bot() + game_area.top();
 
@@ -56,6 +50,12 @@ void startGame() {
 
         werase(wgame);
         box(wgame, 0, 0);
+
+        // Place Coins
+        for (auto &coin : coins) {
+            wmove(wgame, coin.getPos().x, coin.getPos().y);
+            waddch(wgame, coin.getDispChar());
+        }
 
         int x = player.getPos().x;
         int y = player.getPos().y;

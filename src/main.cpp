@@ -8,6 +8,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+    srand(time(0));
 
     if (init() == 0) run();
 
