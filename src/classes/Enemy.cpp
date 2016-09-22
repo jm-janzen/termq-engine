@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <time.h>
 
 #include "Actor.h"
 #include "Enemy.h"
@@ -14,13 +13,38 @@ vec2i Enemy::seek(Actor a) {
     vec2i selfPos   = this->getPos();
     vec2i targetPos = a.getPos();
 
-    int_fast8_t newX = (targetPos.x >= selfPos.x) ? selfPos.x + 1 : selfPos.x - 1;
-    int_fast8_t newY = (targetPos.y >= selfPos.y) ? selfPos.y + 1 : selfPos.y - 1;
+    // Target on same row
+    if (targetPos.x == selfPos.x) {
+        // Target below
+        if (targetPos.y > selfPos.y) { this->moveDown(); }
+        // Target above
+        if (targetPos.y < selfPos.y) { this->moveUp(); }
+    }
 
-    vec2i newPos = {
-        newX, newY
-    };
-    this->setPos(newPos);
+    // Target on same col
+    else if (targetPos.y == selfPos.y) {
+        // Target right
+        if (targetPos.x > selfPos.x) { this->moveRight(); }
+        // Target left
+        if (targetPos.x < selfPos.x) { this->moveLeft(); }
+    }
 
-    return newPos;
+    else if (targetPos.x > selfPos.x) {
+        this->moveRight();
+        if (targetPos.y > selfPos.y) {
+            this->moveDown();
+        } else {
+            this->moveUp();
+        }
+
+    } else {
+        this->moveLeft();
+        if (targetPos.y > selfPos.y) {
+            this->moveDown();
+        } else {
+            this->moveUp();
+        }
+    }
+
+    return this->getPos();
 }
