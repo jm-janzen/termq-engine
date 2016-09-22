@@ -6,6 +6,11 @@
 
 class Actor {
     public:
+        void  moveLeft();
+        void  moveRight();
+        void  moveUp();
+        void  moveDown();
+
         void  setPos(vec2i newPos);
         void  setPosX(int_fast8_t newXPos);
         void  setPosY(int_fast8_t newYPos);

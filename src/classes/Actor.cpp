@@ -1,6 +1,23 @@
 
 #include "Actor.h"
 
+
+void  Actor::moveLeft() {
+    pos.x--;
+};
+
+void  Actor::moveRight() {
+    pos.x++;
+};
+
+void  Actor::moveUp() {
+    pos.y--;
+};
+
+void  Actor::moveDown() {
+    pos.y++;
+};
+
 void Actor::setPos(vec2i newPos) {
     pos = newPos;
 };
