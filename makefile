@@ -1,7 +1,7 @@
-CFLAGS = -std=c++11 -w -fno-stack-protector # disable canaries
+CFLAGS = -std=c++11 -w -Wall -fno-stack-protector # disable canaries
 
-bin/main: build/main.o build/menu.o build/game.o build/InfoPanel.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o
-	g++ -g build/main.o build/menu.o build/game.o build/InfoPanel.o  build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o -o bin/main $(CFLAGS) -lncurses
+termq: build/main.o build/menu.o build/game.o build/InfoPanel.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o
+	g++ -g src/*.cpp src/classes/*.cpp -o bin/termq $(CFLAGS) -lncurses -g
 
 build/main.o: src/main.cpp
 	g++ -g -c -o build/main.o src/main.cpp $(CFLAGS)
@@ -9,7 +9,7 @@ build/main.o: src/main.cpp
 build/menu.o: src/menu.cpp src/menu.h src/classes/InfoPanel.h
 	g++ -g -c -o build/menu.o src/menu.cpp $(CFLAGS)
 
-build/game.o: src/game.cpp src/game.h src/menu.h src/classes/InfoPanel.h src/classes/Actor.h src/classes/Player.h src/classes/Enemy.h
+build/game.o: src/game.cpp src/game.h src/menu.h src/classes/InfoPanel.h
 	g++ -g -c -o build/game.o src/game.cpp $(CFLAGS)
 
 build/InfoPanel.o: src/classes/InfoPanel.cpp src/classes/InfoPanel.h
@@ -31,4 +31,4 @@ build/Coin.o: src/classes/Coin.cpp src/classes/Coin.h build/Item.o
 	g++ -g -c -o build/Coin.o src/classes/Coin.cpp $(CFLAGS)
 
 clean:
-	rm -f build/*
+	rm -f build/* bin/*
