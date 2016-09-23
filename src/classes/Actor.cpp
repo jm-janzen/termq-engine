@@ -14,21 +14,15 @@ bool Actor::atop(vec2i const targetPos) {
 };
 
 bool Actor::isAdjacent(vec2i targetPos) {
-    bool isAdjacent = false;
-
-    int distY = std::abs(getPos().y - targetPos.y);
-    int distX = std::abs(getPos().x - targetPos.x);
-
-    if (distY <= 1 && distX <= 1) {
-        isAdjacent = true;
-    }
-
-    return isAdjacent;
+    return (getDistanceX(targetPos) <= 1 && getDistanceY(targetPos) <= 1);
 };
 
-// TODO get absolute minimum distance between two points. Maybe yagni...
-int_fast8_t Actor::getDistance(vec2i targetPos) {
-    return 0;
+int_fast8_t Actor::getDistanceX(vec2i targetPos) {
+    return std::abs(getPos().y - targetPos.y);
+};
+
+int_fast8_t Actor::getDistanceY(vec2i targetPos) {
+    return std::abs(getPos().x - targetPos.x);
 };
 
 /*

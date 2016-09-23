@@ -8,12 +8,10 @@ class Actor {
     public:
 
         bool atop(vec2i targetPos);
-
-        // TODO check if two points are within a unit of each other.  Maybe yagni...
         bool isAdjacent(vec2i targetPos);
+        int_fast8_t getDistanceX(vec2i targetPos);
+        int_fast8_t getDistanceY(vec2i targetPos);
 
-        // TODO get absolute minimum distance between two points. Maybe yagni...
-        int_fast8_t getDistance(vec2i targetPos);
 
         void  moveLeft();
         void  moveRight();
