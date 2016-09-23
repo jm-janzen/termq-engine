@@ -56,9 +56,6 @@ int startGame() {
         int px = player.getPos().x;
         int py = player.getPos().y;
 
-        int ex = enemy.getPos().x;
-        int ey = enemy.getPos().y;
-
         switch (ch) {
             case KEY_UP:
             case 'k':
@@ -88,9 +85,6 @@ int startGame() {
 
         }
 
-        // Enemy reacts to latest move
-        enemy.seek(player);  // Discard return (updated pos)
-
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             wmove(wgame, coin.getPos().y, coin.getPos().x);
@@ -109,24 +103,19 @@ int startGame() {
         waddch(wgame, player.getDispChar());
 
         // Enemy, seek out player
-        wmove(wgame, ey, ex);
+        enemy.seek(player);  // Discard return (updated pos)
+        wmove(wgame, enemy.getPos().y, enemy.getPos().x);
         waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'
             + std::to_string(player.getPos().x) + ','
             + std::to_string(player.getPos().y) + '}'
-            //+ " - left & right: {"
-            //+ std::to_string(game_area.left()) + ','
-            //+ std::to_string(game_area.right()) + '}'
-            //+ " top & bot: {"
-            //+ std::to_string(game_area.top()) + ','
-            //+ std::to_string(game_area.bot()) + '}'
             + '{'
             + std::to_string(enemy.getPos().x) + ','
             + std::to_string(enemy.getPos().y) + '}'
             + " score: "
             + std::to_string(player.getScore())
-            + " info:" + infoMsg
+            + " info: " + infoMsg
         );
 
         wrefresh(wgame);
@@ -134,6 +123,9 @@ int startGame() {
         if (enemy.atop(player.getPos())) {
             // Game Over
             gameover = true;
+            infoPanel_game->push("GAME OVER!");
+            infoPanel_game->push("Press `q' to quit.");
+            while (wgetch(wgame) != 'q');  // TODO prompt restart or quit
             break;
         }
     }
