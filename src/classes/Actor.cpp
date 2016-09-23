@@ -18,6 +18,10 @@ void  Actor::moveDown() {
     pos.y++;
 };
 
+/*
+ * Setters
+ */
+
 void Actor::setPos(vec2i newPos) {
     pos = newPos;
 };
@@ -33,6 +37,10 @@ void Actor::setPosY(int_fast8_t newYPos) {
 void Actor::setChar(char newChar) {
     disp_char = newChar;
 };
+
+/*
+ * Getters
+ */
 
 vec2i Actor::getPos() {
     return pos;
