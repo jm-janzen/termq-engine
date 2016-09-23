@@ -7,10 +7,10 @@
 class Actor {
     public:
 
-        bool atop(vec2i targetPos);
-        bool isAdjacent(vec2i targetPos);
-        int_fast8_t getDistanceX(vec2i targetPos);
-        int_fast8_t getDistanceY(vec2i targetPos);
+        bool atop(vec2i const targetPos);
+        bool isAdjacent(vec2i const targetPos);
+        int_fast8_t getDistanceX(vec2i const targetPos);
+        int_fast8_t getDistanceY(vec2i const targetPos);
 
 
         void  moveLeft();

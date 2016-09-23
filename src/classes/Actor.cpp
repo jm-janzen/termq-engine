@@ -13,15 +13,15 @@ bool Actor::atop(vec2i const targetPos) {
     return (getPos() == targetPos);
 };
 
-bool Actor::isAdjacent(vec2i targetPos) {
+bool Actor::isAdjacent(vec2i const targetPos) {
     return (getDistanceX(targetPos) <= 1 && getDistanceY(targetPos) <= 1);
 };
 
-int_fast8_t Actor::getDistanceX(vec2i targetPos) {
+int_fast8_t Actor::getDistanceX(vec2i const targetPos) {
     return std::abs(getPos().y - targetPos.y);
 };
 
-int_fast8_t Actor::getDistanceY(vec2i targetPos) {
+int_fast8_t Actor::getDistanceY(vec2i const targetPos) {
     return std::abs(getPos().x - targetPos.x);
 };
 
