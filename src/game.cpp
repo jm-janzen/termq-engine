@@ -15,28 +15,18 @@ using namespace std;
 
 const int numCoins = 10;
 
-InfoPanel *infoPanel_game = new InfoPanel();
-Player player;
-Enemy  enemy;
-Coin   coins[numCoins];
-
 
 int startGame() {
 
-    WINDOW *wgame = newwin(40, 80, 1, 1);
+    // Declared internally, to prevent ctors from running before main
+    InfoPanel *infoPanel_game = new InfoPanel();
+    Player player;
+    Enemy  enemy;
+    Coin   coins[numCoins];
+
+    WINDOW *wgame = newwin(game_area.height(), game_area.width(), 1, 1);
     box(wgame, 0, 0);
     keypad(wgame, true);
-
-    /*
-     * Randomly place player anywhere in game area
-     */
-    int_fast8_t randx = rand() % game_area.right() + game_area.left();
-    int_fast8_t randy = rand() % game_area.bot() + game_area.top();
-
-    vec2i initPos = {
-        randx, randy
-    };
-    player.setPos(initPos);
 
     // Init placement of Player, Enemy, and Coins
     wmove(wgame, player.getPos().y, player.getPos().x);
@@ -46,69 +36,72 @@ int startGame() {
     waddch(wgame, enemy.getDispChar());
 
     for (auto &coin : coins) {
-        wmove(wgame, coin.getPos().x, coin.getPos().y);
+        wmove(wgame, coin.getPos().y, coin.getPos().x);
         waddch(wgame, coin.getDispChar());
     }
 
-    int ch;
-    string infoKey, infoMsg;
+    int ch, steps = 0, difficulty = 1;
+    string infoKey, infoMsg = "";
+    bool gameover = false;
     while (( ch = wgetch(wgame)) != 'q') {
 
-        infoMsg = "";
         infoKey = to_string(ch);
+
+        steps++;
 
         werase(wgame);
         box(wgame, 0, 0);
-
-        vec2ui coinsPos[numCoins];
-        for (int i = 0; i < numCoins; i++) {
-            coinsPos[i] = { coins[i].getPos().x, coins[i].getPos().y};
-        }
 
 
         int px = player.getPos().x;
         int py = player.getPos().y;
 
-        // Check if Player is on Coin
-        for (auto &cp : coinsPos) {
-            if ((cp.x, cp.y) == (px, py)) {
-                player.addScore(100);  // TODO get value of coin
-                // TODO rm this Coin from game area
-            }
-        }
-
-        // Enemy only reacts to previous move
-        enemy.seek(player);  // Discard return (updated pos)
         int ex = enemy.getPos().x;
         int ey = enemy.getPos().y;
 
         switch (ch) {
             case KEY_UP:
             case 'k':
-                if (py > (int) game_area.top() + 1) player.setPosY(py - 1);
+                if (py > (int) game_area.top()) player.moveUp();
+                infoMsg = "up(" + to_string(py) + ">" + to_string(game_area.top()) + ")";
                 break;
             case KEY_DOWN:
             case 'j':
-                if (py < (int) game_area.bot() - 2) player.setPosY(py + 1);
+                if (py < (int) game_area.bot()) player.moveDown(); // want bot:40
+                infoMsg = "down(" + to_string(py) + "<" + to_string(game_area.bot()) + ")";
                 break;
             case KEY_LEFT:
             case 'h':
-                if (px > (int) game_area.left() + 1) player.setPosX(px - 1);
+                if (px > (int) game_area.left()) player.moveLeft();
+                infoMsg = "left(" + to_string(px) + ">" + to_string(game_area.left()) + ")";
                 break;
             case KEY_RIGHT:
             case 'l':
-                if (px < (int) game_area.right() - 2) player.setPosX(px + 1);
+                if (px < (int) game_area.right()) player.moveRight(); // want right:80
+                infoMsg = "right(" + to_string(px) + "<" + to_string(game_area.right()) + ")";
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
                 break;
+            default:
+                infoMsg = "waiting...";
 
         }
 
-        // Draw Coins again (no changes)
+        // Enemy reacts to latest move
+        enemy.seek(player);  // Discard return (updated pos)
+
+        // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
-            wmove(wgame, coin.getPos().x, coin.getPos().y);
+            wmove(wgame, coin.getPos().y, coin.getPos().x);
             waddch(wgame, coin.getDispChar());
+            if (coin.getPos() == player.getPos()) {
+                player.addScore(coin.getValue());
+
+                // Just zero out coin value and display for now
+                coin.setValue(0);
+                coin.setChar(' ');
+            }
         }
 
         // Move Player to indicated position
@@ -120,18 +113,32 @@ int startGame() {
         waddch(wgame, enemy.getDispChar());
 
         infoPanel_game->push('{'
-            + std::to_string(px) + ','
-            + std::to_string(py) + '}'
+            + std::to_string(player.getPos().x) + ','
+            + std::to_string(player.getPos().y) + '}'
+            //+ " - left & right: {"
+            //+ std::to_string(game_area.left()) + ','
+            //+ std::to_string(game_area.right()) + '}'
+            //+ " top & bot: {"
+            //+ std::to_string(game_area.top()) + ','
+            //+ std::to_string(game_area.bot()) + '}'
             + '{'
-            + std::to_string(ex) + ','
-            + std::to_string(ey) + '}'
+            + std::to_string(enemy.getPos().x) + ','
+            + std::to_string(enemy.getPos().y) + '}'
+            + " score: "
+            + std::to_string(player.getScore())
+            + " info:" + infoMsg
         );
 
         wrefresh(wgame);
 
+        if (enemy.getPos() == player.getPos()) {
+            // Game Over
+            gameover = true;
+            break;
+        }
     }
 
     delwin(wgame);
-    return player.getScore();
+    return player.getScore() + steps * difficulty;  // TODO eventually return more information
 }
 
