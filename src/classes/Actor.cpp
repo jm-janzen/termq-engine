@@ -6,7 +6,7 @@
  *  with other Actors' positions
  */
 
-bool Actor::checkSuperposition(vec2i targetPos) {
+bool Actor::atop(vec2i targetPos) {
     return (getPos() == targetPos);
 };
 

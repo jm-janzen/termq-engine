@@ -7,7 +7,7 @@
 class Actor {
     public:
         // TODO check if two points occupy the same space
-        bool checkSuperposition(vec2i targetPos);
+        bool atop(vec2i targetPos);
 
         // TODO check if two points are within a unit of each other.  Maybe yagni...
         bool checkAdjacent(vec2i targetPos);
