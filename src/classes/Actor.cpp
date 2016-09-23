@@ -1,6 +1,28 @@
 
 #include "Actor.h"
 
+/*
+ * Comparison
+ *  with other Actors' positions
+ */
+
+bool Actor::checkSuperposition(vec2i targetPos) {
+    return false;
+};
+
+// TODO check if two points are within a unit of each other.  Maybe yagni...
+bool Actor::checkAdjacent(vec2i targetPos) {
+    return false;
+};
+
+// TODO get absolute minimum distance between two points. Maybe yagni...
+int_fast8_t Actor::getDistance(vec2i targetPos) {
+    return 0;
+};
+
+/*
+ * Movement
+ */
 
 void  Actor::moveLeft() {
     pos.x--;

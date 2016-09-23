@@ -45,16 +45,5 @@ const rect game_area = {
 
 int startGame();
 
-// TODO check if two points occupy the same space
-bool checkSuperposition(vec2i a, vec2i b);
-
-// TODO check if two points are within a unit of each other
-//   maybe yagni...
-bool checkAdjacent(vec2i a, vec2i b);
-
-// TODO get absolute minimum distance between two points
-//  maybe yagni...
-int_fast8_t getDistance(vec2i a, vec2i b);
-
 #endif
 
