@@ -13,7 +13,7 @@ class Player : public Actor {
         int  getScore();
         void setScore(int newScore);
     private:
-        int score;
+        int score = 0;
 };
 
 #endif

@@ -56,46 +56,41 @@ int startGame() {
         int px = player.getPos().x;
         int py = player.getPos().y;
 
-        int ex = enemy.getPos().x;
-        int ey = enemy.getPos().y;
-
         switch (ch) {
             case KEY_UP:
             case 'k':
                 if (py > (int) game_area.top()) player.moveUp();
-                infoMsg = "up(" + to_string(py) + ">" + to_string(game_area.top()) + ")";
+                infoMsg = "up(" + to_string(py) + " > " + to_string(game_area.top()) + ")";
                 break;
             case KEY_DOWN:
             case 'j':
                 if (py < (int) game_area.bot()) player.moveDown(); // want bot:40
-                infoMsg = "down(" + to_string(py) + "<" + to_string(game_area.bot()) + ")";
+                infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
                 break;
             case KEY_LEFT:
             case 'h':
                 if (px > (int) game_area.left()) player.moveLeft();
-                infoMsg = "left(" + to_string(px) + ">" + to_string(game_area.left()) + ")";
+                infoMsg = "left(" + to_string(px) + " > " + to_string(game_area.left()) + ")";
                 break;
             case KEY_RIGHT:
             case 'l':
                 if (px < (int) game_area.right()) player.moveRight(); // want right:80
-                infoMsg = "right(" + to_string(px) + "<" + to_string(game_area.right()) + ")";
+                infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
                 break;
             default:
+                player.wait();
                 infoMsg = "waiting...";
 
         }
-
-        // Enemy reacts to latest move
-        enemy.seek(player);  // Discard return (updated pos)
 
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             wmove(wgame, coin.getPos().y, coin.getPos().x);
             waddch(wgame, coin.getDispChar());
-            if (coin.getPos() == player.getPos()) {
+            if (player.atop(coin.getPos())) {
                 player.addScore(coin.getValue());
 
                 // Just zero out coin value and display for now
@@ -109,31 +104,38 @@ int startGame() {
         waddch(wgame, player.getDispChar());
 
         // Enemy, seek out player
-        wmove(wgame, ey, ex);
+        enemy.seek(player);  // Discard return (updated pos)
+        wmove(wgame, enemy.getPos().y, enemy.getPos().x);
         waddch(wgame, enemy.getDispChar());
 
+        string proximityAlert = "";
+        if (enemy.isAdjacent(player.getPos())) {
+            proximityAlert = "!";
+        }
         infoPanel_game->push('{'
             + std::to_string(player.getPos().x) + ','
             + std::to_string(player.getPos().y) + '}'
-            //+ " - left & right: {"
-            //+ std::to_string(game_area.left()) + ','
-            //+ std::to_string(game_area.right()) + '}'
-            //+ " top & bot: {"
-            //+ std::to_string(game_area.top()) + ','
-            //+ std::to_string(game_area.bot()) + '}'
             + '{'
             + std::to_string(enemy.getPos().x) + ','
             + std::to_string(enemy.getPos().y) + '}'
+            + " steps: "
+            + std::to_string(player.getSteps())
+            + " ticks: "
+            + std::to_string(player.getTicks())
             + " score: "
             + std::to_string(player.getScore())
-            + " info:" + infoMsg
+            + " info: " + infoMsg
+            + " " + proximityAlert
         );
 
         wrefresh(wgame);
 
-        if (enemy.getPos() == player.getPos()) {
+        if (enemy.atop(player.getPos())) {
             // Game Over
             gameover = true;
+            infoPanel_game->push("GAME OVER!");
+            infoPanel_game->push("Press `q' to quit.");
+            while (wgetch(wgame) != 'q');  // TODO prompt restart or quit
             break;
         }
     }
