@@ -1,6 +1,9 @@
 
 #include "Actor.h"
 
+
+#include <cmath>
+
 /*
  * Comparison
  *  with other Actors' positions
@@ -10,9 +13,20 @@ bool Actor::atop(vec2i const targetPos) {
     return (getPos() == targetPos);
 };
 
-// TODO check if two points are within a unit of each other.  Maybe yagni...
-bool Actor::checkAdjacent(vec2i targetPos) {
-    return false;
+bool Actor::isAdjacent(vec2i targetPos) {
+    bool isAdjacent = false;
+
+    // Load up temp variables
+    int_fast8_t ax = targetPos.x;
+    int_fast8_t ay = targetPos.y;
+    int_fast8_t bx  = getPos().x;
+    int_fast8_t by  = getPos().y;
+
+    if ((std::abs(ay - by)) <= 1 && (std::abs(ax - bx) <= 1)) {
+        isAdjacent = true;
+    }
+
+    return isAdjacent;
 };
 
 // TODO get absolute minimum distance between two points. Maybe yagni...

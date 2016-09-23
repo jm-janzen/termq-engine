@@ -108,6 +108,10 @@ int startGame() {
         wmove(wgame, enemy.getPos().y, enemy.getPos().x);
         waddch(wgame, enemy.getDispChar());
 
+        string proximityAlert = "";
+        if (enemy.isAdjacent(player.getPos())) {
+            proximityAlert = "!";
+        }
         infoPanel_game->push('{'
             + std::to_string(player.getPos().x) + ','
             + std::to_string(player.getPos().y) + '}'
@@ -121,6 +125,7 @@ int startGame() {
             + " score: "
             + std::to_string(player.getScore())
             + " info: " + infoMsg
+            + " " + proximityAlert
         );
 
         wrefresh(wgame);
