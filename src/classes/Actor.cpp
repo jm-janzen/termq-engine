@@ -16,13 +16,10 @@ bool Actor::atop(vec2i const targetPos) {
 bool Actor::isAdjacent(vec2i targetPos) {
     bool isAdjacent = false;
 
-    // Load up temp variables
-    int_fast8_t ax = targetPos.x;
-    int_fast8_t ay = targetPos.y;
-    int_fast8_t bx  = getPos().x;
-    int_fast8_t by  = getPos().y;
+    int distY = std::abs(getPos().y - targetPos.y);
+    int distX = std::abs(getPos().x - targetPos.x);
 
-    if ((std::abs(ay - by)) <= 1 && (std::abs(ax - bx) <= 1)) {
+    if (distY <= 1 && distX <= 1) {
         isAdjacent = true;
     }
 
