@@ -1,12 +1,15 @@
 #include <stdlib.h>
 
+#include "../game.h"
 #include "Actor.h"
 #include "Enemy.h"
 
 Enemy::Enemy() {
     setChar('X');
-    setPosX(rand() % 15 + 1);
-    setPosY(rand() % 15 + 1);
+
+    int_fast8_t randx = (rand() % (game_area.right())   + 1);
+    int_fast8_t randy = (rand() % (game_area.bot()) + 1);
+    setPos({ randx, randy });
 };
 
 vec2i Enemy::seek(Actor a) {
@@ -29,6 +32,7 @@ vec2i Enemy::seek(Actor a) {
         if (targetPos.x < selfPos.x) { this->moveLeft(); }
     }
 
+    // Target diagonal
     else if (targetPos.x > selfPos.x) {
         this->moveRight();
         if (targetPos.y > selfPos.y) {
