@@ -7,7 +7,7 @@
  */
 
 bool Actor::checkSuperposition(vec2i targetPos) {
-    return false;
+    return (getPos() == targetPos);
 };
 
 // TODO check if two points are within a unit of each other.  Maybe yagni...

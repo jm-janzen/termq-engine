@@ -95,7 +95,7 @@ int startGame() {
         for (auto &coin : coins) {
             wmove(wgame, coin.getPos().y, coin.getPos().x);
             waddch(wgame, coin.getDispChar());
-            if (coin.getPos() == player.getPos()) {
+            if (player.checkSuperposition(coin.getPos())) {
                 player.addScore(coin.getValue());
 
                 // Just zero out coin value and display for now
@@ -131,7 +131,7 @@ int startGame() {
 
         wrefresh(wgame);
 
-        if (enemy.getPos() == player.getPos()) {
+        if (enemy.checkSuperposition(player.getPos())) {
             // Game Over
             gameover = true;
             break;
