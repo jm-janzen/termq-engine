@@ -20,17 +20,24 @@ class Actor {
         void  moveUp();
         void  moveDown();
 
+        void  wait();
+        void  move();
+        void  tick();
+        void  step();
+
         void  setPos(vec2i newPos);
-        void  setPosX(int_fast8_t newXPos);
-        void  setPosY(int_fast8_t newYPos);
         void  setChar(char newChar);
 
         vec2i getPos();
         char  getDispChar();
+        int   getSteps() { return steps; }
+        int   getTicks() { return ticks; }
 
     protected:
         vec2i pos;
-        char disp_char;
+        char  disp_char;
+        int   steps = 0;
+        int   ticks = 0;
 };
 
 #endif

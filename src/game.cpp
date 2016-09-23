@@ -60,27 +60,28 @@ int startGame() {
             case KEY_UP:
             case 'k':
                 if (py > (int) game_area.top()) player.moveUp();
-                infoMsg = "up(" + to_string(py) + ">" + to_string(game_area.top()) + ")";
+                infoMsg = "up(" + to_string(py) + " > " + to_string(game_area.top()) + ")";
                 break;
             case KEY_DOWN:
             case 'j':
                 if (py < (int) game_area.bot()) player.moveDown(); // want bot:40
-                infoMsg = "down(" + to_string(py) + "<" + to_string(game_area.bot()) + ")";
+                infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
                 break;
             case KEY_LEFT:
             case 'h':
                 if (px > (int) game_area.left()) player.moveLeft();
-                infoMsg = "left(" + to_string(px) + ">" + to_string(game_area.left()) + ")";
+                infoMsg = "left(" + to_string(px) + " > " + to_string(game_area.left()) + ")";
                 break;
             case KEY_RIGHT:
             case 'l':
                 if (px < (int) game_area.right()) player.moveRight(); // want right:80
-                infoMsg = "right(" + to_string(px) + "<" + to_string(game_area.right()) + ")";
+                infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
                 break;
             default:
+                player.wait();
                 infoMsg = "waiting...";
 
         }
@@ -113,6 +114,10 @@ int startGame() {
             + '{'
             + std::to_string(enemy.getPos().x) + ','
             + std::to_string(enemy.getPos().y) + '}'
+            + " steps: "
+            + std::to_string(player.getSteps())
+            + " ticks: "
+            + std::to_string(player.getTicks())
             + " score: "
             + std::to_string(player.getScore())
             + " info: " + infoMsg

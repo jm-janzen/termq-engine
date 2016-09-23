@@ -25,20 +25,41 @@ int_fast8_t Actor::getDistance(vec2i targetPos) {
  */
 
 void  Actor::moveLeft() {
+    move();
     pos.x--;
 };
 
 void  Actor::moveRight() {
+    move();
     pos.x++;
 };
 
 void  Actor::moveUp() {
+    move();
     pos.y--;
 };
 
 void  Actor::moveDown() {
+    move();
     pos.y++;
 };
+
+void Actor::wait() {
+    tick();
+}
+
+void Actor::move() {
+    tick();
+    step();
+}
+
+void Actor::step() {
+    steps++;
+}
+
+void Actor::tick() {
+    ticks++;
+}
 
 /*
  * Setters
@@ -46,14 +67,6 @@ void  Actor::moveDown() {
 
 void Actor::setPos(vec2i newPos) {
     pos = newPos;
-};
-
-void Actor::setPosX(int_fast8_t newXPos) {
-    pos.x = newXPos;
-};
-
-void Actor::setPosY(int_fast8_t newYPos) {
-    pos.y = newYPos;
 };
 
 void Actor::setChar(char newChar) {
