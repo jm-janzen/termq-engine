@@ -1,4 +1,5 @@
 #include <string>
+#include <time.h>
 
 #include "menu.h"
 
@@ -7,7 +8,11 @@ using namespace std;
 int main() {
     srand(time(0));
 
-    if (init() == 0) run();
+    int playerScore = 0;
+
+    if (init() == 0) {
+        playerScore = run();
+    }
 
     close();
 
@@ -18,7 +23,7 @@ int main() {
      */
     printf("\n~~~ GAME OVER ~~~\n");
     printf("lifespan:   %d\n", 0);
-    printf("score:      %d\n", 0);
+    printf("score:      %d\n", playerScore);
     printf("~~~~~~~~~~~~~~~~~\n");
 
     return 0;
