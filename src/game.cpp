@@ -25,6 +25,12 @@ int startGame() {
     Coin   coins[numCoins];
 
     WINDOW *wgame = newwin(game_area.height(), game_area.width(), 1, 1);
+
+    initscr();
+    start_color();
+    use_default_colors();
+    init_pair(1, COLOR_RED, -1);
+    init_pair(2, COLOR_YELLOW, -1);
     box(wgame, 0, 0);
     keypad(wgame, true);
 
@@ -44,11 +50,11 @@ int startGame() {
     waddch(wgame, player.getDispChar());
 
     wmove(wgame, enemy.getPos().y, enemy.getPos().x);
-    waddch(wgame, enemy.getDispChar());
+    waddch(wgame, enemy.getDispChar() | COLOR_PAIR(1));
 
     for (auto &coin : coins) {
         wmove(wgame, coin.getPos().y, coin.getPos().x);
-        waddch(wgame, coin.getDispChar());
+        waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
     }
 
     int ch, steps = 0, difficulty = 1;
@@ -100,7 +106,7 @@ int startGame() {
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             wmove(wgame, coin.getPos().y, coin.getPos().x);
-            waddch(wgame, coin.getDispChar());
+            waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
             if (player.atop(coin.getPos())) {
                 player.addScore(coin.getValue());
 
@@ -117,7 +123,7 @@ int startGame() {
         // Enemy, seek out player
         enemy.seek(player);  // Discard return (updated pos)
         wmove(wgame, enemy.getPos().y, enemy.getPos().x);
-        waddch(wgame, enemy.getDispChar());
+        waddch(wgame, enemy.getDispChar() | COLOR_PAIR(1));
 
         string proximityAlert = "";
         if (enemy.isAdjacent(player.getPos())) {
