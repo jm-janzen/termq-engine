@@ -28,6 +28,17 @@ int startGame() {
     box(wgame, 0, 0);
     keypad(wgame, true);
 
+    /*
+     * Check if Player & Enemy are too near each other.
+     * `42' here is the maximum allowable value, given
+     * that Player may spawn in the middle (39, 19) of
+     * the game_area.
+     */
+    while (player.getDistance(enemy.getPos()) <= 42) {
+        // Reroll ctor for new random start
+        enemy = Enemy();
+    }
+
     // Init placement of Player, Enemy, and Coins
     wmove(wgame, player.getPos().y, player.getPos().x);
     waddch(wgame, player.getDispChar());
@@ -118,6 +129,8 @@ int startGame() {
             + '{'
             + std::to_string(enemy.getPos().x) + ','
             + std::to_string(enemy.getPos().y) + '}'
+            + " dist: "
+            + std::to_string(player.getDistance(enemy.getPos()))
             + " steps: "
             + std::to_string(player.getSteps())
             + " ticks: "

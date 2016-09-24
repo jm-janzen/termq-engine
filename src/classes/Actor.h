@@ -9,6 +9,7 @@ class Actor {
 
         bool atop(vec2i const targetPos);
         bool isAdjacent(vec2i const targetPos);
+        int_fast8_t getDistance(vec2i const targetPos);
         int_fast8_t getDistanceX(vec2i const targetPos);
         int_fast8_t getDistanceY(vec2i const targetPos);
 
