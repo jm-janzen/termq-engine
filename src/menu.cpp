@@ -97,8 +97,8 @@ int run() {
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
-                if (i == 1) exitRequested = true;
-                else if (i == 0) gameRequested = true;
+                exitRequested = (i == 1) ? true : false;
+                gameRequested = (i == 0) ? true : false;
                 break;
 
         }

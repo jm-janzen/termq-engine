@@ -1,7 +1,17 @@
 #include <stdio.h>
+#include <ncurses.h>
 #include <cmath>
 
 #include "Actor.h"
+
+Actor::Actor(WINDOW *newW) {
+    initscr();
+    w = newW;
+
+    // Set default color (white foreground)
+    init_pair(0, COLOR_WHITE, -1);
+    disp_colo = COLOR_PAIR(0);
+}
 
 /*
  * Comparison
@@ -35,23 +45,23 @@ int_fast8_t Actor::getDistanceY(vec2i const targetPos) {
  */
 
 void  Actor::moveLeft() {
-    move();
     pos.x--;
+    move();
 };
 
 void  Actor::moveRight() {
-    move();
     pos.x++;
+    move();
 };
 
 void  Actor::moveUp() {
-    move();
     pos.y--;
+    move();
 };
 
 void  Actor::moveDown() {
-    move();
     pos.y++;
+    move();
 };
 
 void Actor::wait() {
@@ -61,6 +71,11 @@ void Actor::wait() {
 void Actor::move() {
     tick();
     step();
+}
+
+void Actor::render() {
+    wmove(w, getPos().y, getPos().x);
+    waddch(w, getDispChar() | disp_colo);
 }
 
 void Actor::step() {

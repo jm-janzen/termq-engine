@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 
-Player::Player() {
+Player::Player(WINDOW &w) : Actor(&w) {
     setChar('@');
 
     int_fast8_t randx = (rand() % (game_area.right())   + 1);

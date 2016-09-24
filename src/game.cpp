@@ -20,16 +20,17 @@ int startGame() {
 
     // Declared internally, to prevent ctors from running before main
     InfoPanel *infoPanel_game = new InfoPanel();
-    Player player;
-    Enemy  enemy;
-    Coin   coins[numCoins];
-
     WINDOW *wgame = newwin(game_area.height(), game_area.width(), 1, 1);
+
+    // Actors know about game window for movement
+    Player player = Player(*wgame);
+    Enemy  enemy  = Enemy(*wgame);
+
+    Coin   coins[numCoins];
 
     initscr();
     start_color();
     use_default_colors();
-    init_pair(1, COLOR_RED, -1);
     init_pair(2, COLOR_YELLOW, -1);
     box(wgame, 0, 0);
     keypad(wgame, true);
@@ -42,30 +43,24 @@ int startGame() {
      */
     while (player.getDistance(enemy.getPos()) <= 42) {
         // Reroll ctor for new random start
-        enemy = Enemy();
+        enemy = Enemy(*wgame);
     }
 
     // Init placement of Player, Enemy, and Coins
-    wmove(wgame, player.getPos().y, player.getPos().x);
-    waddch(wgame, player.getDispChar());
-
-    wmove(wgame, enemy.getPos().y, enemy.getPos().x);
-    waddch(wgame, enemy.getDispChar() | COLOR_PAIR(1));
-
+    player.render();
+    enemy.render();
     for (auto &coin : coins) {
         wmove(wgame, coin.getPos().y, coin.getPos().x);
         waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
     }
 
-    int ch, steps = 0, difficulty = 1;
+    int ch, difficulty = 1;
     string infoKey, infoMsg = "";
     bool gameover = false;
     while (( ch = wgetch(wgame)) != 'q') {
 
         infoKey = to_string(ch);
         infoMsg = "";
-
-        steps++;
 
         werase(wgame);
         box(wgame, 0, 0);
@@ -75,6 +70,9 @@ int startGame() {
         int py = player.getPos().y;
 
         switch (ch) {
+            /*
+             * Diagonal keys
+             */
             case 55:  // Key up-left
                 if (py > (int) game_area.top() && px > (int) game_area.left()) {
                     player.moveUp();
@@ -99,6 +97,10 @@ int startGame() {
                     player.moveLeft();
                 }
                 break;
+
+            /*
+             * Orthogonal keys
+             */
             case KEY_UP:
             case 56:
             case 'k':
@@ -145,14 +147,13 @@ int startGame() {
             }
         }
 
-        // Move Player to indicated position
-        wmove(wgame, player.getPos().y, player.getPos().x);
-        waddch(wgame, player.getDispChar());
+
+        // Display Player to indicated position
+        player.render();
 
         // Enemy, seek out player
         enemy.seek(player);  // Discard return (updated pos)
-        wmove(wgame, enemy.getPos().y, enemy.getPos().x);
-        waddch(wgame, enemy.getDispChar() | COLOR_PAIR(1));
+        enemy.render();
 
         string proximityAlert = "";
         if (enemy.isAdjacent(player.getPos())) {
@@ -189,6 +190,6 @@ int startGame() {
     }
 
     delwin(wgame);
-    return player.getScore() + steps * difficulty;  // TODO eventually return more information
+    return player.getScore() + player.getSteps() * difficulty;  // TODO eventually return more information
 }
 

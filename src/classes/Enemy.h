@@ -6,7 +6,7 @@
 
 class Enemy : public Actor {
     public:
-        Enemy(); // ctor
+        Enemy(WINDOW &w); // ctor
 
         vec2i seek(Actor a);
 };

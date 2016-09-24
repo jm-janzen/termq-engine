@@ -1,11 +1,14 @@
 #include <stdlib.h>
+#include <ncurses.h>
 
 #include "../game.h"
 #include "Actor.h"
 #include "Enemy.h"
 
-Enemy::Enemy() {
+Enemy::Enemy(WINDOW &w) : Actor(&w) {
     setChar('X');
+    init_pair(1, COLOR_RED, -1);
+    disp_colo = COLOR_PAIR(1);
 
     int_fast8_t randx = (rand() % (game_area.right())   + 1);
     int_fast8_t randy = (rand() % (game_area.bot()) + 1);
