@@ -23,7 +23,6 @@ make
 
 ```bash
 # Execute the compiled binary
-./bin/main
+./bin/termq
 ```
-
-
+  
