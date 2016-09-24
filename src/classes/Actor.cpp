@@ -1,8 +1,7 @@
+#include <stdio.h>
+#include <cmath>
 
 #include "Actor.h"
-
-
-#include <cmath>
 
 /*
  * Comparison
@@ -17,12 +16,18 @@ bool Actor::isAdjacent(vec2i const targetPos) {
     return (getDistanceX(targetPos) <= 1 && getDistanceY(targetPos) <= 1);
 };
 
+int_fast8_t Actor::getDistance(vec2i const targetPos) {
+    return sqrt(
+        std::pow(getDistanceY(targetPos), 2) + std::pow(getDistanceX(targetPos), 2)
+    );
+};
+
 int_fast8_t Actor::getDistanceX(vec2i const targetPos) {
-    return std::abs(getPos().y - targetPos.y);
+    return std::abs(getPos().x - targetPos.x);
 };
 
 int_fast8_t Actor::getDistanceY(vec2i const targetPos) {
-    return std::abs(getPos().x - targetPos.x);
+    return std::abs(getPos().y - targetPos.y);
 };
 
 /*
