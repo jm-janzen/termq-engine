@@ -82,12 +82,14 @@ int run() {
 
         switch (ch) {
             case KEY_UP:
+            case 56:
             case 'k':
                 i--;
                 i = (i < 0) ? 1 : i;
                 infoMsg = "up";
                 break;
             case KEY_DOWN:
+            case 50:
             case 'j':
                 i++;
                 i = (i > 1) ? 0: i;
