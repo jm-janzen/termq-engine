@@ -5,15 +5,13 @@
 
 #include "menu.h"
 #include "game.h"
-#include "classes/InfoPanel.h"
+#include "classes/DiagWindow.h"
 
 using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
 
 WINDOW *wmenu, *wmain;
-
-InfoPanel *infoPanel_menu = new InfoPanel();
 
 int init() {
 
@@ -43,6 +41,8 @@ int init() {
 }
 
 int run() {
+    DiagWindow infoPanel_menu = DiagWindow({{41, 1}, {80,10}});
+
     int playerScore = 0;
     char menuItems[2][10] = {
         "start",
@@ -66,7 +66,7 @@ int run() {
 
     wrefresh(wmain);
     wrefresh(wmenu);
-    infoPanel_menu->update();
+    infoPanel_menu.refresh();
     menuShow(wmain, "TERMINAL QUEST");
     i = 0;
 
@@ -103,7 +103,8 @@ int run() {
 
         }
 
-        infoPanel_menu->push((infoPos + ' ' + infoKey + ' ' + infoMsg));
+        infoPanel_menu.push((infoPos + ' ' + infoKey + ' ' + infoMsg));
+        infoPanel_menu.refresh();  // Text will now show without this!
 
         wattron(wmenu, A_STANDOUT);
         sprintf(menuItem, "%-7s", menuItems[i]);
@@ -115,9 +116,6 @@ int run() {
         } else if (gameRequested) {
             delwin(wmenu);
             delwin(wmain);
-
-            // delete info panel from heap
-            infoPanel_menu->delete_w();
 
             playerScore = startGame();
             break;

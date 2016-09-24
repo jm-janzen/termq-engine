@@ -46,7 +46,7 @@ struct rect {
 };
 
 const rect game_area = {
-    {2, 2},
+    {1, 1},
     {80, 40}
 };
 

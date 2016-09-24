@@ -20,12 +20,17 @@ class Window {
         void clear();
         void close();
 
+        void cursorPos(vec2ui pos);
+
         void draw(vec2ui pos, char ch, chtype colo);
+        void write(std::string str);
         void coloSplash(chtype colo);
 
-    private:
+        rect getDim() { return dim; }
+
+    protected:
         WINDOW *w;
-        vec2ui dim;
+        rect dim;
 
 };
 

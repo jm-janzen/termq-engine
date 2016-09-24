@@ -6,8 +6,8 @@
 Player::Player(Window &w) : Actor(&w) {
     setChar('@');
 
-    int_fast8_t randx = (rand() % (game_area.right())   + 1);
-    int_fast8_t randy = (rand() % (game_area.bot()) + 1);
+    int_fast8_t randx = (rand() % (game_area.right() -1) + 1);
+    int_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
     setPos({ randx, randy });
 };
 

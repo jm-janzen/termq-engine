@@ -10,8 +10,8 @@ Enemy::Enemy(Window &w) : Actor(&w) {
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 
-    int_fast8_t randx = (rand() % (game_area.right())   + 1);
-    int_fast8_t randy = (rand() % (game_area.bot()) + 1);
+    int_fast8_t randx = (rand() % (game_area.right() -1) + 1);
+    int_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
     setPos({ randx, randy });
 };
 
