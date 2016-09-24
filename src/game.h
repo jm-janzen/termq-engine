@@ -3,9 +3,19 @@
 
 #include <stdint.h> // Use <inttype.h> if portability important
 
+/*
+ * TODO
+ *  Move vectors, rect to separate, generic header unrelated to
+ *  game_area.
+ */
+
 struct vec2ui {
     uint_fast8_t x;
     uint_fast8_t y;
+
+    bool operator==(const vec2ui &a) const {
+        return (a.x == x && a.y == y);
+    }
 };
 
 struct vec2i {
@@ -24,9 +34,7 @@ struct rect {
     int_fast8_t top()     const { return offset.y; }
     int_fast8_t bot()     const { return height() - offset.y ; }
     int_fast8_t left()    const { return offset.x; }
-
     int_fast8_t right()   const { return width() - offset.x; }
-
     int_fast8_t width()   const { return bounds.x; }
     int_fast8_t height()  const { return bounds.y; }
 

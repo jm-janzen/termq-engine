@@ -9,6 +9,7 @@
 #include "classes/Player.h"
 #include "classes/Enemy.h"
 #include "classes/Coin.h"
+#include "classes/Window.h"
 #include "classes/InfoPanel.h"
 
 using namespace std;
@@ -20,20 +21,15 @@ int startGame() {
 
     // Declared internally, to prevent ctors from running before main
     InfoPanel *infoPanel_game = new InfoPanel();
-    WINDOW *wgame = newwin(game_area.height(), game_area.width(), 1, 1);
+    Window wgame = Window(game_area);
 
     // Actors know about game window for movement
-    Player player = Player(*wgame);
-    Enemy  enemy  = Enemy(*wgame);
+    Player player = Player(wgame);
+    Enemy  enemy  = Enemy(wgame);
 
     Coin   coins[numCoins];
 
-    initscr();
-    start_color();
-    use_default_colors();
     init_pair(2, COLOR_YELLOW, -1);
-    box(wgame, 0, 0);
-    keypad(wgame, true);
 
     /*
      * Check if Player & Enemy are too near each other.
@@ -43,28 +39,25 @@ int startGame() {
      */
     while (player.getDistance(enemy.getPos()) <= 42) {
         // Reroll ctor for new random start
-        enemy = Enemy(*wgame);
+        enemy = Enemy(wgame);
     }
 
     // Init placement of Player, Enemy, and Coins
     player.render();
     enemy.render();
     for (auto &coin : coins) {
-        wmove(wgame, coin.getPos().y, coin.getPos().x);
-        waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
+        wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
 
     int ch, difficulty = 1;
     string infoKey, infoMsg = "";
     bool gameover = false;
-    while (( ch = wgetch(wgame)) != 'q') {
+    while (( ch = wgame.getChar()) != 'q') {
 
         infoKey = to_string(ch);
         infoMsg = "";
 
-        werase(wgame);
-        box(wgame, 0, 0);
-
+        wgame.refresh();
 
         int px = player.getPos().x;
         int py = player.getPos().y;
@@ -134,10 +127,11 @@ int startGame() {
 
         }
 
+        wgame.update();
+
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
-            wmove(wgame, coin.getPos().y, coin.getPos().x);
-            waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
+            wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
             if (player.atop(coin.getPos())) {
                 player.addScore(coin.getValue());
 
@@ -177,20 +171,20 @@ int startGame() {
             + " " + proximityAlert
         );
 
-        wrefresh(wgame);
+        wgame.refresh();
 
         if (enemy.atop(player.getPos())) {
             // Game Over
-            wbkgd(wgame, COLOR_PAIR(1));  // Colour entire window red
+            wgame.coloSplash(COLOR_PAIR(1));
             gameover = true;
             infoPanel_game->push("GAME OVER!");
             infoPanel_game->push("Press `q' to quit.");
-            while (wgetch(wgame) != 'q');  // TODO prompt restart or quit
+            while (wgame.getChar() != 'q');  // TODO prompt restart or quit
             break;
         }
     }
 
-    delwin(wgame);
-    return player.getScore() + player.getSteps() * difficulty;  // TODO eventually return more information
+    // TODO eventually return more information
+    return player.getScore() + player.getSteps() * difficulty;
 }
 

@@ -3,12 +3,13 @@
 
 #include "../game.h"
 #include "Actor.h"
+#include "Window.h"
 
 class Enemy : public Actor {
     public:
-        Enemy(WINDOW &w); // ctor
+        Enemy(Window &w); // ctor
 
-        vec2i seek(Actor a);
+        vec2ui seek(Actor a);
 };
 
 #endif

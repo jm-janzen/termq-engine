@@ -12,6 +12,9 @@ build/menu.o: src/menu.cpp src/menu.h src/classes/InfoPanel.h
 build/game.o: src/game.cpp src/game.h src/menu.h src/classes/InfoPanel.h
 	g++ -g -c -o build/game.o src/game.cpp $(CFLAGS)
 
+build/Window.o: src/classes/Window.cpp src/classes/Window.h
+	g++ -g -c -o build/Window.o src/classes/Window.cpp $(CFLAGS)
+
 build/InfoPanel.o: src/classes/InfoPanel.cpp src/classes/InfoPanel.h
 	g++ -g -c -o build/InfoPanel.o src/classes/InfoPanel.cpp $(CFLAGS)
 

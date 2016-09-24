@@ -4,19 +4,20 @@
 
 #include <ncurses.h>
 
+#include "Window.h"
 #include "../game.h"
 
 class Actor {
     public:
-        Actor(WINDOW *newW);
+        Actor(Window *newW);
 
         void render();
 
-        bool atop(vec2i const targetPos);
-        bool isAdjacent(vec2i const targetPos);
-        int_fast8_t getDistance(vec2i const targetPos);
-        int_fast8_t getDistanceX(vec2i const targetPos);
-        int_fast8_t getDistanceY(vec2i const targetPos);
+        bool atop(vec2ui const targetPos);
+        bool isAdjacent(vec2ui const targetPos);
+        int_fast8_t getDistance(vec2ui const targetPos);
+        int_fast8_t getDistanceX(vec2ui const targetPos);
+        int_fast8_t getDistanceY(vec2ui const targetPos);
 
 
         void  moveLeft();
@@ -29,21 +30,22 @@ class Actor {
         void  tick();
         void  step();
 
-        void  setPos(vec2i newPos);
+        void  setPos(vec2ui newPos);
         void  setChar(char newChar);
 
-        vec2i getPos();
+        vec2ui getPos();
         char  getDispChar();
+        int   getDispColo();
         int   getSteps() { return steps; }
         int   getTicks() { return ticks; }
 
     protected:
-        vec2i pos;
+        vec2ui pos;
         char  disp_char;
         int   disp_colo;
         int   steps = 0;
         int   ticks = 0;
-        WINDOW *w;
+        Window *w;
 };
 
 #endif
