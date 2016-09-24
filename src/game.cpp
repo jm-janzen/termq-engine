@@ -181,6 +181,7 @@ int startGame() {
 
         if (enemy.atop(player.getPos())) {
             // Game Over
+            wbkgd(wgame, COLOR_PAIR(1));  // Colour entire window red
             gameover = true;
             infoPanel_game->push("GAME OVER!");
             infoPanel_game->push("Press `q' to quit.");
