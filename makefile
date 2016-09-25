@@ -1,10 +1,13 @@
 CFLAGS = -std=c++11 -w -Wall -fno-stack-protector # disable canaries
 
-termq: build/main.o build/menu.o build/game.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o
-	g++ -g src/*.cpp src/classes/*.cpp -o bin/termq $(CFLAGS) -lncurses -g
+termq: build/main.o build/menu.o build/game.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o build/Global.o
+	g++ -g src/*.cpp src/classes/*.cpp src/global/Global.cpp -o bin/termq $(CFLAGS) -lncurses -g
 
 build/main.o: src/main.cpp
 	g++ -g -c -o build/main.o src/main.cpp $(CFLAGS)
+
+build/Global.o: src/global/Global.cpp src/global/Global.h
+	g++ -g -c -o build/Global.o src/global/Global.cpp $(CFLAGS)
 
 build/menu.o: src/menu.cpp src/menu.h
 	g++ -g -c -o build/menu.o src/menu.cpp $(CFLAGS)

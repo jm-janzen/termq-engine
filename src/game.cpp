@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "global/Global.h"
+
 #include "game.h"
 #include "menu.h"
 #include "classes/Player.h"
@@ -18,6 +20,9 @@ const int numCoins = 10;
 
 
 int startGame() {
+
+    // Retrieve global ref for later difficulty-checking
+    Global *global = Global::get();
 
     // Declared internally, to prevent ctors from running before main
     DiagWindow infoPanel_game = DiagWindow({{41, 1}, {80,10}});

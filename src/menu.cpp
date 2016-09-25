@@ -4,6 +4,8 @@
 #include <string>
 #include <random>
 
+#include "global/Global.h"
+
 #include "menu.h"
 #include "game.h"
 #include "classes/DiagWindow.h"
@@ -11,13 +13,26 @@
 
 using namespace std;
 
+
+/*
+ * Init Global ptr
+ */
+
+Global *Global::instance = 0;
+
 void menuShow(WINDOW *wnd, string title);
 
 
 int init() {
 
     /*
-     * Init ncurses for session
+     * Init global ptr - discard return.
+     */
+
+    Global::get();
+
+    /*
+     * Init ncurses for session.
      */
 
     initscr();
