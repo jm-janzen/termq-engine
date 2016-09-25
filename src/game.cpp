@@ -25,7 +25,7 @@ int startGame() {
     Global *global = Global::get();
 
     // Declared internally, to prevent ctors from running before main
-    DiagWindow infoPanel_game = DiagWindow({{41, 1}, {80,10}});
+    DiagWindow diagWin_game = DiagWindow({{41, 1}, {80,10}});
     Window wgame = Window(game_area);
 
     // Actors know about game window for movement
@@ -162,7 +162,8 @@ int startGame() {
         if (enemy.isAdjacent(player.getPos())) {
             proximityAlert = "!";
         }
-        infoPanel_game.push('{'
+
+        diagWin_game.push('{'
             + std::to_string(player.getPos().x) + ','
             + std::to_string(player.getPos().y) + '}'
             + '{'
@@ -188,8 +189,8 @@ int startGame() {
             // Game Over
             wgame.coloSplash(COLOR_PAIR(1));
             gameover = true;
-            infoPanel_game.push("GAME OVER!");
-            infoPanel_game.push("Press `q' to quit.");
+            diagWin_game.push("GAME OVER!");
+            diagWin_game.push("Press `q' to quit.");
             while (wgame.getChar() != 'q');  // TODO prompt restart or quit
             break;
         }
