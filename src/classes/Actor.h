@@ -20,6 +20,11 @@ class Actor {
         int_fast8_t getDistanceY(vec2ui const targetPos);
 
 
+        /*
+         * TODO
+         *  Add move diagonal methods, as presently these
+         *  count as _two_ moves by the Actor.
+         */
         void  moveLeft();
         void  moveRight();
         void  moveUp();

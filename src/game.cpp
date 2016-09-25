@@ -59,6 +59,10 @@ int startGame() {
     bool gameover = false;
     while (( ch = wgame.getChar()) != 'q') {
 
+        // Advance record of world time
+        global->tick();
+
+
         infoKey = to_string(ch);
         infoMsg = "";
 
@@ -164,15 +168,17 @@ int startGame() {
             + '{'
             + std::to_string(enemy.getPos().x) + ','
             + std::to_string(enemy.getPos().y) + '}'
-            + " dist: "
+            + " dst: "
             + std::to_string(player.getDistance(enemy.getPos()))
-            + " steps: "
+            + " stp: "
             + std::to_string(player.getSteps())
-            + " ticks: "
+            + " ptk: "
             + std::to_string(player.getTicks())
-            + " score: "
+            + " gtk: "
+            + std::to_string(global->getTicks())
+            + " scr: "
             + std::to_string(player.getScore())
-            + " info: " + infoMsg
+            + " nfo: " + infoMsg
             + " " + proximityAlert
         );
 

@@ -16,13 +16,18 @@ class Global {
             return instance;
         };
 
-        int  getDifficulty() { return difficulty; }
+        void tick() { ticks++; }
+
         void setDifficulty(int initDifficulty) { difficulty = initDifficulty; };
+
+        int  getDifficulty() { return difficulty; }
+        int  getTicks() { return ticks; }
 
     private:
         static Global *instance;
 
-        int difficulty;
+        int difficulty = 0;
+        int ticks      = 0;
 
 };
 
