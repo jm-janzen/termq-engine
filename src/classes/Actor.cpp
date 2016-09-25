@@ -4,12 +4,8 @@
 
 #include "Actor.h"
 
-Actor::Actor(WINDOW *newW) {
-    initscr();
+Actor::Actor(Window *newW) {
     w = newW;
-
-    // Set default color (white foreground)
-    init_pair(0, COLOR_WHITE, -1);
     disp_colo = COLOR_PAIR(0);
 }
 
@@ -18,25 +14,34 @@ Actor::Actor(WINDOW *newW) {
  *  with other Actors' positions
  */
 
-bool Actor::atop(vec2i const targetPos) {
+bool Actor::atop(vec2ui const targetPos) {
     return (getPos() == targetPos);
 };
 
-bool Actor::isAdjacent(vec2i const targetPos) {
+bool Actor::isAdjacent(vec2ui const targetPos) {
     return (getDistanceX(targetPos) <= 1 && getDistanceY(targetPos) <= 1);
 };
 
-int_fast8_t Actor::getDistance(vec2i const targetPos) {
+int_fast8_t Actor::getDistance(vec2ui const targetPos) {
     return sqrt(
         std::pow(getDistanceY(targetPos), 2) + std::pow(getDistanceX(targetPos), 2)
     );
 };
 
-int_fast8_t Actor::getDistanceX(vec2i const targetPos) {
-    return std::abs(getPos().x - targetPos.x);
+int_fast8_t Actor::getDistanceX(vec2ui const targetPos) {
+    int_fast8_t result;
+
+    // Check for greatest unsigned value
+    if (getPos().x > targetPos.x) {
+        result = std::abs(getPos().x - targetPos.x);
+    } else {
+        result = std::abs(targetPos.x - getPos().x);
+    }
+
+    return result;
 };
 
-int_fast8_t Actor::getDistanceY(vec2i const targetPos) {
+int_fast8_t Actor::getDistanceY(vec2ui const targetPos) {
     return std::abs(getPos().y - targetPos.y);
 };
 
@@ -74,8 +79,7 @@ void Actor::move() {
 }
 
 void Actor::render() {
-    wmove(w, getPos().y, getPos().x);
-    waddch(w, getDispChar() | disp_colo);
+    w->draw(getPos(), getDispChar(), getDispColo());
 }
 
 void Actor::step() {
@@ -90,7 +94,7 @@ void Actor::tick() {
  * Setters
  */
 
-void Actor::setPos(vec2i newPos) {
+void Actor::setPos(vec2ui newPos) {
     pos = newPos;
 };
 
@@ -102,11 +106,15 @@ void Actor::setChar(char newChar) {
  * Getters
  */
 
-vec2i Actor::getPos() {
+vec2ui Actor::getPos() {
     return pos;
 }
 
 char Actor::getDispChar() {
     return disp_char;
+}
+
+int Actor::getDispColo() {
+    return disp_colo;
 }
 

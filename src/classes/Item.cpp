@@ -1,6 +1,6 @@
 #include "Item.h"
 
-void Item::setPos(vec2i newPos) {
+void Item::setPos(vec2ui newPos) {
     pos = newPos;
 };
 
@@ -8,7 +8,7 @@ void Item::setChar(char newChar) {
     disp_char = newChar;
 };
 
-vec2i Item::getPos() {
+vec2ui Item::getPos() {
     return pos;
 }
 

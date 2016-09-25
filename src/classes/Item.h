@@ -5,16 +5,16 @@
 
 class Item {
     public:
-        void  setPos(vec2i newPos);
+        void  setPos(vec2ui newPos);
         void  setChar(char newChar);
         void  setValue(int newValue);
 
-        vec2i getPos();
+        vec2ui getPos();
         char  getDispChar();
         int   getValue();
 
     protected:
-        vec2i       pos;
+        vec2ui      pos;
         char        disp_char;
         int_fast8_t value;
 };

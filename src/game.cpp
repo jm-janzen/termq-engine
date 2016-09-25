@@ -9,7 +9,8 @@
 #include "classes/Player.h"
 #include "classes/Enemy.h"
 #include "classes/Coin.h"
-#include "classes/InfoPanel.h"
+#include "classes/Window.h"
+#include "classes/DiagWindow.h"
 
 using namespace std;
 
@@ -19,21 +20,16 @@ const int numCoins = 10;
 int startGame() {
 
     // Declared internally, to prevent ctors from running before main
-    InfoPanel *infoPanel_game = new InfoPanel();
-    WINDOW *wgame = newwin(game_area.height(), game_area.width(), 1, 1);
+    DiagWindow infoPanel_game = DiagWindow({{41, 1}, {80,10}});
+    Window wgame = Window(game_area);
 
     // Actors know about game window for movement
-    Player player = Player(*wgame);
-    Enemy  enemy  = Enemy(*wgame);
+    Player player = Player(wgame);
+    Enemy  enemy  = Enemy(wgame);
 
     Coin   coins[numCoins];
 
-    initscr();
-    start_color();
-    use_default_colors();
     init_pair(2, COLOR_YELLOW, -1);
-    box(wgame, 0, 0);
-    keypad(wgame, true);
 
     /*
      * Check if Player & Enemy are too near each other.
@@ -43,28 +39,25 @@ int startGame() {
      */
     while (player.getDistance(enemy.getPos()) <= 42) {
         // Reroll ctor for new random start
-        enemy = Enemy(*wgame);
+        enemy = Enemy(wgame);
     }
 
     // Init placement of Player, Enemy, and Coins
     player.render();
     enemy.render();
     for (auto &coin : coins) {
-        wmove(wgame, coin.getPos().y, coin.getPos().x);
-        waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
+        wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
 
     int ch, difficulty = 1;
     string infoKey, infoMsg = "";
     bool gameover = false;
-    while (( ch = wgetch(wgame)) != 'q') {
+    while (( ch = wgame.getChar()) != 'q') {
 
         infoKey = to_string(ch);
         infoMsg = "";
 
-        werase(wgame);
-        box(wgame, 0, 0);
-
+        wgame.refresh();
 
         int px = player.getPos().x;
         int py = player.getPos().y;
@@ -80,19 +73,19 @@ int startGame() {
                 }
                 break;
             case 57:  // Key up-right
-                if (py > (int) game_area.top() && px < (int) game_area.right()) {
+                if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
                     player.moveUp();
                     player.moveRight();
                 }
                 break;
             case 51:  // Key down-right
-                if (py < (int) game_area.bot() && px < (int) game_area.right()) {
+                if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
                     player.moveDown();
                     player.moveRight();
                 }
                 break;
             case 49:  // Key down-left
-                if (py < (int) game_area.bot() && px > (int) game_area.left()) {
+                if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
                     player.moveDown();
                     player.moveLeft();
                 }
@@ -110,7 +103,7 @@ int startGame() {
             case KEY_DOWN:
             case 50:
             case 'j':
-                if (py < (int) game_area.bot()) player.moveDown();
+                if (py < (int) game_area.bot() - 1) player.moveDown();
                 infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
                 break;
             case KEY_LEFT:
@@ -122,7 +115,7 @@ int startGame() {
             case KEY_RIGHT:
             case 54:
             case 'l':
-                if (px < (int) game_area.right()) player.moveRight();
+                if (px < (int) game_area.right() - 1) player.moveRight();
                 infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
                 break;
             case KEY_ENTER: /* numpad enter */
@@ -134,10 +127,11 @@ int startGame() {
 
         }
 
+        wgame.update();
+
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
-            wmove(wgame, coin.getPos().y, coin.getPos().x);
-            waddch(wgame, coin.getDispChar() | COLOR_PAIR(2));
+            wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
             if (player.atop(coin.getPos())) {
                 player.addScore(coin.getValue());
 
@@ -159,7 +153,7 @@ int startGame() {
         if (enemy.isAdjacent(player.getPos())) {
             proximityAlert = "!";
         }
-        infoPanel_game->push('{'
+        infoPanel_game.push('{'
             + std::to_string(player.getPos().x) + ','
             + std::to_string(player.getPos().y) + '}'
             + '{'
@@ -177,20 +171,20 @@ int startGame() {
             + " " + proximityAlert
         );
 
-        wrefresh(wgame);
+        wgame.refresh();
 
         if (enemy.atop(player.getPos())) {
             // Game Over
-            wbkgd(wgame, COLOR_PAIR(1));  // Colour entire window red
+            wgame.coloSplash(COLOR_PAIR(1));
             gameover = true;
-            infoPanel_game->push("GAME OVER!");
-            infoPanel_game->push("Press `q' to quit.");
-            while (wgetch(wgame) != 'q');  // TODO prompt restart or quit
+            infoPanel_game.push("GAME OVER!");
+            infoPanel_game.push("Press `q' to quit.");
+            while (wgame.getChar() != 'q');  // TODO prompt restart or quit
             break;
         }
     }
 
-    delwin(wgame);
-    return player.getScore() + player.getSteps() * difficulty;  // TODO eventually return more information
+    // TODO eventually return more information
+    return player.getScore() + player.getSteps() * difficulty;
 }
 

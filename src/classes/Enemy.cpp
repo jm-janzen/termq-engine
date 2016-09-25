@@ -5,19 +5,19 @@
 #include "Actor.h"
 #include "Enemy.h"
 
-Enemy::Enemy(WINDOW &w) : Actor(&w) {
+Enemy::Enemy(Window &w) : Actor(&w) {
     setChar('X');
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 
-    int_fast8_t randx = (rand() % (game_area.right())   + 1);
-    int_fast8_t randy = (rand() % (game_area.bot()) + 1);
+    int_fast8_t randx = (rand() % (game_area.right() -1) + 1);
+    int_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
     setPos({ randx, randy });
 };
 
-vec2i Enemy::seek(Actor a) {
-    vec2i selfPos   = this->getPos();
-    vec2i targetPos = a.getPos();
+vec2ui Enemy::seek(Actor a) {
+    vec2ui selfPos   = this->getPos();
+    vec2ui targetPos = a.getPos();
 
     // Target on same row
     if (targetPos.x == selfPos.x) {
