@@ -35,9 +35,11 @@ void Window::draw(vec2ui pos, char ch, chtype colo) {
     waddch(w, ch | colo);
 };
 
-// Assume consumer has moved cursor
 void Window::write(std::string str) {
     wprintw(w, str.c_str());
+};
+void Window::write(vec2ui pos, std::string str) {
+    mvwprintw(w, pos.y, pos.x, str.c_str());
 };
 
 void Window::coloSplash(chtype colo) {
@@ -48,6 +50,11 @@ int Window::getChar() {
     return wgetch(w);
 }
 
+/*
+ * NB:
+ *      Do _NOT_ call `wrefresh(w)' directly within derived
+ *      classed - use this instead!
+ */
 void Window::refresh() {
     wrefresh(w);
 };

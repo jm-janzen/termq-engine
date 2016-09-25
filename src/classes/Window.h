@@ -24,6 +24,7 @@ class Window {
 
         void draw(vec2ui pos, char ch, chtype colo);
         void write(std::string str);
+        void write(vec2ui pos, std::string str);
         void coloSplash(chtype colo);
 
         rect getDim() { return dim; }

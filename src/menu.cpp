@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <algorithm> // for std::find
 
 #include <string>
 #include <random>
@@ -6,119 +7,76 @@
 #include "menu.h"
 #include "game.h"
 #include "classes/DiagWindow.h"
+#include "classes/MenuWindow.h"
 
 using namespace std;
 
 void menuShow(WINDOW *wnd, string title);
 
-WINDOW *wmenu, *wmain;
 
 int init() {
 
+    /*
+     * Init ncurses for session
+     */
+
     initscr();
-
-    /*
-     * init main window
-     */
-
-    wmain = newwin(40, 80, 1, 1);
-    box(wmain, 0, 0);
-
-    /*
-     * init menu window
-     */
-
-    wmenu = newwin(10, 12, 10, 10);
-    wborder(wmenu,
-            ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,     /* ls, rs, ts, bs */
-            '+', '+', '+', '+');                                /* tl, tr, bl, br */
-
     noecho();
-    keypad(wmenu, true);
     curs_set(0);
+    use_default_colors();
+    start_color();
 
     return 0;
 }
 
 int run() {
-    DiagWindow infoPanel_menu = DiagWindow({{41, 1}, {80,10}});
-
     int playerScore = 0;
-    char menuItems[2][10] = {
-        "start",
-        "quit"
-    };
-    char menuItem[7];
-    int ch, i = 0;
 
+    WINDOW *wmain = newwin(40, 80, 1, 1);
+    box(wmain, 0, 0);
+
+    DiagWindow infoPanel_menu = DiagWindow({{41, 1}, {80,10}});
 
     /*
      * init title, menu
      */
 
-    for (i = 0; i < 2; i++) {
-        if (i == 0) wattron(wmenu, A_STANDOUT);
-        else wattroff(wmenu, A_STANDOUT);
+    MenuWindow menuWin        = MenuWindow({{10, 6}, {20, 12}});
 
-        sprintf(menuItem, "%-7s", menuItems[i]);
-        mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
+    const std::vector<string> menuItems {
+        "start",
+        "quit",
+    };
+
+    for (auto &item : menuItems) {
+        menuWin.add(item);
     }
 
     wrefresh(wmain);
-    wrefresh(wmenu);
-    infoPanel_menu.refresh();
     menuShow(wmain, "TERMINAL QUEST");
-    i = 0;
 
-    string infoPos, infoKey, infoMsg;
-    bool exitRequested = false, gameRequested = false;
-    while (( ch = wgetch(wmenu)) != 'q') {
-        infoMsg = "";
-        infoPos = to_string(ch);
-        infoKey = to_string(i);
+    infoPanel_menu.refresh();
+    menuWin.updateMenu();
+    menuWin.refresh();
 
-        sprintf(menuItem, "%-7s", menuItems[i]);
-        mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
+    /*
+     * Get menu selection
+     */
 
-        switch (ch) {
-            case KEY_UP:
-            case 56:
-            case 'k':
-                i--;
-                i = (i < 0) ? 1 : i;
-                infoMsg = "up";
+    std::string selection = "";
+
+    while ( selection.length() < 1) {
+        selection = menuWin.getSelection();
+        if (in_array(selection, menuItems)) {
+
+            if (selection == "quit") {
                 break;
-            case KEY_DOWN:
-            case 50:
-            case 'j':
-                i++;
-                i = (i > 1) ? 0: i;
-                infoMsg = "down";
+            } else if (selection == "start") {
+
+                playerScore = startGame();
                 break;
-            case KEY_ENTER: /* numpad enter */
-            case '\n':      /* keyboard return */
-                exitRequested = (i == 1) ? true : false;
-                gameRequested = (i == 0) ? true : false;
-                break;
+            }
 
-        }
-
-        infoPanel_menu.push((infoPos + ' ' + infoKey + ' ' + infoMsg));
-        infoPanel_menu.refresh();  // Text will now show without this!
-
-        wattron(wmenu, A_STANDOUT);
-        sprintf(menuItem, "%-7s", menuItems[i]);
-        mvwprintw(wmenu, i + 1, 2, "%s", menuItem);
-        wattroff(wmenu, A_STANDOUT);
-
-        if (exitRequested == true) {
-            break;
-        } else if (gameRequested) {
-            delwin(wmenu);
-            delwin(wmain);
-
-            playerScore = startGame();
-            break;
         }
     }
 
@@ -126,7 +84,7 @@ int run() {
      * exit
      */
 
-    endwin();
+    close();
 
     return playerScore;
 }
@@ -145,5 +103,9 @@ void menuShow(WINDOW *wnd, string title) {
     }
 
     wrefresh(wnd);
+}
+
+bool in_array(const string &value, const std::vector<string> &array) {
+    return std::find(array.begin(), array.end(), value) != array.end();
 }
 

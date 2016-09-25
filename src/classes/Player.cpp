@@ -16,6 +16,13 @@ void Player::addScore(int newScore) {
 }
 
 int Player::getScore() {
+    /*
+     * TODO
+     *  Return computed score - something like:
+     *      score = (steps - ticks) + (coins / GameWorld::numCoins) * GameWorld::difficulty;
+     *  rather than score simply reflecting the value
+     *  of collected coins.
+     */
     return score;
 }
 
