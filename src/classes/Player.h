@@ -6,7 +6,8 @@
 
 class Player : public Actor {
     public:
-        Player(Window &w); // ctor
+        Player();
+        Player(Window &w);
 
         void addScore(int newScore);
 

@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "global/Global.h"
+#include "global/Global.h"  // includes difficulties
 
 #include "game.h"
 #include "menu.h"
@@ -16,13 +16,15 @@
 
 using namespace std;
 
-const int numCoins = 10;
+
 
 
 int startGame() {
 
-    // Retrieve global ref for later difficulty-checking
+    // Retrieve global refs
     Global *global = Global::get();
+    int numCoins   = global->getNoCoins();
+    int numEnemies = global->getNoEnemies();
 
     // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {80,10}});
@@ -33,8 +35,17 @@ int startGame() {
     Enemy  enemy  = Enemy(wgame);
 
     Coin   coins[numCoins];
+    Enemy  enemies[numEnemies];
+    for (Enemy &e : enemies) {
+        e = Enemy(wgame);
+    };
+
 
     init_pair(2, COLOR_YELLOW, -1);
+
+    for (Enemy &e : enemies) {
+        wgame.draw(e.getPos(), e.getDispChar(), e.getDispColo());
+    }
 
     /*
      * Check if Player & Enemy are too near each other.
@@ -42,19 +53,21 @@ int startGame() {
      * that Player may spawn in the middle (39, 19) of
      * the game_area.
      */
-    while (player.getDistance(enemy.getPos()) <= 42) {
-        // Reroll ctor for new random start
-        enemy = Enemy(wgame);
-    }
+    //while (player.getDistance(enemy.getPos()) <= 42) {
+    //    // Reroll ctor for new random start
+    //    enemy = Enemy(wgame);
+    //}
 
     // Init placement of Player, Enemy, and Coins
     player.render();
-    enemy.render();
+    for (Enemy &enemy : enemies) {
+        enemy.render();
+    }
     for (auto &coin : coins) {
         wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
 
-    int ch, difficulty = 1;
+    int ch;
     string infoKey, infoMsg = "";
     bool gameover = false;
     while (( ch = wgame.getChar()) != 'q') {
@@ -155,21 +168,24 @@ int startGame() {
         player.render();
 
         // Enemy, seek out player
-        enemy.seek(player);  // Discard return (updated pos)
-        enemy.render();
+        for (Enemy &enemy : enemies) {
+            enemy.seek(player);  // Discard return (updated pos)
+            enemy.render();
+        }
 
         string proximityAlert = "";
         if (enemy.isAdjacent(player.getPos())) {
             proximityAlert = "!";
         }
 
-        diagWin_game.push('{'
-            + std::to_string(player.getPos().x) + ','
-            + std::to_string(player.getPos().y) + '}'
-            + '{'
-            + std::to_string(enemy.getPos().x) + ','
-            + std::to_string(enemy.getPos().y) + '}'
-            + " dst: "
+        diagWin_game.push(
+            //'{'
+            //+ std::to_string(player.getPos().x) + ','
+            //+ std::to_string(player.getPos().y) + '}'
+            //+ '{'
+            //+ std::to_string(enemy.getPos().x) + ','
+            //+ std::to_string(enemy.getPos().y) + '}' +
+            " dst: "
             + std::to_string(player.getDistance(enemy.getPos()))
             + " stp: "
             + std::to_string(player.getSteps())
@@ -179,24 +195,28 @@ int startGame() {
             + std::to_string(global->getTicks())
             + " scr: "
             + std::to_string(player.getScore())
+            + " dif: " + global->getDifficultyStr()
             + " nfo: " + infoMsg
             + " " + proximityAlert
         );
 
         wgame.refresh();
 
-        if (enemy.atop(player.getPos())) {
-            // Game Over
-            wgame.coloSplash(COLOR_PAIR(1));
-            gameover = true;
-            diagWin_game.push("GAME OVER!");
-            diagWin_game.push("Press `q' to quit.");
-            while (wgame.getChar() != 'q');  // TODO prompt restart or quit
-            break;
+
+        for (Enemy &enemy : enemies) {
+            if (enemy.atop(player.getPos())) {
+                // Game Over
+                wgame.coloSplash(COLOR_PAIR(1));
+                gameover = true;
+                diagWin_game.push("GAME OVER!");
+                diagWin_game.push("Press `q' to quit.");
+                while (wgame.getChar() != 'q');  // TODO prompt restart or quit
+                break;
+            }
         }
     }
 
     // TODO eventually return more information
-    return player.getScore() + player.getSteps() * difficulty;
+    return (player.getScore() + player.getSteps()) * global->getDifficulty();
 }
 

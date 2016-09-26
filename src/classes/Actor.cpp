@@ -4,6 +4,9 @@
 
 #include "Actor.h"
 
+Actor::Actor() {
+}
+
 Actor::Actor(Window *newW) {
     w = newW;
     disp_colo = COLOR_PAIR(0);

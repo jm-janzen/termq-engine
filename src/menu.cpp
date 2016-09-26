@@ -45,6 +45,9 @@ int init() {
 }
 
 int run() {
+    Global *g = Global::get();
+    g->setDifficulty(HARD);
+
     int playerScore = 0;
 
     WINDOW *wmain = newwin(40, 80, 1, 1);

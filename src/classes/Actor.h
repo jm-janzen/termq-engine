@@ -9,6 +9,13 @@
 
 class Actor {
     public:
+        /*
+         * TODO
+         *  1) Default ctor (for arr),
+         *  2) Break off random-point gen
+         */
+
+        Actor();
         Actor(Window *newW);
 
         void render();

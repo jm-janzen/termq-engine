@@ -22,7 +22,7 @@ int main() {
      *  2)  Display score here.
      */
     printf("\n~~~ GAME OVER ~~~\n");
-    printf("lifespan:   %d\n", 0);
+    printf("lifespan:   %d\n", -1);
     printf("score:      %d\n", playerScore);
     printf("~~~~~~~~~~~~~~~~~\n");
 
