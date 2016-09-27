@@ -43,20 +43,18 @@ int startGame() {
 
     init_pair(2, COLOR_YELLOW, -1);
 
-    for (Enemy &enemy : enemies) {
-        wgame.draw(enemy.getPos(), enemy.getDispChar(), enemy.getDispColo());
-    }
-
     /*
      * Check if Player & Enemy are too near each other.
      * `42' here is the maximum allowable value, given
      * that Player may spawn in the middle (39, 19) of
      * the game_area.
      */
-    //while (player.getDistance(enemy.getPos()) <= 42) {
-    //    // Reroll ctor for new random start
-    //    enemy = Enemy(wgame);
-    //}
+    for (Enemy &enemy : enemies) {
+        while (player.getDistance(enemy.getPos()) <= 42) {
+            // Reroll ctor for new random start
+            enemy = Enemy(wgame);
+        }
+    }
 
     // Init placement of Player, Enemy, and Coins
     player.render();
@@ -70,17 +68,15 @@ int startGame() {
     int ch;
     string infoMsg = "";
     bool gameover = false;
-    while (( ch = wgame.getChar()) != 'q' && gameover != true) {
-
+    while (gameover == false) {
         // Advance record of world time
         global->tick();
-
-        infoMsg = "";
-
         wgame.refresh();
 
-        int px = player.getPos().x;
-        int py = player.getPos().y;
+        ch      = wgame.getChar();
+        infoMsg = "";
+        int px  = player.getPos().x;
+        int py  = player.getPos().y;
 
         switch (ch) {
             /*
@@ -166,15 +162,15 @@ int startGame() {
         player.render();
 
         // Enemy, seek out player
+        string proximityAlert = "";
         for (Enemy &enemy : enemies) {
             enemy.seek(player);  // Discard return (updated pos)
             enemy.render();
+            if (enemy.isAdjacent(player.getPos())) {
+                proximityAlert = "!";
+            }
         }
 
-        string proximityAlert = "";
-        //if (enemy.isAdjacent(player.getPos())) {
-        //    proximityAlert = "!";
-        //}
 
         diagWin_game.push(
             //'{'
@@ -204,14 +200,13 @@ int startGame() {
 
 
         for (Enemy &enemy : enemies) {
+            // Game Over
             if (enemy.atop(player.getPos())) {
-                // Game Over
-                wgame.coloSplash(COLOR_PAIR(1));
                 gameover = true;
+                wgame.coloSplash(COLOR_PAIR(1));
                 diagWin_game.push("GAME OVER!");
                 diagWin_game.push("Press `q' to quit.");
 
-                // XXX must hit `q' for each enemy
                 while (wgame.getChar() != 'q');  // TODO prompt restart or quit
                 break;
             }
