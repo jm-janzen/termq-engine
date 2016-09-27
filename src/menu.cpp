@@ -46,34 +46,46 @@ int init() {
 
 int run() {
     Global *g = Global::get();
-    g->setDifficulty(HARD);
+    g->setDifficulty(MEDIUM);
 
     int playerScore = 0;
 
     WINDOW *wmain = newwin(40, 80, 1, 1);
     box(wmain, 0, 0);
 
-    DiagWindow infoPanel_menu = DiagWindow({{41, 1}, {80,10}});
-
     /*
      * init title, menu
      */
 
-    MenuWindow menuWin        = MenuWindow({{10, 6}, {20, 12}});
+    MenuWindow menuWin = MenuWindow({{10, 6}, {20, 12}});
+    MenuWindow optsWin = MenuWindow({{13, 13}, {10, 5}});
 
     const std::vector<string> menuItems {
         "start",
         "quit",
+        "opts",
+    };
+    const std::vector<string> optsItems {
+        "easy",
+        "medium",
+        "hard",
     };
 
     for (auto &item : menuItems) {
         menuWin.add(item);
     }
+    for (auto &item : optsItems) {
+        optsWin.add(item);
+    }
 
     wrefresh(wmain);
     menuShow(wmain, "TERMINAL QUEST");
 
-    infoPanel_menu.refresh();
+    /*
+     * TODO
+     *  Look into ncurses' panels, menus libs
+     *  for this stuff - might be better.
+     */
     menuWin.updateMenu();
     menuWin.refresh();
 
@@ -82,19 +94,36 @@ int run() {
      */
 
     std::string selection = "";
+    std::string optsSelection = "";
 
-    while ( selection.length() < 1) {
+    while ( selection.length() < 1 || optsSelection.length() < 1) {
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
+            printf("Selection: %s", selection.c_str());
 
             if (selection == "quit") {
                 break;
             } else if (selection == "start") {
 
+                // TODO choose difficulty
+
                 playerScore = startGame();
                 break;
+            } else if (selection == "opts") {
+                optsWin.updateMenu();
+                optsWin.refresh();
+                while (optsSelection.length() < 1) {
+                    optsSelection = optsWin.getSelection();
+                }
+                selection = "";
+                if (optsSelection == "easy") {
+                    g->setDifficulty(EASY);
+                } else if (optsSelection == "medium") {
+                    g->setDifficulty(MEDIUM);
+                } else if (optsSelection == "hard") {
+                    g->setDifficulty(HARD);
+                }
             }
-
         }
     }
 

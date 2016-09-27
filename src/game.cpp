@@ -32,7 +32,7 @@ int startGame() {
 
     // Actors know about game window for movement
     Player player = Player(wgame);
-    Enemy  enemy  = Enemy(wgame);
+    //Enemy  enemy  = Enemy(wgame);
 
     Coin   coins[numCoins];
     Enemy  enemies[numEnemies];
@@ -43,8 +43,8 @@ int startGame() {
 
     init_pair(2, COLOR_YELLOW, -1);
 
-    for (Enemy &e : enemies) {
-        wgame.draw(e.getPos(), e.getDispChar(), e.getDispColo());
+    for (Enemy &enemy : enemies) {
+        wgame.draw(enemy.getPos(), enemy.getDispChar(), enemy.getDispColo());
     }
 
     /*
@@ -68,15 +68,13 @@ int startGame() {
     }
 
     int ch;
-    string infoKey, infoMsg = "";
+    string infoMsg = "";
     bool gameover = false;
-    while (( ch = wgame.getChar()) != 'q') {
+    while (( ch = wgame.getChar()) != 'q' && gameover != true) {
 
         // Advance record of world time
         global->tick();
 
-
-        infoKey = to_string(ch);
         infoMsg = "";
 
         wgame.refresh();
@@ -174,9 +172,9 @@ int startGame() {
         }
 
         string proximityAlert = "";
-        if (enemy.isAdjacent(player.getPos())) {
-            proximityAlert = "!";
-        }
+        //if (enemy.isAdjacent(player.getPos())) {
+        //    proximityAlert = "!";
+        //}
 
         diagWin_game.push(
             //'{'
@@ -185,8 +183,10 @@ int startGame() {
             //+ '{'
             //+ std::to_string(enemy.getPos().x) + ','
             //+ std::to_string(enemy.getPos().y) + '}' +
-            " dst: "
-            + std::to_string(player.getDistance(enemy.getPos()))
+            //" dst: "
+            //+ std::to_string(player.getDistance(enemy.getPos()))
+            + " nen: "
+            + std::to_string(numEnemies)
             + " stp: "
             + std::to_string(player.getSteps())
             + " ptk: "
@@ -210,6 +210,8 @@ int startGame() {
                 gameover = true;
                 diagWin_game.push("GAME OVER!");
                 diagWin_game.push("Press `q' to quit.");
+
+                // XXX must hit `q' for each enemy
                 while (wgame.getChar() != 'q');  // TODO prompt restart or quit
                 break;
             }

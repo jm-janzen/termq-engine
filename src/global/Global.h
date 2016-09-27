@@ -29,12 +29,16 @@ class Global {
             switch (difficulty) {
                 case CHEAT:
                     noCoins = 1000;
+                    noEnemies = 0;
                     break;
                 case EASY:
                     noCoins = 100;
+                    noEnemies = 1;
                     break;
                 case MEDIUM:
                     noCoins = 10;
+                    noEnemies = 1;
+                    break;
                 case HARD:
                     noCoins = 10;
                     noEnemies = 2;
@@ -42,6 +46,7 @@ class Global {
                 case NIGHTMARE:
                     noCoins = 10;
                     noEnemies = 3;
+                    break;
             }
             printf("Difficulty: %s", getDifficultyStr().c_str());
         };
