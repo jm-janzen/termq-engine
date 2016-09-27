@@ -58,7 +58,7 @@ int run() {
      */
 
     MenuWindow menuWin = MenuWindow({{10, 6}, {20, 12}});
-    MenuWindow optsWin = MenuWindow({{13, 13}, {10, 5}});
+    MenuWindow optsWin = MenuWindow({{13, 14}, {16, 10}});
 
     const std::vector<string> menuItems {
         "start",
@@ -66,9 +66,11 @@ int run() {
         "opts",
     };
     const std::vector<string> optsItems {
+        "cheat",
         "easy",
         "medium",
         "hard",
+        "nightmare",
     };
 
     for (auto &item : menuItems) {
@@ -99,7 +101,6 @@ int run() {
     while ( selection.length() < 1 || optsSelection.length() < 1) {
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
-            printf("Selection: %s", selection.c_str());
 
             if (selection == "quit") {
                 break;

@@ -48,7 +48,6 @@ class Global {
                     noEnemies = 3;
                     break;
             }
-            printf("Difficulty: %s", getDifficultyStr().c_str());
         };
 
         int  getDifficulty() { return difficultyLevels(difficulty); }

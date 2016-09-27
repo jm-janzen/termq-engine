@@ -21,7 +21,7 @@ class MenuWindow : public Window {
         void    up();
         void    down();
     private:
-        std::string menuItems[3];  // XXX reflects noItems
+        std::vector<std::string> menuItems;
         uint8_t noItems       = 0;
         std::string selection = "";
         uint8_t position      = 0;

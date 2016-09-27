@@ -34,7 +34,7 @@ uint8_t MenuWindow::updateMenu(int newPosition) {
 };
 
 void MenuWindow::add(std::string item) {
-    menuItems[noItems] = item;
+    menuItems.push_back(item);
     noItems++;
 };
 
@@ -64,8 +64,7 @@ std::string MenuWindow::getSelection() {
         }
 
         // TODO put these in method(s)
-        noElements = (sizeof(menuItems) / sizeof(std::string));
-        idx        = (position % noElements);
+        idx        = (position % menuItems.size());
         selection  = menuItems[idx];
 
         updateMenu(idx);
