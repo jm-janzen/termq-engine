@@ -29,7 +29,7 @@ class Global {
             switch (difficulty) {
                 case CHEAT:
                     noCoins = 1000;
-                    noEnemies = 0;
+                    noEnemies = 1;
                     break;
                 case EASY:
                     noCoins = 100;

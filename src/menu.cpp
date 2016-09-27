@@ -117,12 +117,16 @@ int run() {
                     optsSelection = optsWin.getSelection();
                 }
                 selection = "";
-                if (optsSelection == "easy") {
+                if (optsSelection == "cheat") {
+                    g->setDifficulty(CHEAT);
+                } else if (optsSelection == "easy") {
                     g->setDifficulty(EASY);
                 } else if (optsSelection == "medium") {
                     g->setDifficulty(MEDIUM);
                 } else if (optsSelection == "hard") {
                     g->setDifficulty(HARD);
+                } else if (optsSelection == "nightmare") {
+                    g->setDifficulty(NIGHTMARE);
                 }
             }
         }
