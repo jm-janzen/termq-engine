@@ -38,7 +38,6 @@ int init() {
     initscr();
     noecho();
     curs_set(0);
-    use_default_colors();
     start_color();
 
     return 0;
@@ -50,6 +49,7 @@ int run() {
 
     int playerScore = 0;
 
+    // TODO use our Window class for this as well.
     WINDOW *wmain = newwin(40, 80, 1, 1);
     box(wmain, 0, 0);
 
@@ -58,12 +58,12 @@ int run() {
      */
 
     MenuWindow menuWin = MenuWindow({{10, 6}, {20, 12}});
-    MenuWindow optsWin = MenuWindow({{13, 14}, {16, 10}});
+    MenuWindow optsWin = MenuWindow({{10, 26}, {20, 12}});
 
     const std::vector<string> menuItems {
         "start",
         "quit",
-        "opts",
+        "options",
     };
     const std::vector<string> optsItems {
         "cheat",
@@ -83,11 +83,6 @@ int run() {
     wrefresh(wmain);
     menuShow(wmain, "TERMINAL QUEST");
 
-    /*
-     * TODO
-     *  Look into ncurses' panels, menus libs
-     *  for this stuff - might be better.
-     */
     menuWin.updateMenu();
     menuWin.refresh();
 
@@ -97,8 +92,7 @@ int run() {
 
     std::string selection = "";
     std::string optsSelection = "";
-
-    while ( selection.length() < 1 || optsSelection.length() < 1) {
+    while ( selection != "start" || selection != "quit") {
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
 
@@ -110,12 +104,21 @@ int run() {
 
                 playerScore = startGame();
                 break;
-            } else if (selection == "opts") {
+            } else if (selection == "options") {
+                /*
+                 * Populate menu with opts and set highlighted
+                 * selection to default, or previously selected
+                 * difficulty.
+                 */
+                optsWin.setPosition(g->getDifficulty());
+                optsWin.update();
                 optsWin.updateMenu();
                 optsWin.refresh();
-                while (optsSelection.length() < 1) {
-                    optsSelection = optsWin.getSelection();
-                }
+
+                // Get new difficulty selection
+                while ((optsSelection = optsWin.getSelection()).length() < 1);
+
+                // Reset main menu selection and parse difficulty selection
                 selection = "";
                 if (optsSelection == "cheat") {
                     g->setDifficulty(CHEAT);
@@ -128,6 +131,10 @@ int run() {
                 } else if (optsSelection == "nightmare") {
                     g->setDifficulty(NIGHTMARE);
                 }
+                // Clear out opts, and show main menu
+                optsWin.clear();
+                optsWin.refresh();
+
             }
         }
     }

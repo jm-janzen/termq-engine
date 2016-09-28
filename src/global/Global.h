@@ -82,8 +82,8 @@ class Global {
         static Global *instance;
 
         int noCoins    = 10;
+        int difficulty = 2;
         int noEnemies  = 1;
-        int difficulty = 1;
         int ticks      = 0;
 
 };
