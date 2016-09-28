@@ -83,9 +83,12 @@ void Window::drawBox() {
 
 void Window::update() {
     werase(w);
+    drawBorder();
+    refresh();
 };
 
 void Window::clear() {
     werase(w);
+    refresh();
 };
 

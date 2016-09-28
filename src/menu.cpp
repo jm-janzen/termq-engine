@@ -58,7 +58,7 @@ int run() {
      */
 
     MenuWindow menuWin = MenuWindow({{10, 6}, {20, 12}});
-    MenuWindow optsWin = MenuWindow({{10, 26}, {20, 12}});
+    MenuWindow optsWin = MenuWindow({{13, 16}, {20, 12}});
 
     const std::vector<string> menuItems {
         "start",
@@ -93,27 +93,23 @@ int run() {
     std::string selection = "";
     std::string optsSelection = "";
     while ( selection != "start" || selection != "quit") {
+        menuWin.drawBorder();
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
 
-            if (selection == "quit") {
+            if (selection == "quit") {  // Exit
                 break;
-            } else if (selection == "start") {
-
-                // TODO choose difficulty
-
+            } else if (selection == "start") {  // Start playing
                 playerScore = startGame();
                 break;
-            } else if (selection == "options") {
+            } else if (selection == "options") {  // Select difficulty
                 /*
                  * Populate menu with opts and set highlighted
                  * selection to default, or previously selected
                  * difficulty.
                  */
-                optsWin.setPosition(g->getDifficulty());
-                optsWin.update();
-                optsWin.updateMenu();
-                optsWin.refresh();
+                optsWin.updateMenu(g->getDifficulty());
+                optsWin.drawBorder(); // Also refreshes
 
                 // Get new difficulty selection
                 while ((optsSelection = optsWin.getSelection()).length() < 1);
@@ -131,9 +127,9 @@ int run() {
                 } else if (optsSelection == "nightmare") {
                     g->setDifficulty(NIGHTMARE);
                 }
-                // Clear out opts, and show main menu
+
+                // Clear out opts window (hide it), and show main menu
                 optsWin.clear();
-                optsWin.refresh();
 
             }
         }

@@ -13,36 +13,26 @@ MenuWindow::MenuWindow(rect dim) : Window(dim) {
  * Highlight position in menu (default first)
  */
 uint8_t MenuWindow::updateMenu() {
-    clear();
-    drawBorder();
     for (int i = 0; i < noItems; i++) {
         if (i == position) wattron(w, A_STANDOUT);
         else wattroff(w, A_STANDOUT);
 
         write({3, static_cast<uint_fast8_t>(i + 1)}, menuItems[i]);
     }
-    refresh();
+    wattroff(w, A_STANDOUT);  // Required, keeps A_STANDOUT away from other lines
     return position;
 };
 
 uint8_t MenuWindow::updateMenu(int newPosition) {
-    for (int i = 0; i < noItems; i++) {
-        if (i == newPosition) wattron(w, A_STANDOUT);
-        else wattroff(w, A_STANDOUT);
-
-        write({3, static_cast<uint_fast8_t>(i + 1)}, menuItems[i]);
-    }
-    return position;
+    setPosition(newPosition);
+    updateMenu();
+    return position;  // XXX pointless return
 };
 
 void MenuWindow::add(std::string item) {
     menuItems.push_back(item);
     noItems++;
 };
-
-void MenuWindow::clear() {
-    werase(w);
-}
 
 void MenuWindow::setPosition(int newPosition) {
     position = newPosition;
@@ -69,9 +59,6 @@ std::string MenuWindow::getSelection() {
                 break;
 
         }
-        // XXX debugging
-        //std::string x = std::to_string(position);
-        //mvwprintw(w, 0, 0, x.c_str());
 
         // TODO put these in method(s)
         idx        = (position % menuItems.size());

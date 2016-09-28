@@ -26,7 +26,6 @@ class MenuWindow : public Window {
         void    add(std::string item);
         void    up();
         void    down();
-        void    clear();
     private:
         std::vector<std::string> menuItems;
         uint8_t noItems       = 0;

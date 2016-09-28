@@ -32,13 +32,11 @@ int startGame() {
 
     // Actors know about game window for movement
     Player player = Player(wgame);
-    //Enemy  enemy  = Enemy(wgame);
-
-    Coin   coins[numCoins];
     Enemy  enemies[numEnemies];
     for (Enemy &e : enemies) {
         e = Enemy(wgame);
     };
+    Coin   coins[numCoins];
 
 
     init_pair(2, COLOR_YELLOW, -1);
@@ -49,10 +47,20 @@ int startGame() {
      * that Player may spawn in the middle (39, 19) of
      * the game_area.
      */
-    for (Enemy &enemy : enemies) {
-        while (player.getDistance(enemy.getPos()) <= 42) {
-            // Reroll ctor for new random start
+    bool dangerClose = true;
+    init_pair(3, COLOR_GREEN, -1);
+    while (dangerClose == true) {
+        for (Enemy &enemy : enemies) {
             enemy = Enemy(wgame);
+            if (player.getDistance(enemy.getPos()) <= 42) {
+                // Display green shadow of enemies who were too close
+                enemy.setColo(COLOR_PAIR(3));
+                enemy.render();
+                dangerClose = true;
+                break;
+            } else {
+                dangerClose = false;
+            }
         }
     }
 
@@ -164,7 +172,9 @@ int startGame() {
         // Enemy, seek out player
         string proximityAlert = "";
         for (Enemy &enemy : enemies) {
-            enemy.seek(player);  // Discard return (updated pos)
+            if (global->getDifficulty() > CHEAT) {
+                enemy.seek(player);  // Discard return (updated pos)
+            }
             enemy.render();
             if (enemy.isAdjacent(player.getPos())) {
                 proximityAlert = "!";
