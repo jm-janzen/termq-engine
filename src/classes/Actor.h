@@ -9,13 +9,8 @@
 
 class Actor {
     public:
-        /*
-         * TODO
-         *  1) Default ctor (for arr),
-         *  2) Break off random-point gen
-         */
 
-        Actor();
+        Actor() {};
         Actor(Window *newW);
 
         void render();
@@ -42,8 +37,10 @@ class Actor {
         void  tick();
         void  step();
 
+        void  setPosRand();
         void  setPos(vec2ui newPos);
         void  setChar(char newChar);
+        void  setColo(chtype newColo);
 
         vec2ui getPos();
         char  getDispChar();
