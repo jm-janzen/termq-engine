@@ -7,13 +7,6 @@
 
 #include "difficulty-levels.h"
 
-/*
- * TODO
- *  Eventually define some useful structs for
- *  passing pack more complex information, but
- *  for now just use `int difficulty.'
- */
-
 class Global {
     public:
         /* Singleton */
