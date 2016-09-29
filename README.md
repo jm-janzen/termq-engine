@@ -2,6 +2,8 @@
 
 A personal adventure with ncurses
 
+Requires `G++ 4.3`, `libncurses5-dev`.
+
 ---
 
 ## Installation instructions
