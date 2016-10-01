@@ -89,26 +89,26 @@ int startGame() {
              */
             case 55:  // Key up-left
                 if (py > (int) game_area.top() && px > (int) game_area.left()) {
-                    player.moveUp();
-                    player.moveLeft();
+                    player.moveNorth();
+                    player.moveWest();
                 }
                 break;
             case 57:  // Key up-right
                 if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
-                    player.moveUp();
-                    player.moveRight();
+                    player.moveNorth();
+                    player.moveEast();
                 }
                 break;
             case 51:  // Key down-right
                 if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
-                    player.moveDown();
-                    player.moveRight();
+                    player.moveSouth();
+                    player.moveEast();
                 }
                 break;
             case 49:  // Key down-left
                 if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
-                    player.moveDown();
-                    player.moveLeft();
+                    player.moveSouth();
+                    player.moveWest();
                 }
                 break;
 
@@ -118,25 +118,25 @@ int startGame() {
             case KEY_UP:
             case 56:
             case 'k':
-                if (py > (int) game_area.top()) player.moveUp();
+                if (py > (int) game_area.top()) player.moveNorth();
                 infoMsg = "up(" + to_string(py) + " > " + to_string(game_area.top()) + ")";
                 break;
             case KEY_DOWN:
             case 50:
             case 'j':
-                if (py < (int) game_area.bot() - 1) player.moveDown();
+                if (py < (int) game_area.bot() - 1) player.moveSouth();
                 infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
                 break;
             case KEY_LEFT:
             case 52:
             case 'h':
-                if (px > (int) game_area.left()) player.moveLeft();
+                if (px > (int) game_area.left()) player.moveWest();
                 infoMsg = "left(" + to_string(px) + " > " + to_string(game_area.left()) + ")";
                 break;
             case KEY_RIGHT:
             case 54:
             case 'l':
-                if (px < (int) game_area.right() - 1) player.moveRight();
+                if (px < (int) game_area.right() - 1) player.moveEast();
                 infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
                 break;
             case KEY_ENTER: /* numpad enter */

@@ -106,22 +106,22 @@ int_fast8_t Actor::getDistanceY(vec2ui const targetPos) {
  * Movement
  */
 
-void  Actor::moveLeft() {
+void  Actor::moveWest() {
     pos.x--;
     move();
 };
 
-void  Actor::moveRight() {
+void  Actor::moveEast() {
     pos.x++;
     move();
 };
 
-void  Actor::moveUp() {
+void  Actor::moveNorth() {
     pos.y--;
     move();
 };
 
-void  Actor::moveDown() {
+void  Actor::moveSouth() {
     pos.y++;
     move();
 };

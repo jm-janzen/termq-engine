@@ -42,7 +42,6 @@ void Enemy::computeAggro() {
 void Enemy::move() {
     // Check if target is within aggro range
     if (getDistance(target->getPos()) <= aggro) {
-        targetAware = true;  // XXX unused
         seek();
     } else {
         mill();
@@ -58,28 +57,28 @@ vec2ui Enemy::seek() {
 
     // Target above, below, left, or right of me
     if (isSouth(*target)) {
-        this->moveDown();
+        this->moveSouth();
     } else if (isNorth(*target)) {
-        this->moveUp();
+        this->moveNorth();
     } else if (isEast(*target)) {
-        this->moveRight();
+        this->moveEast();
     } else if (isWest(*target)) {
-        this->moveLeft();
+        this->moveWest();
     }
 
     // Target diagonal to me
     else if(isNorthEast(*target)) {
-        this->moveRight();
-        this->moveUp();
+        this->moveEast();
+        this->moveNorth();
     } else if(isSouthEast(*target)) {
-        this->moveRight();
-        this->moveDown();
+        this->moveEast();
+        this->moveSouth();
     } else if(isSouthWest(*target)) {
-        this->moveDown();
-        this->moveLeft();
+        this->moveSouth();
+        this->moveWest();
     } else {
-        this->moveUp();
-        this->moveLeft();
+        this->moveNorth();
+        this->moveWest();
     }
 
     return this->getPos();

@@ -30,7 +30,6 @@ class Enemy : public Actor {
     private:
         Global *g           = Global::get();
         Actor *target       = NULL;
-        bool targetAware    = false;  // XXX may be premature
         int aggro;
 
 };
