@@ -68,17 +68,13 @@ vec2ui Enemy::seek() {
 
     // Target diagonal to me
     else if(isNorthEast(*target)) {
-        this->moveEast();
-        this->moveNorth();
+        this->moveNorthEast();
     } else if(isSouthEast(*target)) {
-        this->moveEast();
-        this->moveSouth();
+        this->moveSouthEast();
     } else if(isSouthWest(*target)) {
-        this->moveSouth();
-        this->moveWest();
+        this->moveSouthWest();
     } else {
-        this->moveNorth();
-        this->moveWest();
+        this->moveNorthWest();
     }
 
     return this->getPos();

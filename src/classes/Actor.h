@@ -30,11 +30,17 @@ class Actor {
          *  Add move diagonal methods, as presently these
          *  count as _two_ moves by the Actor.
          */
-        void  moveWest();
-        void  moveEast();
         void  moveNorth();
+        void  moveNorthEast();
+        void  moveEast();
+        void  moveSouthEast();
         void  moveSouth();
+        void  moveSouthWest();
+        void  moveWest();
+        void  moveNorthWest();
 
+
+        // Check cardinal direction
         bool  isNorth(Actor &target);
         bool  isSouth(Actor &target);
         bool  isEast(Actor &target);

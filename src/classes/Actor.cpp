@@ -27,8 +27,6 @@ Direction Actor::getDirection(Actor &a) {  // TODO add ref to target to Actor cl
 
         if (degs < 0.0) degs += 360.0;
 
-        //printf("rads: %f, degs: %d  \n", rads, degs);
-
         degrees = degs;
     }
 
@@ -123,6 +121,27 @@ void  Actor::moveNorth() {
 
 void  Actor::moveSouth() {
     pos.y++;
+    move();
+};
+
+void  Actor::moveNorthEast() {
+    pos.x++;
+    pos.y--;
+    move();
+};
+void  Actor::moveSouthEast() {
+    pos.x++;
+    pos.y++;
+    move();
+};
+void  Actor::moveSouthWest() {
+    pos.x--;
+    pos.y++;
+    move();
+};
+void  Actor::moveNorthWest() {
+    pos.x--;
+    pos.y--;
     move();
 };
 

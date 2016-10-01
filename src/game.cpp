@@ -89,26 +89,22 @@ int startGame() {
              */
             case 55:  // Key up-left
                 if (py > (int) game_area.top() && px > (int) game_area.left()) {
-                    player.moveNorth();
-                    player.moveWest();
+                    player.moveNorthWest();
                 }
                 break;
             case 57:  // Key up-right
                 if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
-                    player.moveNorth();
-                    player.moveEast();
+                    player.moveNorthEast();
                 }
                 break;
             case 51:  // Key down-right
                 if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
-                    player.moveSouth();
-                    player.moveEast();
+                    player.moveSouthEast();
                 }
                 break;
             case 49:  // Key down-left
                 if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
-                    player.moveSouth();
-                    player.moveWest();
+                    player.moveSouthWest();
                 }
                 break;
 
