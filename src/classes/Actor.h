@@ -9,6 +9,8 @@
 
 class Actor {
     public:
+
+        Actor() {};
         Actor(Window *newW);
 
         void render();
@@ -20,6 +22,11 @@ class Actor {
         int_fast8_t getDistanceY(vec2ui const targetPos);
 
 
+        /*
+         * TODO
+         *  Add move diagonal methods, as presently these
+         *  count as _two_ moves by the Actor.
+         */
         void  moveLeft();
         void  moveRight();
         void  moveUp();
@@ -30,8 +37,10 @@ class Actor {
         void  tick();
         void  step();
 
+        void  setPosRand();
         void  setPos(vec2ui newPos);
         void  setChar(char newChar);
+        void  setColo(chtype newColo);
 
         vec2ui getPos();
         char  getDispChar();

@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "global/Global.h"  // includes difficulties
+
 #include "game.h"
 #include "menu.h"
 #include "classes/Player.h"
@@ -14,20 +16,28 @@
 
 using namespace std;
 
-const int numCoins = 10;
+
 
 
 int startGame() {
 
+    // Retrieve global refs
+    Global *global = Global::get();
+    int numCoins   = global->getNoCoins();
+    int numEnemies = global->getNoEnemies();
+
     // Declared internally, to prevent ctors from running before main
-    DiagWindow infoPanel_game = DiagWindow({{41, 1}, {80,10}});
+    DiagWindow diagWin_game = DiagWindow({{41, 1}, {80,10}});
     Window wgame = Window(game_area);
 
     // Actors know about game window for movement
     Player player = Player(wgame);
-    Enemy  enemy  = Enemy(wgame);
-
+    Enemy  enemies[numEnemies];
+    for (Enemy &e : enemies) {
+        e = Enemy(wgame);
+    };
     Coin   coins[numCoins];
+
 
     init_pair(2, COLOR_YELLOW, -1);
 
@@ -37,30 +47,44 @@ int startGame() {
      * that Player may spawn in the middle (39, 19) of
      * the game_area.
      */
-    while (player.getDistance(enemy.getPos()) <= 42) {
-        // Reroll ctor for new random start
-        enemy = Enemy(wgame);
+    bool dangerClose = true;
+    init_pair(3, COLOR_GREEN, -1);
+    while (dangerClose == true) {
+        for (Enemy &enemy : enemies) {
+            enemy = Enemy(wgame);
+            if (player.getDistance(enemy.getPos()) <= 42) {
+                // Display green shadow of enemies who were too close
+                enemy.setColo(COLOR_PAIR(3));
+                enemy.render();
+                dangerClose = true;
+                break;
+            } else {
+                dangerClose = false;
+            }
+        }
     }
 
     // Init placement of Player, Enemy, and Coins
     player.render();
-    enemy.render();
+    for (Enemy &enemy : enemies) {
+        enemy.render();
+    }
     for (auto &coin : coins) {
         wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
 
-    int ch, difficulty = 1;
-    string infoKey, infoMsg = "";
+    int ch;
+    string infoMsg = "";
     bool gameover = false;
-    while (( ch = wgame.getChar()) != 'q') {
-
-        infoKey = to_string(ch);
-        infoMsg = "";
-
+    while (gameover == false) {
+        // Advance record of world time
+        global->tick();
         wgame.refresh();
 
-        int px = player.getPos().x;
-        int py = player.getPos().y;
+        ch      = wgame.getChar();
+        infoMsg = "";
+        int px  = player.getPos().x;
+        int py  = player.getPos().y;
 
         switch (ch) {
             /*
@@ -146,45 +170,60 @@ int startGame() {
         player.render();
 
         // Enemy, seek out player
-        enemy.seek(player);  // Discard return (updated pos)
-        enemy.render();
-
         string proximityAlert = "";
-        if (enemy.isAdjacent(player.getPos())) {
-            proximityAlert = "!";
+        for (Enemy &enemy : enemies) {
+            if (global->getDifficulty() > CHEAT) {
+                enemy.seek(player);  // Discard return (updated pos)
+            }
+            enemy.render();
+            if (enemy.isAdjacent(player.getPos())) {
+                proximityAlert = "!";
+            }
         }
-        infoPanel_game.push('{'
-            + std::to_string(player.getPos().x) + ','
-            + std::to_string(player.getPos().y) + '}'
-            + '{'
-            + std::to_string(enemy.getPos().x) + ','
-            + std::to_string(enemy.getPos().y) + '}'
-            + " dist: "
-            + std::to_string(player.getDistance(enemy.getPos()))
-            + " steps: "
+
+
+        diagWin_game.push(
+            //'{'
+            //+ std::to_string(player.getPos().x) + ','
+            //+ std::to_string(player.getPos().y) + '}'
+            //+ '{'
+            //+ std::to_string(enemy.getPos().x) + ','
+            //+ std::to_string(enemy.getPos().y) + '}' +
+            //" dst: "
+            //+ std::to_string(player.getDistance(enemy.getPos()))
+            + " nen: "
+            + std::to_string(numEnemies)
+            + " stp: "
             + std::to_string(player.getSteps())
-            + " ticks: "
+            + " ptk: "
             + std::to_string(player.getTicks())
-            + " score: "
+            + " gtk: "
+            + std::to_string(global->getTicks())
+            + " scr: "
             + std::to_string(player.getScore())
-            + " info: " + infoMsg
+            + " dif: " + global->getDifficultyStr()
+            + " nfo: " + infoMsg
             + " " + proximityAlert
         );
 
         wgame.refresh();
 
-        if (enemy.atop(player.getPos())) {
+
+        for (Enemy &enemy : enemies) {
             // Game Over
-            wgame.coloSplash(COLOR_PAIR(1));
-            gameover = true;
-            infoPanel_game.push("GAME OVER!");
-            infoPanel_game.push("Press `q' to quit.");
-            while (wgame.getChar() != 'q');  // TODO prompt restart or quit
-            break;
+            if (enemy.atop(player.getPos())) {
+                gameover = true;
+                wgame.coloSplash(COLOR_PAIR(1));
+                diagWin_game.push("GAME OVER!");
+                diagWin_game.push("Press `q' to quit.");
+
+                while (wgame.getChar() != 'q');  // TODO prompt restart or quit
+                break;
+            }
         }
     }
 
     // TODO eventually return more information
-    return player.getScore() + player.getSteps() * difficulty;
+    return (player.getScore() + player.getSteps()) * global->getDifficulty();
 }
 

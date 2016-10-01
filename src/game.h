@@ -10,8 +10,7 @@
  */
 
 struct vec2ui {
-    uint_fast8_t x;
-    uint_fast8_t y;
+    uint_fast8_t x, y;
 
     bool operator==(const vec2ui &a) const {
         return (a.x == x && a.y == y);
@@ -19,8 +18,7 @@ struct vec2ui {
 };
 
 struct vec2i {
-    int_fast8_t x;
-    int_fast8_t y;
+    int_fast8_t x, y;
 
     bool operator==(const vec2i &a) const {
         return (a.x == x && a.y == y);
@@ -28,8 +26,7 @@ struct vec2i {
 };
 
 struct rect {
-    vec2i offset;
-    vec2i bounds;
+    vec2i offset, bounds;
 
     int_fast8_t top()     const { return offset.y; }
     int_fast8_t bot()     const { return height() - offset.y ; }
