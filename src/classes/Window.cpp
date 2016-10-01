@@ -59,12 +59,36 @@ void Window::refresh() {
     wrefresh(w);
 };
 
+/*
+ * Format:
+ *  left-side, right-side, top-side, bottom-side,
+ *  top-left, top-right, bottom-left, bottom-right
+ */
+void Window::setBorder(Border b) {
+    border = {
+            b.ls, b.rs, b.ts, b.bs,
+            b.tl, b.tr, b.bl, b.br
+    };
+}
+
+void Window::drawBorder() {
+    wborder(w,
+            border.ls, border.rs, border.ts, border.bs,
+            border.tl, border.tr, border.bl, border.br);
+}
+
+void Window::drawBox() {
+    box(w, 1, 1);
+}
+
 void Window::update() {
     werase(w);
-    box(w, 0, 0);
+    drawBorder();
+    refresh();
 };
 
 void Window::clear() {
     werase(w);
+    refresh();
 };
 

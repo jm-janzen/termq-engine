@@ -1,7 +1,7 @@
 CFLAGS = -std=c++11 -w -Wall -fno-stack-protector # disable canaries
 
 termq: build/main.o build/menu.o build/game.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o build/Global.o
-	g++ -g src/*.cpp src/classes/*.cpp src/global/Global.cpp -o bin/termq $(CFLAGS) -lncurses -g
+	g++ -g src/*.cpp src/classes/*.cpp src/global/Global.cpp -o bin/termq $(CFLAGS) -lncurses
 
 build/main.o: src/main.cpp
 	g++ -g -c -o build/main.o src/main.cpp $(CFLAGS)

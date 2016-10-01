@@ -7,7 +7,13 @@
 
 class Enemy : public Actor {
     public:
-        Enemy(Window &w); // ctor
+        /*
+         * NB:
+         *  Here, we are preventing compiler from generating
+         *  default ctor, so we need to implement it (ie: `{}`).
+         */
+        Enemy() {};
+        Enemy(Window &w);
 
         vec2ui seek(Actor a);
 };

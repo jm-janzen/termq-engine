@@ -98,6 +98,16 @@ void Actor::setPos(vec2ui newPos) {
     pos = newPos;
 };
 
+void Actor::setPosRand() {
+    int_fast8_t randx = (rand() % (game_area.right() -1) + 1);
+    int_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
+    setPos({ static_cast<uint_fast8_t>(randx), static_cast<uint_fast8_t>(randy) });
+};
+
+void Actor::setColo(chtype newColo) {
+    disp_colo = newColo;
+}
+
 void Actor::setChar(char newChar) {
     disp_char = newChar;
 };

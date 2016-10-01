@@ -3,58 +3,53 @@
 #include "../game.h"
 #include "MenuWindow.h"
 
-template <typename T,unsigned S>
-inline unsigned array_size(const T (&v)[S]) { return S; }
 
 MenuWindow::MenuWindow(rect dim) : Window(dim) {
-    wborder(w,
-        ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,     /* ls, rs, ts, bs */
-        '+', '+', '+', '+'                                  /* tl, tr, bl, br */
-    );
+    setBorder({ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET, '+', '+', '+', '+'});
+    drawBorder();
 };
 
-uint8_t MenuWindow::updateMenu() {
+/*
+ * Highlight position in menu (default first)
+ */
+void MenuWindow::updateMenu() {
     for (int i = 0; i < noItems; i++) {
-        if (i == 0) wattron(w, A_STANDOUT);
+        if (i == position) wattron(w, A_STANDOUT);
         else wattroff(w, A_STANDOUT);
 
         write({3, static_cast<uint_fast8_t>(i + 1)}, menuItems[i]);
     }
-    return position;
+    wattroff(w, A_STANDOUT);  // Required, keeps A_STANDOUT away from other lines
 };
 
-uint8_t MenuWindow::updateMenu(int newPosition) {
-    for (int i = 0; i < noItems; i++) {
-        if (i == newPosition) wattron(w, A_STANDOUT);
-        else wattroff(w, A_STANDOUT);
-
-        write({3, static_cast<uint_fast8_t>(i + 1)}, menuItems[i]);
-    }
-    return position;
+void MenuWindow::updateMenu(int newPosition) {
+    setPosition(newPosition);
+    updateMenu();
 };
 
 void MenuWindow::add(std::string item) {
-    menuItems[noItems] = item;
+    menuItems.push_back(item);
     noItems++;
 };
 
+void MenuWindow::setPosition(int newPosition) {
+    position = newPosition;
+}
 std::string MenuWindow::getSelection() {
-    int ch, noElements, idx;
+    int idx;
     bool itemSelected = false;
     while ( ! itemSelected) {
 
-        ch = wgetch(w);
-
-        switch (ch) {
+        switch (wgetch(w)) {
             case KEY_UP:
             case 56:
             case 'k':
-                position--;
+                position = (position == 0) ? noItems - 1: position - 1;
                 break;
             case KEY_DOWN:
             case 50:
             case 'j':
-                position++;
+                position = (position == noItems - 1) ? 0 : position + 1;
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -63,9 +58,7 @@ std::string MenuWindow::getSelection() {
 
         }
 
-        // TODO put these in method(s)
-        noElements = (sizeof(menuItems) / sizeof(std::string));
-        idx        = (position % noElements);
+        idx        = (position % menuItems.size());
         selection  = menuItems[idx];
 
         updateMenu(idx);

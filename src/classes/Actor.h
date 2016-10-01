@@ -9,6 +9,8 @@
 
 class Actor {
     public:
+
+        Actor() {};
         Actor(Window *newW);
 
         void render();
@@ -35,8 +37,10 @@ class Actor {
         void  tick();
         void  step();
 
+        void  setPosRand();
         void  setPos(vec2ui newPos);
         void  setChar(char newChar);
+        void  setColo(chtype newColo);
 
         vec2ui getPos();
         char  getDispChar();

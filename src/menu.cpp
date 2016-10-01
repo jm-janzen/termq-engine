@@ -38,39 +38,51 @@ int init() {
     initscr();
     noecho();
     curs_set(0);
-    use_default_colors();
     start_color();
 
     return 0;
 }
 
 int run() {
+    Global *g = Global::get();
+    g->setDifficulty(MEDIUM);
+
     int playerScore = 0;
 
+    // TODO use our Window class for this as well.
     WINDOW *wmain = newwin(40, 80, 1, 1);
     box(wmain, 0, 0);
-
-    DiagWindow infoPanel_menu = DiagWindow({{41, 1}, {80,10}});
 
     /*
      * init title, menu
      */
 
-    MenuWindow menuWin        = MenuWindow({{10, 6}, {20, 12}});
+    MenuWindow menuWin = MenuWindow({{10, 6}, {20, 12}});
+    MenuWindow optsWin = MenuWindow({{13, 16}, {20, 12}});
 
     const std::vector<string> menuItems {
         "start",
         "quit",
+        "options",
+    };
+    const std::vector<string> optsItems {
+        "cheat",
+        "easy",
+        "medium",
+        "hard",
+        "nightmare",
     };
 
     for (auto &item : menuItems) {
         menuWin.add(item);
     }
+    for (auto &item : optsItems) {
+        optsWin.add(item);
+    }
 
     wrefresh(wmain);
     menuShow(wmain, "TERMINAL QUEST");
 
-    infoPanel_menu.refresh();
     menuWin.updateMenu();
     menuWin.refresh();
 
@@ -79,19 +91,47 @@ int run() {
      */
 
     std::string selection = "";
-
-    while ( selection.length() < 1) {
+    std::string optsSelection = "";
+    while ( selection != "start" || selection != "quit") {
+        menuWin.drawBorder();
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
 
-            if (selection == "quit") {
+            if (selection == "quit") {  // Exit
                 break;
-            } else if (selection == "start") {
-
+            } else if (selection == "start") {  // Start playing
                 playerScore = startGame();
                 break;
-            }
+            } else if (selection == "options") {  // Select difficulty
+                /*
+                 * Populate menu with opts and set highlighted
+                 * selection to default, or previously selected
+                 * difficulty.
+                 */
+                optsWin.updateMenu(g->getDifficulty());
+                optsWin.drawBorder(); // Also refreshes
 
+                // Get new difficulty selection
+                while ((optsSelection = optsWin.getSelection()).length() < 1);
+
+                // Reset main menu selection and parse difficulty selection
+                selection = "";
+                if (optsSelection == "cheat") {
+                    g->setDifficulty(CHEAT);
+                } else if (optsSelection == "easy") {
+                    g->setDifficulty(EASY);
+                } else if (optsSelection == "medium") {
+                    g->setDifficulty(MEDIUM);
+                } else if (optsSelection == "hard") {
+                    g->setDifficulty(HARD);
+                } else if (optsSelection == "nightmare") {
+                    g->setDifficulty(NIGHTMARE);
+                }
+
+                // Clear out opts window (hide it), and show main menu
+                optsWin.clear();
+
+            }
         }
     }
 
