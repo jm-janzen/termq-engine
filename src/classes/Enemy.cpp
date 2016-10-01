@@ -41,6 +41,8 @@ void Enemy::computeAggro() {
 
 void Enemy::move() {
     int modifier = (100 - getDistance(target->getPos()) * 4.2);
+    if (modifier < 0) modifier = 0;  // Clamp
+
     int pool     = (100 - g->getDifficulty());
     int roll     = (rand() % pool);
     bool chance  = (roll < modifier);
