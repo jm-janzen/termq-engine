@@ -40,11 +40,19 @@ void Enemy::computeAggro() {
 }
 
 void Enemy::move() {
-    // Check if target is within aggro range
-    if (getDistance(target->getPos()) <= aggro) {
-        seek();
-    } else {
-        mill();
+    int modifier = (100 - getDistance(target->getPos()) * 4.2);
+    int pool     = (100 - g->getDifficulty());
+    int roll     = (rand() % pool);
+    bool chance  = (roll < modifier);
+
+    // Check if target is lucky
+    if (chance) {
+        // Check if target is within aggro range
+        if (getDistance(target->getPos()) <= aggro) {
+            seek();
+        } else {
+            mill();
+        }
     }
 }
 
