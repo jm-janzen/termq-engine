@@ -33,9 +33,6 @@ int startGame() {
     // Actors know about game window for movement
     Player player = Player(wgame);
     Enemy  enemies[numEnemies];
-    for (Enemy &e : enemies) {
-        e = Enemy(wgame);
-    };
     Coin   coins[numCoins];
 
 
@@ -51,9 +48,9 @@ int startGame() {
     init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
-            enemy = Enemy(wgame);
+            enemy = Enemy(wgame, player);
             if (player.getDistance(enemy.getPos()) <= 42) {
-                // Display green shadow of enemies who were too close
+                // XXX Display green shadow of enemies who were too close
                 enemy.setColo(COLOR_PAIR(3));
                 enemy.render();
                 dangerClose = true;
@@ -172,9 +169,7 @@ int startGame() {
         // Enemy, seek out player
         string proximityAlert = "";
         for (Enemy &enemy : enemies) {
-            if (global->getDifficulty() > CHEAT) {
-                enemy.seek(player);  // Discard return (updated pos)
-            }
+            enemy.move();
             enemy.render();
             if (enemy.isAdjacent(player.getPos())) {
                 proximityAlert = "!";

@@ -15,6 +15,12 @@ struct vec2ui {
     bool operator==(const vec2ui &a) const {
         return (a.x == x && a.y == y);
     }
+    bool operator>(const vec2ui &a) const {
+        return (a.x > x && a.y > y);
+    }
+    bool operator<(const vec2ui &a) const {
+        return (a.x < x && a.y < y);
+    }
 };
 
 struct vec2i {
@@ -22,6 +28,12 @@ struct vec2i {
 
     bool operator==(const vec2i &a) const {
         return (a.x == x && a.y == y);
+    }
+    bool operator>(const vec2i &a) const {
+        return (a.x > x && a.y > y);
+    }
+    bool operator<(const vec2i &a) const {
+        return (a.x < x && a.y < y);
     }
 };
 

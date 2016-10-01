@@ -21,11 +21,11 @@ class Global {
             difficulty = difficultyLevels(initDifficulty);
             switch (difficulty) {
                 case CHEAT:
-                    noCoins = 1000;
+                    noCoins = 100;
                     noEnemies = 1;
                     break;
                 case EASY:
-                    noCoins = 100;
+                    noCoins = 50;
                     noEnemies = 1;
                     break;
                 case MEDIUM:
