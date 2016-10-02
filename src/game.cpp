@@ -114,26 +114,22 @@ int startGame() {
             case KEY_UP:
             case 56:
             case 'k':
-                if (py > (int) game_area.top()) player.moveNorth();
-                infoMsg = "up(" + to_string(py) + " > " + to_string(game_area.top()) + ")";
+                 player.moveNorth();
                 break;
             case KEY_DOWN:
             case 50:
             case 'j':
-                if (py < (int) game_area.bot() - 1) player.moveSouth();
-                infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
+                 player.moveSouth();
                 break;
             case KEY_LEFT:
             case 52:
             case 'h':
-                if (px > (int) game_area.left()) player.moveWest();
-                infoMsg = "left(" + to_string(px) + " > " + to_string(game_area.left()) + ")";
+                 player.moveWest();
                 break;
             case KEY_RIGHT:
             case 54:
             case 'l':
-                if (px < (int) game_area.right() - 1) player.moveEast();
-                infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
+                 player.moveEast();
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -174,14 +170,6 @@ int startGame() {
 
 
         diagWin_game.push(
-            //'{'
-            //+ std::to_string(player.getPos().x) + ','
-            //+ std::to_string(player.getPos().y) + '}'
-            //+ '{'
-            //+ std::to_string(enemy.getPos().x) + ','
-            //+ std::to_string(enemy.getPos().y) + '}' +
-            //" dst: "
-            //+ std::to_string(player.getDistance(enemy.getPos()))
             + " nen: "
             + std::to_string(numEnemies)
             + " stp: "

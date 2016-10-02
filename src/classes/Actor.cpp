@@ -105,44 +105,60 @@ int_fast8_t Actor::getDistanceY(vec2ui const targetPos) {
  */
 
 void  Actor::moveWest() {
-    pos.x--;
-    move();
+    if (pos.x > game_area.left()) {
+        pos.x--;
+        move();
+    }
 };
 
 void  Actor::moveEast() {
-    pos.x++;
-    move();
+    if (pos.x < game_area.right() - 1) {
+        pos.x++;
+        move();
+    }
 };
 
 void  Actor::moveNorth() {
-    pos.y--;
-    move();
+    if (pos.y > game_area.top()) {
+        pos.y--;
+        move();
+    }
 };
 
 void  Actor::moveSouth() {
-    pos.y++;
-    move();
+    if (pos.y < game_area.bot() - 1) {
+        pos.y++;
+        move();
+    }
 };
 
 void  Actor::moveNorthEast() {
-    pos.x++;
-    pos.y--;
-    move();
+    if (pos.x < game_area.right() && pos.y > game_area.top()) {
+        move();
+        pos.x++;
+        pos.y--;
+    }
 };
 void  Actor::moveSouthEast() {
-    pos.x++;
-    pos.y++;
-    move();
+    if (pos.x < game_area.right() - 1 && pos.y < game_area.bot() - 1) {
+        move();
+        pos.x++;
+        pos.y++;
+    }
 };
 void  Actor::moveSouthWest() {
-    pos.x--;
-    pos.y++;
-    move();
+    if (pos.x > game_area.left() && pos.y < game_area.bot() - 1) {
+        move();
+        pos.x--;
+        pos.y++;
+    }
 };
 void  Actor::moveNorthWest() {
-    pos.x--;
-    pos.y--;
-    move();
+    if (pos.x > game_area.left() && pos.y > game_area.top()) {
+        move();
+        pos.x--;
+        pos.y--;
+    }
 };
 
 void Actor::wait() {

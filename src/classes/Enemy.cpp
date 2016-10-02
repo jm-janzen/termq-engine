@@ -47,22 +47,47 @@ void Enemy::move() {
     int roll     = (rand() % pool);
     bool chance  = (roll < modifier);
 
-    // Check if target is lucky
-    if (chance) {
-        // Check if target is within aggro range
-        if (getDistance(target->getPos()) <= aggro) {
-            seek();
-        } else {
-            mill();
-        }
+    // Check if target is within aggro range
+    if (getDistance(target->getPos()) <= aggro) {
+        // If target unlucky, seek
+        if (chance) seek();
+    } else {
+        mill();
     }
 }
 
+// TODO check if move would go out of bounds!
 void Enemy::mill() {
-    int targetDirection = getDirection(*target);
+    switch(rand() % 20) {
+        case 1:
+            moveNorth();
+            break;
+        case 2:
+            moveNorthEast();
+            break;
+        case 3:
+            moveEast();
+            break;
+        case 4:
+            moveSouthEast();
+            break;
+        case 5:
+            moveSouth();
+            break;
+        case 6:
+            moveSouthWest();
+            break;
+        case 7:
+            moveWest();
+            break;
+        case 8:
+            moveNorthWest();
+            break;
+        default:
+            break;
+    }
 }
 
-// TODO refactor to use getDirection
 vec2ui Enemy::seek() {
 
     // Target above, below, left, or right of me

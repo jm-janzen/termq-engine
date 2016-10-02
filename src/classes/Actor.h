@@ -24,7 +24,6 @@ class Actor {
         int_fast8_t getDistanceX(vec2ui const targetPos);
         int_fast8_t getDistanceY(vec2ui const targetPos);
 
-
         void  moveNorth();
         void  moveNorthEast();
         void  moveEast();
@@ -47,7 +46,7 @@ class Actor {
         bool  isSouthWest(Actor &target);
         bool  isNorthWest(Actor &target);
 
-        Direction getDirection(Actor &a);  // Get ray from previous two vectors
+        Direction getDirection(Actor &a);  // Get ray from self to target
 
         void  wait();
         void  move();
@@ -72,9 +71,6 @@ class Actor {
         int   steps = 0;
         int   ticks = 0;
         Window *w;
-
-        // TODO history of own previous moves
-        std::vector<vec2ui> footsteps;
 
         Direction direction = H;
 };
