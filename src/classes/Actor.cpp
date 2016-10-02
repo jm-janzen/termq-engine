@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ncurses.h>
+#include <math.h>
 #include <cmath>
 
 #include "Actor.h"
@@ -10,9 +11,63 @@ Actor::Actor(Window *newW) {
 }
 
 /*
+ * Ray computation
+ */
+
+Direction Actor::getDirection(Actor &a) {  // TODO add ref to target to Actor class (from Enemy)
+    int degrees = 0;
+
+    vec2ui selfPos   = this->getPos();
+    vec2ui targetPos = a.getPos();
+
+    // Target is under me!
+    if ( ! (selfPos == targetPos)) {
+        float rads = atan2((selfPos.y - targetPos.y), (selfPos.x - targetPos.x));
+        int degs   = static_cast<int>((rads * 180.0) / M_PI);
+
+        if (degs < 0.0) degs += 360.0;
+
+        degrees = degs;
+    }
+
+    return static_cast<Direction>(degrees);
+}
+
+/*
  * Comparison
  *  with other Actors' positions
  */
+
+bool Actor::isNorth(Actor &target) {
+    return (getDirection(target) == N);
+}
+bool Actor::isSouth(Actor &target) {
+    return (getDirection(target) == S);
+}
+bool Actor::isWest(Actor &target) {
+    return (getDirection(target) == W);
+}
+bool Actor::isEast(Actor &target) {
+    return (getDirection(target) == E);
+}
+
+bool  Actor::isNorthEast(Actor &target) {
+    int d = getDirection(target);
+    return (d > N && d < E);
+};
+bool  Actor::isSouthEast(Actor &target) {
+    int d = getDirection(target);
+    return (d > E && d < S);
+};
+bool  Actor::isSouthWest(Actor &target) {
+    int d = getDirection(target);
+    return (d > S && d > W);
+};
+bool  Actor::isNorthWest(Actor &target) {
+    int d = getDirection(target);
+    return (d > W && d < N);
+};
+
 
 bool Actor::atop(vec2ui const targetPos) {
     return (getPos() == targetPos);
@@ -49,24 +104,61 @@ int_fast8_t Actor::getDistanceY(vec2ui const targetPos) {
  * Movement
  */
 
-void  Actor::moveLeft() {
-    pos.x--;
-    move();
+void  Actor::moveWest() {
+    if (pos.x > game_area.left()) {
+        pos.x--;
+        move();
+    }
 };
 
-void  Actor::moveRight() {
-    pos.x++;
-    move();
+void  Actor::moveEast() {
+    if (pos.x < game_area.right() - 1) {
+        pos.x++;
+        move();
+    }
 };
 
-void  Actor::moveUp() {
-    pos.y--;
-    move();
+void  Actor::moveNorth() {
+    if (pos.y > game_area.top()) {
+        pos.y--;
+        move();
+    }
 };
 
-void  Actor::moveDown() {
-    pos.y++;
-    move();
+void  Actor::moveSouth() {
+    if (pos.y < game_area.bot() - 1) {
+        pos.y++;
+        move();
+    }
+};
+
+void  Actor::moveNorthEast() {
+    if (pos.x < game_area.right() && pos.y > game_area.top()) {
+        move();
+        pos.x++;
+        pos.y--;
+    }
+};
+void  Actor::moveSouthEast() {
+    if (pos.x < game_area.right() - 1 && pos.y < game_area.bot() - 1) {
+        move();
+        pos.x++;
+        pos.y++;
+    }
+};
+void  Actor::moveSouthWest() {
+    if (pos.x > game_area.left() && pos.y < game_area.bot() - 1) {
+        move();
+        pos.x--;
+        pos.y++;
+    }
+};
+void  Actor::moveNorthWest() {
+    if (pos.x > game_area.left() && pos.y > game_area.top()) {
+        move();
+        pos.x--;
+        pos.y--;
+    }
 };
 
 void Actor::wait() {

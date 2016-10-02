@@ -1,9 +1,15 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include <vector>
+
 #include "../game.h"
+#include "../global/Global.h"
+
 #include "Actor.h"
 #include "Window.h"
+
+//class Target : public Actor {};
 
 class Enemy : public Actor {
     public:
@@ -13,9 +19,19 @@ class Enemy : public Actor {
          *  default ctor, so we need to implement it (ie: `{}`).
          */
         Enemy() {};
-        Enemy(Window &w);
+        Enemy(Window &w, Actor &a);
 
-        vec2ui seek(Actor a);
+        void   computeAggro();
+
+        void   move();
+        void   mill();
+        vec2ui seek();
+
+    private:
+        Global *g           = Global::get();
+        Actor *target       = NULL;
+        int aggro;
+
 };
 
 #endif

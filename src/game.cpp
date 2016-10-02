@@ -33,9 +33,6 @@ int startGame() {
     // Actors know about game window for movement
     Player player = Player(wgame);
     Enemy  enemies[numEnemies];
-    for (Enemy &e : enemies) {
-        e = Enemy(wgame);
-    };
     Coin   coins[numCoins];
 
 
@@ -51,9 +48,9 @@ int startGame() {
     init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
-            enemy = Enemy(wgame);
+            enemy = Enemy(wgame, player);
             if (player.getDistance(enemy.getPos()) <= 42) {
-                // Display green shadow of enemies who were too close
+                // XXX Display green shadow of enemies who were too close
                 enemy.setColo(COLOR_PAIR(3));
                 enemy.render();
                 dangerClose = true;
@@ -92,26 +89,22 @@ int startGame() {
              */
             case 55:  // Key up-left
                 if (py > (int) game_area.top() && px > (int) game_area.left()) {
-                    player.moveUp();
-                    player.moveLeft();
+                    player.moveNorthWest();
                 }
                 break;
             case 57:  // Key up-right
                 if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
-                    player.moveUp();
-                    player.moveRight();
+                    player.moveNorthEast();
                 }
                 break;
             case 51:  // Key down-right
                 if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
-                    player.moveDown();
-                    player.moveRight();
+                    player.moveSouthEast();
                 }
                 break;
             case 49:  // Key down-left
                 if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
-                    player.moveDown();
-                    player.moveLeft();
+                    player.moveSouthWest();
                 }
                 break;
 
@@ -121,26 +114,22 @@ int startGame() {
             case KEY_UP:
             case 56:
             case 'k':
-                if (py > (int) game_area.top()) player.moveUp();
-                infoMsg = "up(" + to_string(py) + " > " + to_string(game_area.top()) + ")";
+                 player.moveNorth();
                 break;
             case KEY_DOWN:
             case 50:
             case 'j':
-                if (py < (int) game_area.bot() - 1) player.moveDown();
-                infoMsg = "down(" + to_string(py) + " < " + to_string(game_area.bot()) + ")";
+                 player.moveSouth();
                 break;
             case KEY_LEFT:
             case 52:
             case 'h':
-                if (px > (int) game_area.left()) player.moveLeft();
-                infoMsg = "left(" + to_string(px) + " > " + to_string(game_area.left()) + ")";
+                 player.moveWest();
                 break;
             case KEY_RIGHT:
             case 54:
             case 'l':
-                if (px < (int) game_area.right() - 1) player.moveRight();
-                infoMsg = "right(" + to_string(px) + " < " + to_string(game_area.right()) + ")";
+                 player.moveEast();
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
@@ -172,9 +161,7 @@ int startGame() {
         // Enemy, seek out player
         string proximityAlert = "";
         for (Enemy &enemy : enemies) {
-            if (global->getDifficulty() > CHEAT) {
-                enemy.seek(player);  // Discard return (updated pos)
-            }
+            enemy.move();
             enemy.render();
             if (enemy.isAdjacent(player.getPos())) {
                 proximityAlert = "!";
@@ -183,14 +170,6 @@ int startGame() {
 
 
         diagWin_game.push(
-            //'{'
-            //+ std::to_string(player.getPos().x) + ','
-            //+ std::to_string(player.getPos().y) + '}'
-            //+ '{'
-            //+ std::to_string(enemy.getPos().x) + ','
-            //+ std::to_string(enemy.getPos().y) + '}' +
-            //" dst: "
-            //+ std::to_string(player.getDistance(enemy.getPos()))
             + " nen: "
             + std::to_string(numEnemies)
             + " stp: "
