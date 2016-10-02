@@ -44,17 +44,20 @@ int startGame() {
     init_pair(2, COLOR_YELLOW, -1);
 
     /*
-     * Check if Player & Enemy are too near each other.
-     * `42' here is the maximum allowable value, given
-     * that Player may spawn in the middle (39, 19) of
-     * the game_area.
+     * Check if Player & Enemy are too near or too far
+     * from each other.  Somewhere between a quarter
+     * of a screen and half of a screen.
      */
+    uint_fast8_t quarterArea = (game_area.area() / 4);
+    uint_fast8_t halfArea = (game_area.area() / 2);
+    uint_fast8_t distance;
     bool dangerClose = true;
     init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
             enemy = Enemy(wgame, player);
-            if (player.getDistance(enemy.getPos()) <= 42) {
+            distance = player.getDistance(enemy.getPos());
+            if (distance > halfArea && distance < quarterArea) {
                 // XXX Display green shadow of enemies who were too close
                 enemy.setColo(COLOR_PAIR(3));
                 enemy.render();
