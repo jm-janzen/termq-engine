@@ -47,6 +47,8 @@ struct rect {
     int_fast8_t width()   const { return bounds.x; }
     int_fast8_t height()  const { return bounds.y; }
 
+    int_fast8_t area()  const { return width() * height() - top() * bot(); }
+
     bool contains(vec2i a)  const {
         return (a.x >= offset.x && a.x < right())
             && (a.y >= offset.y && a.y < bot());

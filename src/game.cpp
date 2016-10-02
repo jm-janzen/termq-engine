@@ -17,8 +17,6 @@
 using namespace std;
 
 
-
-
 int startGame() {
 
     // Retrieve global refs
@@ -32,24 +30,32 @@ int startGame() {
 
     // Actors know about game window for movement
     Player player = Player(wgame);
-    Enemy  enemies[numEnemies];
-    Coin   coins[numCoins];
+
+    std::vector<Enemy> enemies;
+    for (int i = 0; i < numEnemies; i++)
+        enemies.push_back(Enemy());
+    std::vector<Coin> coins;
+    for (int i = 0; i < numCoins; i++)
+        coins.push_back(Coin());
 
 
     init_pair(2, COLOR_YELLOW, -1);
 
     /*
-     * Check if Player & Enemy are too near each other.
-     * `42' here is the maximum allowable value, given
-     * that Player may spawn in the middle (39, 19) of
-     * the game_area.
+     * Check if Player & Enemy are too near or too far
+     * from each other.  Somewhere between a quarter
+     * of a screen and half of a screen.
      */
+    uint_fast8_t quarterArea = (game_area.area() / 4);
+    uint_fast8_t halfArea = (game_area.area() / 2);
+    uint_fast8_t distance;
     bool dangerClose = true;
     init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
             enemy = Enemy(wgame, player);
-            if (player.getDistance(enemy.getPos()) <= 42) {
+            distance = player.getDistance(enemy.getPos());
+            if (distance > halfArea && distance < quarterArea) {
                 // XXX Display green shadow of enemies who were too close
                 enemy.setColo(COLOR_PAIR(3));
                 enemy.render();
@@ -72,40 +78,30 @@ int startGame() {
 
     int ch;
     string infoMsg = "";
-    bool gameover = false;
-    while (gameover == false) {
+    bool isGameover = false;
+    while (isGameover == false) {
         // Advance record of world time
         global->tick();
         wgame.refresh();
 
         ch      = wgame.getChar();
         infoMsg = "";
-        int px  = player.getPos().x;
-        int py  = player.getPos().y;
 
         switch (ch) {
             /*
              * Diagonal keys
              */
             case 55:  // Key up-left
-                if (py > (int) game_area.top() && px > (int) game_area.left()) {
-                    player.moveNorthWest();
-                }
+                player.moveNorthWest();
                 break;
             case 57:  // Key up-right
-                if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
-                    player.moveNorthEast();
-                }
+                player.moveNorthEast();
                 break;
             case 51:  // Key down-right
-                if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
-                    player.moveSouthEast();
-                }
+                player.moveSouthEast();
                 break;
             case 49:  // Key down-left
-                if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
-                    player.moveSouthWest();
-                }
+                player.moveSouthWest();
                 break;
 
             /*
@@ -191,12 +187,11 @@ int startGame() {
         for (Enemy &enemy : enemies) {
             // Game Over
             if (enemy.atop(player.getPos())) {
-                gameover = true;
                 wgame.coloSplash(COLOR_PAIR(1));
-                diagWin_game.push("GAME OVER!");
-                diagWin_game.push("Press `q' to quit.");
+                wgame.refresh();
 
-                while (wgame.getChar() != 'q');  // TODO prompt restart or quit
+                diagWin_game.push("GAME OVER!");
+                isGameover = true;
                 break;
             }
         }

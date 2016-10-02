@@ -3,6 +3,7 @@
 #define ACTOR_H
 
 #include <vector>
+#include <cstdlib>
 #include <ncurses.h>
 
 #include "../directions.h"
