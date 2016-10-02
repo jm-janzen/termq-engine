@@ -1,6 +1,6 @@
 #include <ncurses.h>
-#include <algorithm> // for std::find
 
+#include <algorithm> // for std::find
 #include <string>
 #include <random>
 

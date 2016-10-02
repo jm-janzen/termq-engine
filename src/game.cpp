@@ -32,8 +32,13 @@ int startGame() {
 
     // Actors know about game window for movement
     Player player = Player(wgame);
-    Enemy  enemies[numEnemies];
-    Coin   coins[numCoins];
+
+    std::vector<Enemy> enemies;
+    for (int i = 0; i < numEnemies; i++)
+        enemies.push_back(Enemy());
+    std::vector<Coin> coins;
+    for (int i = 0; i < numCoins; i++)
+        coins.push_back(Coin());
 
 
     init_pair(2, COLOR_YELLOW, -1);
@@ -80,32 +85,22 @@ int startGame() {
 
         ch      = wgame.getChar();
         infoMsg = "";
-        int px  = player.getPos().x;
-        int py  = player.getPos().y;
 
         switch (ch) {
             /*
              * Diagonal keys
              */
             case 55:  // Key up-left
-                if (py > (int) game_area.top() && px > (int) game_area.left()) {
-                    player.moveNorthWest();
-                }
+                player.moveNorthWest();
                 break;
             case 57:  // Key up-right
-                if (py > (int) game_area.top() && px < (int) game_area.right() - 1) {
-                    player.moveNorthEast();
-                }
+                player.moveNorthEast();
                 break;
             case 51:  // Key down-right
-                if (py < (int) game_area.bot() - 1 && px < (int) game_area.right() - 1) {
-                    player.moveSouthEast();
-                }
+                player.moveSouthEast();
                 break;
             case 49:  // Key down-left
-                if (py < (int) game_area.bot() - 1 && px > (int) game_area.left()) {
-                    player.moveSouthWest();
-                }
+                player.moveSouthWest();
                 break;
 
             /*
@@ -201,6 +196,7 @@ int startGame() {
             }
         }
     }
+
 
     // TODO eventually return more information
     return (player.getScore() + player.getSteps()) * global->getDifficulty();
