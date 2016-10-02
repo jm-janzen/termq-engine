@@ -1,4 +1,6 @@
 # Terminal Quest
+![travis build status]
+(https://travis-ci.org/jm-janzen/termq.svg?branch=dev-2)
 
 A personal adventure with ncurses
 
