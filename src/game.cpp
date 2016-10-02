@@ -17,8 +17,6 @@
 using namespace std;
 
 
-
-
 int startGame() {
 
     // Retrieve global refs
@@ -80,8 +78,8 @@ int startGame() {
 
     int ch;
     string infoMsg = "";
-    bool gameover = false;
-    while (gameover == false) {
+    bool isGameover = false;
+    while (isGameover == false) {
         // Advance record of world time
         global->tick();
         wgame.refresh();
@@ -189,17 +187,15 @@ int startGame() {
         for (Enemy &enemy : enemies) {
             // Game Over
             if (enemy.atop(player.getPos())) {
-                gameover = true;
                 wgame.coloSplash(COLOR_PAIR(1));
-                diagWin_game.push("GAME OVER!");
-                diagWin_game.push("Press `q' to quit.");
+                wgame.refresh();
 
-                while (wgame.getChar() != 'q');  // TODO prompt restart or quit
+                diagWin_game.push("GAME OVER!");
+                isGameover = true;
                 break;
             }
         }
     }
-
 
     // TODO eventually return more information
     return (player.getScore() + player.getSteps()) * global->getDifficulty();

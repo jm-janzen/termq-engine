@@ -8,6 +8,7 @@
 
 #include "menu.h"
 #include "game.h"
+#include "gameover.h"
 #include "classes/DiagWindow.h"
 #include "classes/MenuWindow.h"
 
@@ -100,8 +101,10 @@ int run() {
             if (selection == "quit") {  // Exit
                 break;
             } else if (selection == "start") {  // Start playing
-                playerScore = startGame();
-                break;
+                do {  // Play until player chooses to stop
+                    playerScore = startGame();
+                } while ( ! gameover() );
+                break;  // Skips menu, and exits game
             } else if (selection == "options") {  // Select difficulty
                 /*
                  * Populate menu with opts and set highlighted
