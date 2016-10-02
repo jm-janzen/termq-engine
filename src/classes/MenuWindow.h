@@ -20,10 +20,6 @@ class MenuWindow : public Window {
         uint8_t noItems       = 0;
         uint8_t position      = 0;
         std::string selection = "";
-        Border border = {
-            ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET,
-            '+', '+', '+', '+'
-        };
 };
 
 #endif
