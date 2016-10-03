@@ -76,7 +76,7 @@ int startGame() {
         wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
 
-    int ch;
+    int ch, coinsCollected = 0;
     string infoMsg = "";
     bool isGameover = false;
     while (isGameover == false) {
@@ -147,6 +147,9 @@ int startGame() {
                 // Just zero out coin value and display for now
                 coin.setValue(0);
                 coin.setChar(' ');
+                if ( ++coinsCollected == numCoins) {
+                    isGameover = true;
+                }
             }
         }
 
