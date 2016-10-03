@@ -1,6 +1,27 @@
+sudo: required
+dist: trusty
+os: linux
 language: cpp
 compiler:
     - clang
     - g++
+before_install:
+    - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8"; fi
+    - if [ "$CXX" == "g++" ]; then export CXX="g++-4.8"; fi
+    - sudo add-apt-repository ppa:adrozdoff/llvm-backport -y
+    - sudo apt-get update -q
+    - sudo apt-get install clang-3.8 -y
+    - sudo apt-get install libncurses5-dev
+    - sudo apt-get install libc++-dev
+
+env: COMPILER_NAME=clang CXX=clang++-3.8 CC=clang-3.8
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+        packages:
+            - g++-4.8
+            - clang++-3.8
 script:
     make

@@ -1,4 +1,4 @@
-#include <cstring>
+#include <stdio.h>
 #include <time.h>
 
 #include "menu.h"
