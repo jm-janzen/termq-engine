@@ -2,6 +2,8 @@
 
 #include "Actor.h"
 #include "Player.h"
+#include "Item.h"
+#include "../global/Global.h"
 
 Player::Player(Window &w) : Actor(&w) {
     setChar('@');
@@ -9,9 +11,10 @@ Player::Player(Window &w) : Actor(&w) {
     setPosRand();
 };
 
-void Player::addScore(int newScore) {
-    score += newScore;
-}
+
+void Player::addItem(Item &i) {
+    items.push_back(i);
+};
 
 int Player::getScore() {
     /*
@@ -21,9 +24,11 @@ int Player::getScore() {
      *  rather than score simply reflecting the value
      *  of collected coins.
      */
-    return score;
+    Global *g = Global::get();
+    int computedScore = 0;
+    for (Item &item : items) {
+        score += item.getValue();  // XXX coin score not being added until game over
+    }
+    return (computedScore + getSteps() * g->getDifficulty());
 }
 
-void Player::setScore(int newScore) {
-    score = newScore;
-}

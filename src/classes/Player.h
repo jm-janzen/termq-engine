@@ -3,17 +3,18 @@
 
 #include "../game.h"
 #include "Actor.h"
+#include "Item.h"
 
 class Player : public Actor {
     public:
         Player(Window &w);
 
-        void addScore(int newScore);
+        void addItem(Item &i);
 
         int  getScore();
-        void setScore(int newScore);
     private:
         int score = 0;
+        std::vector<Item> items;
 };
 
 #endif

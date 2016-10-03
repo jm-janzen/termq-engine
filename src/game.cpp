@@ -142,7 +142,7 @@ int startGame() {
         for (auto &coin : coins) {
             wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
             if (player.atop(coin.getPos())) {
-                player.addScore(coin.getValue());
+                player.addItem(coin);
 
                 // Just zero out coin value and display for now
                 coin.setValue(0);
@@ -178,7 +178,7 @@ int startGame() {
             + " gtk: "
             + std::to_string(global->getTicks())
             + " scr: "
-            + std::to_string(player.getScore())
+            + std::to_string(player.getScore())  // XXX score not updating here
             + " dif: " + global->getDifficultyStr()
             + " nfo: " + infoMsg
             + " " + proximityAlert
