@@ -1,6 +1,6 @@
 
 #CC = g++
-CC = clang++-3.8 -stdlib=libc++
+CC = clang++ -stdlib=libc++
 CFLAGS = -std=c++1y -Wall -Werror
 
 termq: build/main.o build/menu.o build/game.o build/Actor.o build/Player.o build/Enemy.o build/Item.o build/Coin.o build/Global.o
