@@ -16,7 +16,7 @@ class Item {
     protected:
         vec2ui      pos;
         char        disp_char;
-        int_fast16_t value;
+        uint_fast16_t value;
 };
 
 #endif
