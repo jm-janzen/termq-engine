@@ -138,6 +138,8 @@ int startGame() {
 
         wgame.update();
 
+        // FIXME moving over position where coin used to be increments coinsCollected counter
+
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
@@ -150,6 +152,7 @@ int startGame() {
                 if ( ++coinsCollected == numCoins) {
                     isGameover = true;
                 }
+                printf("%d/%d\n", coinsCollected, numCoins);
             }
         }
 

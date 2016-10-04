@@ -27,7 +27,7 @@ int Player::getScore() {
     Global *g = Global::get();
     int computedScore = 0;
     for (Item &item : items) {
-        score += item.getValue();  // XXX coin score not being added until game over
+        computedScore += item.getValue();  // XXX coin score not being added until game over
     }
     return (computedScore + getSteps() * g->getDifficulty());
 }
