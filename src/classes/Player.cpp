@@ -17,17 +17,10 @@ void Player::addItem(Item &i) {
 };
 
 int Player::getScore() {
-    /*
-     * TODO
-     *  Return computed score - something like:
-     *      score = (steps - ticks) + (coins / GameWorld::numCoins) * GameWorld::difficulty;
-     *  rather than score simply reflecting the value
-     *  of collected coins.
-     */
     Global *g = Global::get();
     int computedScore = 0;
     for (Item &item : items) {
-        computedScore += item.getValue();  // XXX coin score not being added until game over
+        computedScore += item.getValue();
     }
     return (computedScore + getSteps() * g->getDifficulty());
 }

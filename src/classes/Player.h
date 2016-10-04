@@ -13,7 +13,6 @@ class Player : public Actor {
 
         int  getScore();
     private:
-        int score = 0;
         std::vector<Item> items;
 };
 
