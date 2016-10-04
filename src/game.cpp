@@ -138,11 +138,13 @@ int startGame() {
 
         wgame.update();
 
+        // FIXME moving over position where coin used to be increments coinsCollected counter
+
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
             if (player.atop(coin.getPos())) {
-                player.addScore(coin.getValue());
+                player.addItem(coin);
 
                 // Just zero out coin value and display for now
                 coin.setValue(0);

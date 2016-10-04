@@ -2,6 +2,8 @@
 
 #include "Actor.h"
 #include "Player.h"
+#include "Item.h"
+#include "../global/Global.h"
 
 Player::Player(Window &w) : Actor(&w) {
     setChar('@');
@@ -9,21 +11,17 @@ Player::Player(Window &w) : Actor(&w) {
     setPosRand();
 };
 
-void Player::addScore(int newScore) {
-    score += newScore;
-}
+
+void Player::addItem(Item &i) {
+    items.push_back(i);
+};
 
 int Player::getScore() {
-    /*
-     * TODO
-     *  Return computed score - something like:
-     *      score = (steps - ticks) + (coins / GameWorld::numCoins) * GameWorld::difficulty;
-     *  rather than score simply reflecting the value
-     *  of collected coins.
-     */
-    return score;
+    Global *g = Global::get();
+    int computedScore = 0;
+    for (Item &item : items) {
+        computedScore += item.getValue();
+    }
+    return (computedScore + getSteps() * g->getDifficulty());
 }
 
-void Player::setScore(int newScore) {
-    score = newScore;
-}
