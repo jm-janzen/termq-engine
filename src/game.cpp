@@ -152,7 +152,6 @@ int startGame() {
                 if ( ++coinsCollected == numCoins) {
                     isGameover = true;
                 }
-                printf("%d/%d\n", coinsCollected, numCoins);
             }
         }
 
@@ -181,7 +180,7 @@ int startGame() {
             + " gtk: "
             + std::to_string(global->getTicks())
             + " scr: "
-            + std::to_string(player.getScore())  // XXX score not updating here
+            + std::to_string(player.getScore())
             + " dif: " + global->getDifficultyStr()
             + " nfo: " + infoMsg
             + " " + proximityAlert
