@@ -29,6 +29,7 @@ class Window {
         void cursorPos(vec2ui pos);
 
         void draw(vec2ui pos, char ch, chtype colo);
+        void draw(vec2ui pos, char ch, chtype colo, int attr);
         void drawBorder();
         void drawBox();
         void write(std::string str);

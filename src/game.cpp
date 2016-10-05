@@ -138,19 +138,18 @@ int startGame() {
 
         wgame.update();
 
-        // FIXME moving over position where coin used to be increments coinsCollected counter
-
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
-            wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
-            if (player.atop(coin.getPos())) {
-                player.addItem(coin);
+            // Don't do anything unless coin 'belongs' to world
+            if (coin.getOwnership() == WORLD) {
+                wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
+                if (player.atop(coin.getPos())) {
+                    coin.setOwnership(PLAYER);
+                    player.addItem(coin);
 
-                // Just zero out coin value and display for now
-                coin.setValue(0);
-                coin.setChar(' ');
-                if ( ++coinsCollected == numCoins) {
-                    isGameover = true;
+                    if ( ++coinsCollected == numCoins) {
+                        isGameover = true;
+                    }
                 }
             }
         }
