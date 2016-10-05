@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <ncurses.h>
+#include <string>
 #include <array>
 
 #include "../game.h"
