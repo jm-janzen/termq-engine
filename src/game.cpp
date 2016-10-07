@@ -203,6 +203,6 @@ int startGame() {
     }
 
     // TODO eventually return more information
-    return (player.getScore() + player.getSteps()) * global->getDifficulty();
+    return player.getScore();
 }
 
