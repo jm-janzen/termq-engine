@@ -22,6 +22,6 @@ int Player::getScore() {
     for (Item &item : items) {
         computedScore += item.getValue();
     }
-    return (computedScore + getSteps() * g->getDifficulty());
+    return (computedScore * g->getDifficulty() + getSteps());
 }
 
