@@ -133,7 +133,7 @@ void  Actor::moveSouth() {
 };
 
 void  Actor::moveNorthEast() {
-    if (pos.x < game_area.right() && pos.y > game_area.top()) {
+    if (pos.x < game_area.right() -1 && pos.y > game_area.top()) {
         move();
         pos.x++;
         pos.y--;
