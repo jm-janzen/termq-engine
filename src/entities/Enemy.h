@@ -6,8 +6,8 @@
 #include "../game.h"
 #include "../global/Global.h"
 
+#include "../windows/Window.h"
 #include "Actor.h"
-#include "Window.h"
 
 //class Target : public Actor {};
 

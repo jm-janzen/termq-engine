@@ -9,8 +9,8 @@
 #include "menu.h"
 #include "game.h"
 #include "gameover.h"
-#include "classes/DiagWindow.h"
-#include "classes/MenuWindow.h"
+#include "windows/DiagWindow.h"
+#include "windows/MenuWindow.h"
 
 using namespace std;
 

@@ -9,7 +9,7 @@
 #include "../directions.h"
 #include "../game.h"
 
-#include "Window.h"
+#include "../windows/Window.h"
 
 class Actor {
     public:

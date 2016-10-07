@@ -8,11 +8,11 @@
 
 #include "game.h"
 #include "menu.h"
-#include "classes/Player.h"
-#include "classes/Enemy.h"
-#include "classes/Coin.h"
-#include "classes/Window.h"
-#include "classes/DiagWindow.h"
+#include "entities/Player.h"
+#include "entities/Enemy.h"
+#include "entities/Coin.h"
+#include "windows/Window.h"
+#include "windows/DiagWindow.h"
 
 using namespace std;
 
