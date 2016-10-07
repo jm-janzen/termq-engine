@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <ncurses.h>
+#include <string>
 #include <array>
 
 #include "../game.h"
@@ -29,6 +30,7 @@ class Window {
         void cursorPos(vec2ui pos);
 
         void draw(vec2ui pos, char ch, chtype colo);
+        void draw(vec2ui pos, char ch, chtype colo, int attr);
         void drawBorder();
         void drawBox();
         void write(std::string str);

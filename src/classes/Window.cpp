@@ -34,6 +34,10 @@ void Window::draw(vec2ui pos, char ch, chtype colo) {
     wmove(w, pos.y, pos.x);
     waddch(w, ch | colo);
 };
+void Window::draw(vec2ui pos, char ch, chtype colo, int attr) {
+    draw(pos, ch, colo);
+    wattron(w, attr);
+}
 
 void Window::write(std::string str) {
     wprintw(w, str.c_str());
