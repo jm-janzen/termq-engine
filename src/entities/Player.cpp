@@ -11,6 +11,9 @@ Player::Player() : Actor() {
     setChar('@');
     setType("Player");
     setName("Noop");
+
+    attr.LCK = (rand() % 3);  // Player luck 0 to 3
+
     setPosRand();
 }
 
