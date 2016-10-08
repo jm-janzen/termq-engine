@@ -9,8 +9,6 @@
 #include "../windows/Window.h"
 #include "Actor.h"
 
-//class Target : public Actor {};
-
 class Enemy : public Actor {
     public:
         /*
@@ -18,7 +16,7 @@ class Enemy : public Actor {
          *  Here, we are preventing compiler from generating
          *  default ctor, so we need to implement it (ie: `{}`).
          */
-        Enemy() {};
+        Enemy() {}
         Enemy(Window &w, Actor &a);
 
         void   computeAggro();

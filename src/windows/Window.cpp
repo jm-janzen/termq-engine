@@ -20,20 +20,20 @@ Window::Window(rect dim) {
     use_default_colors();
     box(w, 0, 0);
     keypad(w, true);
-};
+}
 
 Window::~Window() {
     delwin(w);
-};
+}
 
 void Window::cursorPos(vec2ui pos) {
     wmove(w, pos.y, pos.x);
-};
+}
 
 void Window::draw(vec2ui pos, char ch, chtype colo) {
     wmove(w, pos.y, pos.x);
     waddch(w, ch | colo);
-};
+}
 void Window::draw(vec2ui pos, char ch, chtype colo, int attr) {
     draw(pos, ch, colo);
     wattron(w, attr);
@@ -41,14 +41,14 @@ void Window::draw(vec2ui pos, char ch, chtype colo, int attr) {
 
 void Window::write(std::string str) {
     wprintw(w, str.c_str());
-};
+}
 void Window::write(vec2ui pos, std::string str) {
     mvwprintw(w, pos.y, pos.x, str.c_str());
-};
+}
 
 void Window::coloSplash(chtype colo) {
     wbkgd(w, colo);
-};
+}
 
 int Window::getChar() {
     return wgetch(w);
@@ -61,7 +61,7 @@ int Window::getChar() {
  */
 void Window::refresh() {
     wrefresh(w);
-};
+}
 
 /*
  * Format:
@@ -89,10 +89,10 @@ void Window::update() {
     werase(w);
     drawBorder();
     refresh();
-};
+}
 
 void Window::clear() {
     werase(w);
     refresh();
-};
+}
 

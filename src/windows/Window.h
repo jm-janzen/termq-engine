@@ -44,7 +44,7 @@ class Window {
     protected:
         WINDOW *w;
         rect dim;
-        Border border { 0,0,0,0,0,0,0,0 };  // Init to default
+        Border border = { 0,0,0,0,0,0,0,0 };  // Init to default
 
 };
 

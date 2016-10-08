@@ -9,12 +9,12 @@ Player::Player(Window &w) : Actor(&w) {
     setChar('@');
 
     setPosRand();
-};
+}
 
 
 void Player::addItem(Item &i) {
     items.push_back(i);
-};
+}
 
 int Player::getScore() {
     Global *g = Global::get();
