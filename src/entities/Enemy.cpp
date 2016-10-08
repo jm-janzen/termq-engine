@@ -45,12 +45,14 @@ void Enemy::move() {
 
     int pool     = (100 - g->getDifficulty());
     int roll     = (rand() % pool);
-    bool chance  = (roll < modifier);
+    bool lucky  = (roll < modifier);
 
-    // Check if target is within aggro range
-    if (getDistance(target->getPos()) <= aggro) {
+    // Check if target is within range
+    if (getDistance(target->getPos()) <= 1) {
+        setPos(target->getPos());
+    } else if (getDistance(target->getPos()) <= aggro) {
         // If target unlucky, seek
-        if (chance) seek();
+        if (lucky) seek();
     } else {
         mill();
     }

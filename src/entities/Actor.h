@@ -12,11 +12,11 @@
 #include "Entity.h"
 
 struct Attributes {
-    uint_fast16_t ATK = 0;
-    uint_fast16_t ACT = 1;
-    uint_fast16_t LCK = 1;
-    uint_fast16_t HP = 100;
-    uint_fast16_t DF = 0;
+    uint_fast8_t ATK = 0;
+    uint_fast8_t ACT = 1;
+    uint_fast8_t LCK = 1;
+    uint_fast8_t HP = 100;
+    uint_fast8_t DF = 0;
 };
 
 class Actor : public Entity {
@@ -45,11 +45,11 @@ class Actor : public Entity {
         int   getSteps() { return steps; }
         int   getTicks() { return ticks; }
 
-        uint_fast16_t getATK() { return attr.ATK; }
-        uint_fast16_t getACT() { return attr.ACT; }
-        uint_fast16_t getLCK() { return attr.LCK; }
-        uint_fast16_t getHP() { return attr.HP; }
-        uint_fast16_t getDF() { return attr.DF; }
+        uint_fast8_t getATK() { return attr.ATK; }
+        uint_fast8_t getACT() { return attr.ACT; }
+        uint_fast8_t getLCK() { return attr.LCK; }
+        uint_fast8_t getHP() { return attr.HP; }
+        uint_fast8_t getDF() { return attr.DF; }
 
     protected:
         int   steps = 0;
