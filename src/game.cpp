@@ -25,7 +25,7 @@ int startGame() {
     int numEnemies = global->getNoEnemies();
 
     // Declared internally, to prevent ctors from running before main
-    DiagWindow diagWin_game = DiagWindow({{41, 1}, {80,10}});
+    DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
 
     // Actors know about game window for movement
@@ -170,6 +170,16 @@ int startGame() {
 
 
         diagWin_game.push(
+            + " HP: "
+            + std::to_string(player.getHP())
+            + " DF: "
+            + std::to_string(player.getDF())
+            + " ATK: "
+            + std::to_string(player.getATK())
+            + " ACT: "
+            + std::to_string(player.getACT())
+            + " LCK: "
+            + std::to_string(player.getLCK())
             + " nen: "
             + std::to_string(numEnemies)
             + " stp: "
