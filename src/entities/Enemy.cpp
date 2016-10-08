@@ -40,12 +40,14 @@ void Enemy::computeAggro() {
 }
 
 void Enemy::move() {
+    // NB: `modifier' in `pool' chance of being `lucky'
+
     int modifier = (100 - getDistance(target->getPos()) * 4.2);
     if (modifier < 0) modifier = 0;  // Clamp
 
-    int pool     = (100 - g->getDifficulty());
+    int pool     = (100 + target->getChance() - g->getDifficulty());
     int roll     = (rand() % pool);
-    bool lucky  = (roll < modifier);
+    bool lucky   = (roll < modifier);
 
     // Check if target is within range
     if (getDistance(target->getPos()) <= 1) {
@@ -58,7 +60,6 @@ void Enemy::move() {
     }
 }
 
-// TODO check if move would go out of bounds!
 void Enemy::mill() {
     switch(rand() % 20) {
         case 1:

@@ -52,6 +52,8 @@ class Actor : public Entity {
         uint_fast8_t getHP() { return attr.HP; }
         uint_fast8_t getDF() { return attr.DF; }
 
+        uint_fast8_t getChance() { return attr.LCK * 10; }
+
     protected:
         int   steps = 0;
         int   ticks = 0;
