@@ -8,23 +8,24 @@
 
 #include "../directions.h"
 #include "../game.h"
-
 #include "../windows/Window.h"
+#include "Entity.h"
 
-class Actor {
+struct Attributes {
+    uint_fast16_t ATK = 0;
+    uint_fast16_t ACT = 1;
+    uint_fast16_t LCK = 1;
+    uint_fast16_t HP = 100;
+    uint_fast16_t DF = 0;
+};
+
+class Actor : public Entity {
     public:
 
         Actor() {};
         Actor(Window *newW);
 
-        void render();
-
-        bool atop(vec2ui const targetPos);
-        bool isAdjacent(vec2ui const targetPos);
-        int_fast8_t getDistance(vec2ui const targetPos);
-        int_fast8_t getDistanceX(vec2ui const targetPos);
-        int_fast8_t getDistanceY(vec2ui const targetPos);
-
+        // Movement
         void  moveNorth();
         void  moveNorthEast();
         void  moveEast();
@@ -35,45 +36,25 @@ class Actor {
         void  moveNorthWest();
 
 
-        // Check cardinal direction
-        bool  isNorth(Actor &target);
-        bool  isSouth(Actor &target);
-        bool  isEast(Actor &target);
-        bool  isWest(Actor &target);
-
-        // Returns ranges between cardinal directions
-        bool  isNorthEast(Actor &target);
-        bool  isSouthEast(Actor &target);
-        bool  isSouthWest(Actor &target);
-        bool  isNorthWest(Actor &target);
-
-        Direction getDirection(Actor &a);  // Get ray from self to target
-
+        // Iterators
         void  wait();
-        void  move();
         void  tick();
         void  step();
+        void  move();  // tick + step
 
-        void  setPosRand();
-        void  setPos(vec2ui newPos);
-        void  setChar(char newChar);
-        void  setColo(chtype newColo);
-
-        vec2ui getPos();
-        char  getDispChar();
-        int   getDispColo();
         int   getSteps() { return steps; }
         int   getTicks() { return ticks; }
 
+        uint_fast16_t getATK() { return attr.ATK; }
+        uint_fast16_t getACT() { return attr.ACT; }
+        uint_fast16_t getLCK() { return attr.LCK; }
+        uint_fast16_t getHP() { return attr.HP; }
+        uint_fast16_t getDF() { return attr.DF; }
+
     protected:
-        vec2ui pos;
-        char  disp_char;
-        int   disp_colo;
         int   steps = 0;
         int   ticks = 0;
-        Window *w;
-
-        Direction direction = H;
+        Attributes attr;
 };
 
 #endif

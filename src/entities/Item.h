@@ -2,27 +2,22 @@
 #define ITEM_H
 
 #include "../game.h"
+#include "Entity.h"
 
 enum Ownership {
     PLAYER, WORLD,
 };
 
-class Item {
+class Item : public Entity {
     public:
-        void  setPos(vec2ui newPos);
-        void  setChar(char newChar);
+
         void  setValue(int newValue);
+        int   getValue();
 
         void      setOwnership(Ownership own) { ownership = own; }
         Ownership getOwnership() { return ownership; }
 
-        vec2ui getPos();
-        char  getDispChar();
-        int   getValue();
-
     protected:
-        vec2ui      pos;
-        char        disp_char;
         uint_fast16_t value;
         Ownership ownership = WORLD;
 };
