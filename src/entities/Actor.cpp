@@ -54,34 +54,34 @@ bool Actor::isEast(Actor &target) {
 bool  Actor::isNorthEast(Actor &target) {
     int d = getDirection(target);
     return (d > N && d < E);
-};
+}
 bool  Actor::isSouthEast(Actor &target) {
     int d = getDirection(target);
     return (d > E && d < S);
-};
+}
 bool  Actor::isSouthWest(Actor &target) {
     int d = getDirection(target);
     return (d > S && d > W);
-};
+}
 bool  Actor::isNorthWest(Actor &target) {
     int d = getDirection(target);
     return (d > W && d < N);
-};
+}
 
 
 bool Actor::atop(vec2ui const targetPos) {
     return (getPos() == targetPos);
-};
+}
 
 bool Actor::isAdjacent(vec2ui const targetPos) {
     return (getDistanceX(targetPos) <= 1 && getDistanceY(targetPos) <= 1);
-};
+}
 
 int_fast8_t Actor::getDistance(vec2ui const targetPos) {
     return sqrt(
         std::pow(getDistanceY(targetPos), 2) + std::pow(getDistanceX(targetPos), 2)
     );
-};
+}
 
 int_fast8_t Actor::getDistanceX(vec2ui const targetPos) {
     int_fast8_t result;
@@ -94,11 +94,11 @@ int_fast8_t Actor::getDistanceX(vec2ui const targetPos) {
     }
 
     return result;
-};
+}
 
 int_fast8_t Actor::getDistanceY(vec2ui const targetPos) {
     return std::abs(getPos().y - targetPos.y);
-};
+}
 
 /*
  * Movement
@@ -109,28 +109,28 @@ void  Actor::moveWest() {
         pos.x--;
         move();
     }
-};
+}
 
 void  Actor::moveEast() {
     if (pos.x < game_area.right() - 1) {
         pos.x++;
         move();
     }
-};
+}
 
 void  Actor::moveNorth() {
     if (pos.y > game_area.top()) {
         pos.y--;
         move();
     }
-};
+}
 
 void  Actor::moveSouth() {
     if (pos.y < game_area.bot() - 1) {
         pos.y++;
         move();
     }
-};
+}
 
 void  Actor::moveNorthEast() {
     if (pos.x < game_area.right() -1 && pos.y > game_area.top()) {
@@ -138,28 +138,28 @@ void  Actor::moveNorthEast() {
         pos.x++;
         pos.y--;
     }
-};
+}
 void  Actor::moveSouthEast() {
     if (pos.x < game_area.right() - 1 && pos.y < game_area.bot() - 1) {
         move();
         pos.x++;
         pos.y++;
     }
-};
+}
 void  Actor::moveSouthWest() {
     if (pos.x > game_area.left() && pos.y < game_area.bot() - 1) {
         move();
         pos.x--;
         pos.y++;
     }
-};
+}
 void  Actor::moveNorthWest() {
     if (pos.x > game_area.left() && pos.y > game_area.top()) {
         move();
         pos.x--;
         pos.y--;
     }
-};
+}
 
 void Actor::wait() {
     tick();
@@ -188,13 +188,13 @@ void Actor::tick() {
 
 void Actor::setPos(vec2ui newPos) {
     pos = newPos;
-};
+}
 
 void Actor::setPosRand() {
     uint_fast8_t randx = (rand() % (game_area.right() -1) + 1);
     uint_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
     setPos({ randx, randy });
-};
+}
 
 void Actor::setColo(chtype newColo) {
     disp_colo = newColo;
@@ -202,7 +202,7 @@ void Actor::setColo(chtype newColo) {
 
 void Actor::setChar(char newChar) {
     disp_char = newChar;
-};
+}
 
 /*
  * Getters

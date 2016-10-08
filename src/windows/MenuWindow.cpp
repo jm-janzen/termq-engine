@@ -7,7 +7,7 @@
 MenuWindow::MenuWindow(rect dim) : Window(dim) {
     setBorder({ACS_BULLET, ACS_BULLET, ACS_BULLET, ACS_BULLET, '+', '+', '+', '+'});
     drawBorder();
-};
+}
 
 /*
  * Highlight position in menu (default first)
@@ -20,17 +20,17 @@ void MenuWindow::updateMenu() {
         write({3, static_cast<uint_fast8_t>(i + 1)}, menuItems[i]);
     }
     wattroff(w, A_STANDOUT);  // Required, keeps A_STANDOUT away from other lines
-};
+}
 
 void MenuWindow::updateMenu(int newPosition) {
     setPosition(newPosition);
     updateMenu();
-};
+}
 
 void MenuWindow::add(std::string item) {
     menuItems.push_back(item);
     noItems++;
-};
+}
 
 void MenuWindow::setPosition(int newPosition) {
     position = newPosition;
@@ -65,5 +65,5 @@ std::string MenuWindow::getSelection() {
     }
 
     return selection;
-};
+}
 

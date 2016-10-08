@@ -17,7 +17,7 @@ Enemy::Enemy(Window &w, Actor &a) : Actor(&w) {
     computeAggro();
 
     setPosRand();
-};
+}
 
 void Enemy::computeAggro() {
     switch(g->getDifficulty()) {

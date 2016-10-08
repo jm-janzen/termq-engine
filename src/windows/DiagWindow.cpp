@@ -5,7 +5,7 @@
 
 DiagWindow::DiagWindow(rect dim) : Window(dim) {
     /* Just passing through */
-};
+}
 
 void DiagWindow::push(std::string msg) {
     this->update();
@@ -36,6 +36,6 @@ void DiagWindow::push(std::string msg) {
      * place a box around info panel and signal changes
      */
     this->refresh();
-};
+}
 
 

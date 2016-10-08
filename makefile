@@ -3,7 +3,7 @@
 # 	`$ export CXX="clang++3.8"
 #
 
-CFLAGS = -std=c++1y -std=gnu++11 -Wall -Werror -Wpedantic
+CFLAGS = -std=c++1y -std=gnu++11 -Wall -Werror -Wextra -pedantic-errors
 
 termq: build/main.o build/menu.o build/game.o \
 	build/Actor.o build/Player.o build/Enemy.o \
@@ -49,3 +49,6 @@ build/Coin.o:
 
 clean:
 	rm -f build/* bin/*
+
+comp:
+	./compiler-check.sh
