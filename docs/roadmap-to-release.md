@@ -20,6 +20,7 @@ There are four major milestones planned for termq, which will take it from conce
 ### Goals
 - Minor refactoring.
 - [ ] Complete core features.
+- [ ] Document internal API.
 - [ ] Add logging.
 - [ ] Add testing.
 
