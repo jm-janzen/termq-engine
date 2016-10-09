@@ -12,11 +12,12 @@
 #include "Entity.h"
 
 struct Attributes {
-    uint_fast8_t ATK = 0;
+    uint_fast8_t ATK = 1;
+    uint_fast8_t DEF = 0;
     uint_fast8_t ACT = 1;
     uint_fast8_t LCK = 1;
-    uint_fast8_t HP = 100;
-    uint_fast8_t DF = 0;
+    int_fast8_t HP = 100;
+    int_fast8_t ST = 100;  // Attacking/Defending uses stamina, which is required to move
 };
 
 class Actor : public Entity {
@@ -46,18 +47,34 @@ class Actor : public Entity {
         int   getSteps() { return steps; }
         int   getTicks() { return ticks; }
 
-        uint_fast8_t getATK() { return attr.ATK; }
+        uint_fast8_t getATK() { return attr.ATK * 10; }
+        uint_fast8_t getDEF() { return attr.DEF; }
         uint_fast8_t getACT() { return attr.ACT; }
         uint_fast8_t getLCK() { return attr.LCK; }
-        uint_fast8_t getHP() { return attr.HP; }
-        uint_fast8_t getDF() { return attr.DF; }
+        int_fast16_t getHP() { return attr.HP; }
+        int_fast16_t getST() { return attr.ST; }
+
+        std::string getDescription() { return description; }
+        std::string getName() { return name; }
+
+        void attack(Actor &a);
+        int_fast8_t takeDMG(uint_fast8_t dmg);
 
         uint_fast8_t getChance() { return attr.LCK * 10; }
+
+        std::string getStatus();  // TODO return text summary of HP, ST, etc
+
+        void addTarget(Actor *a);
+        bool hasTarget(vec2ui cell);
 
     protected:
         int   steps = 0;
         int   ticks = 0;
         Attributes attr;
+        std::string name = "Noop";
+        std::string description = "An insignificant creature.";
+        std::vector<Actor> *targets;
+        Actor *target;
 };
 
 #endif

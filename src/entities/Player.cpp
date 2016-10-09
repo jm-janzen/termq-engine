@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Item.h"
 #include "../global/Global.h"
 

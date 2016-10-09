@@ -11,6 +11,7 @@
 Enemy::Enemy(Actor &a) : Actor() {
     setChar('X');
     setType("Enemy");
+    attr.HP = 30;
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 
@@ -51,7 +52,10 @@ void Enemy::move() {
 
     // Check if target is within range
     if (getDistance(target->getPos()) <= 1) {
-        setPos(target->getPos());
+        if (lucky) {
+            if (target->getHP() <= 0) setPos(target->getPos());
+            else attack(*target);
+        }
     } else if (getDistance(target->getPos()) <= aggro) {
         // If target unlucky, seek
         if (lucky) seek();
@@ -117,3 +121,4 @@ vec2ui Enemy::seek() {
 
     return this->getPos();
 }
+

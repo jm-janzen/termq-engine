@@ -88,6 +88,14 @@ int startGame() {
     /*
      * Game loop begin.
      */
+    // Init placement of Player, Enemy, and Coins
+    for (Enemy &enemy : enemies) {
+        printf("Player has target\n");
+        player.addTarget(&enemy);
+    }
+    for (auto &coin : coins) {
+        wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
+    }
 
     int ch, coinsCollected = 0;
     string infoMsg = "";
@@ -170,26 +178,40 @@ int startGame() {
         // Enemy, seek out player
         string proximityAlert = "";
         for (Enemy &enemy : enemies) {
-            enemy.move();
-            if (enemy.isAdjacent(player.getPos())) {
-                proximityAlert = "!";
+            if (enemy.getHP() > 0) {  // TODO some sort of alive or dead flag
+                enemy.move();
+                if (enemy.isAdjacent(player.getPos())) {
+                    proximityAlert += "!";
+                }
+            }
+        }
+
+        // XXX refactor - only gameover if hp <= 0
+        for (Enemy &enemy : enemies) {
+
+            // Game Over
+            if (enemy.atop(player.getPos()) && player.getHP() <= 0) {
+                wgame.coloSplash(COLOR_PAIR(1));
+                wgame.refresh();
+
+                diagWin_game.push("GAME OVER!");
+                isGameover = true;
+                break;
             }
         }
 
 
         diagWin_game.push(
-            + " HP: "
+            + "HP: "
             + std::to_string(player.getHP())
-            + " DF: "
-            + std::to_string(player.getDF())
+            + " DEF: "
+            + std::to_string(player.getDEF())
             + " ATK: "
             + std::to_string(player.getATK())
             + " ACT: "
             + std::to_string(player.getACT())
             + " LCK: "
             + std::to_string(player.getLCK())
-            + " nen: "
-            + std::to_string(numEnemies)
             + " stp: "
             + std::to_string(player.getSteps())
             + " ptk: "
