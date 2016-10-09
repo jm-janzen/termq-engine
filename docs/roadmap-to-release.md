@@ -15,7 +15,7 @@ There are four major milestones planned for termq, which will take it from conce
 ## Alpha
 - Started:
 - Finished:
-- Deadline: TBD
+- Deadline: 30/01/2017
 
 ### Goals
 - Minor refactoring.
