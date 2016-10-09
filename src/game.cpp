@@ -60,12 +60,12 @@ int startGame() {
     uint_fast8_t distance;
     bool dangerClose = true;
     init_pair(3, COLOR_GREEN, -1);
-    while (dangerClose == true) {
+    size_t i = 0;
+    while (dangerClose == true || ++i < 1000) {  // XXX display Goldie Locks spawn band for debug
         for (Enemy &enemy : enemies) {
             enemy = Enemy(player);
             distance = player.getDistance(enemy.getPos());
-            if (distance > halfArea && distance < quarterArea) {
-                // XXX Display green shadow of enemies who were too close
+            if (distance < quarterArea || distance > halfArea) {
                 enemy.setColo(COLOR_PAIR(3));
                 enemy.render(wgame);
                 dangerClose = true;
