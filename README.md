@@ -5,6 +5,8 @@
 
 A personal adventure with ncurses
 
+## Requirements
+
 Requires `g++ 4.3` or `clang++ 3.8`, `libncurses5-dev`.
 
 ---
@@ -30,4 +32,8 @@ make
 # Execute the compiled binary
 ./bin/termq
 ```
+
+## Future Plans
+
+For a vulgar summary of where this project is going, please see [the roadmap](https://github.com/jm-janzen/termq/blob/master/docs/roadmap-to-release.md).
   
