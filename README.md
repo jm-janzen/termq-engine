@@ -3,7 +3,7 @@
 (https://travis-ci.org/jm-janzen/termq.svg?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ab15e0ae9f7748b8a9793290e9ee558a)](https://www.codacy.com/app/jmjanzen/termq?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jm-janzen/termq&amp;utm_campaign=Badge_Grade)
 
-A personal adventure with ncurses
+A personal adventure with ncurses.
 
 ## Requirements
 
