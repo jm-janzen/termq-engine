@@ -25,7 +25,7 @@ cd termq
 
 ```bash
 # Build the project locally
-make
+cd build && cmake .. && make
 ```
 
 ```bash
@@ -36,4 +36,4 @@ make
 ## Future Plans
 
 For a vulgar summary of where this project is going, please see [the roadmap](https://github.com/jm-janzen/termq/blob/master/docs/roadmap-to-release.md).
-  
+
