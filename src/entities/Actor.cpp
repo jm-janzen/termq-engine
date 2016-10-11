@@ -9,10 +9,15 @@ Actor::Actor() {
     disp_colo = COLOR_PAIR(0);
 }
 
-int_fast8_t Actor::takeDMG(uint_fast8_t dmg) {
-    attr.HP -= (getDEF()) + dmg;
-    // TODO check if dead
-    return -1;
+int_fast8_t Actor::defend(uint_fast8_t dmg) {
+    int_fast8_t effectiveDMG = std::abs((getDEF()) + dmg);
+    attr.HP -= effectiveDMG;
+
+    if (attr.HP <= 0) {
+        return -1;
+    } else {
+        return effectiveDMG;
+    }
 }
 
 void Actor::attack(Actor &a) {
@@ -25,25 +30,34 @@ void Actor::attack(Actor &a) {
      *  Attacker unlucky = `miss'
      *  Defender lucky   = `dodge'
      */
-    int_fast8_t dmg = a.takeDMG(getATK());
-    dmg++; // XXX silence Wunused
+    int_fast8_t dmgDealt = a.defend(getATK());
+    if (dmgDealt == -1) target = NULL;
 }
 
 void Actor::addTarget(Actor *a) {
     //printf("target added\n");
-    //targets->push_back(a);
-    target = a;
+    //targets->push_back(*a);
+    if (a) {
+        target = a;
+    }
 }
 
-// TODO
-bool Actor::hasTarget(vec2ui cell) {
-    for (auto &t : *targets) {
-        printf("%d,%d; %d,%d\n\r", t.getPos().x, t.getPos().y, cell.x, cell.y);
-        *target = t;  // XXX this causes segfault?
-        printf("target assigned\n");
-    }
-    return false;  // XXX temp
-}
+// XXX garbage
+//bool Actor::hasTarget(vec2ui cell) {
+//    bool yes = false;
+//    for (auto &t : *targets) {
+//        printf("%d,%d; %d,%d\n\r", t.getPos().x, t.getPos().y, cell.x, cell.y);
+//        if (cell == t.getPos()) {  // XXX segfault?
+//            yes = true;
+//            //*target = t;  // XXX this causes segfault?
+//            printf("target assigned\n");
+//        } else {
+//
+//            printf("no target\n");
+//        }
+//    }
+//    return yes == true;
+//}
 
 /*
  * Movement
@@ -61,12 +75,15 @@ bool Actor::hasTarget(vec2ui cell) {
 void  Actor::moveWest() {
     if (pos.x > game_area.left()) {
         pos.x--;
-        if (atop(target->getPos())) {
-            pos.x++;
-            printf("ATTACK!\n");
-            attack(*target);
-            if (target->getHP() <= 0) {
-                target->setChar('x');
+        if (target == 0) {
+            if (atop(target->getPos())) {
+                pos.x++;
+                attack(*target);
+
+                if (target->getHP() <= 0) {
+                    target->setChar('x');
+                    target = 0;
+                }
             }
         } else {
             move();
@@ -77,6 +94,12 @@ void  Actor::moveWest() {
 void  Actor::moveEast() {
     if (pos.x < game_area.right() - 1) {
         pos.x++;
+        if (target) {
+            if (target->getPos() == getPos()) {
+                pos.x--;
+                attack(*target);
+            }
+        }
         move();
     }
 }
@@ -130,6 +153,7 @@ void Actor::wait() {
 
 // TODO maybe check other Actor here, and move back ?
 void Actor::move() {
+    // TODO place attack checking logic here, and move to prev if actor ?
     tick();
     step();
 }

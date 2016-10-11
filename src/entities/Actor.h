@@ -58,7 +58,7 @@ class Actor : public Entity {
         std::string getName() { return name; }
 
         void attack(Actor &a);
-        int_fast8_t takeDMG(uint_fast8_t dmg);
+        int_fast8_t defend(uint_fast8_t dmg);
 
         uint_fast8_t getChance() { return attr.LCK * 10; }
 
@@ -74,7 +74,7 @@ class Actor : public Entity {
         std::string name = "Noop";
         std::string description = "An insignificant creature.";
         std::vector<Actor> *targets;
-        Actor *target;
+        Actor *target = 0;
 };
 
 #endif
