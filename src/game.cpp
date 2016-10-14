@@ -21,6 +21,14 @@ using namespace std;
 
 int startGame() {
 
+    /*
+     * Pre-game loop init.
+     * TODO
+     *  1) Init entities.
+     *  2) Init map with entities.
+     *  3) draw map.
+     */
+
     // Retrieve global refs
     Global *global = Global::get();
     //World  *world  = World::get();
@@ -30,10 +38,12 @@ int startGame() {
     // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
-    Map map = Map(wgame);
+    Map map = Map(&wgame);
+    //map.draw();
 
     // Actors know about game window for movement
     Player player = Player(wgame);
+    map.adds(player);
 
     std::vector<Enemy> enemies;
     for (int i = 0; i < numEnemies; i++)
@@ -79,6 +89,11 @@ int startGame() {
     for (auto &coin : coins) {
         wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
     }
+
+
+    /*
+     * Game loop begin.
+     */
 
     int ch, coinsCollected = 0;
     string infoMsg = "";
@@ -214,6 +229,10 @@ int startGame() {
             }
         }
     }
+
+    /*
+     * Post-game loop cleanup.
+     */
 
     // TODO eventually return more information
     return player.getScore();

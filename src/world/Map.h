@@ -4,18 +4,23 @@
 #include <vector>
 #include <map>
 #include "../game.h"
+#include "../windows/Window.h"
 #include "Cell.h"
 
 using namespace std;
 
 class Map {
-    Map(Window *newW);
+    public:
+        Map(Window *newW);
 
-    void setCell(vec2ui vec, Cell cell);
+        void draw();  // TODO draw contents of cells to w
+
+        void setCell(vec2ui vec, Cell cell);
+        void adds(Entity *e);
     private:
         Window *w;
-        //vector<Cell> cells;
         map<vec2ui, Cell> cells;
+
 };
 
 #endif

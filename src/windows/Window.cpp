@@ -30,6 +30,10 @@ void Window::cursorPos(vec2ui pos) {
     wmove(w, pos.y, pos.x);
 }
 
+void Window::draw(vec2ui pos, char ch) {
+    wmove(w, pos.y, pos.x);
+    waddch(w, ch);
+}
 void Window::draw(vec2ui pos, char ch, chtype colo) {
     wmove(w, pos.y, pos.x);
     waddch(w, ch | colo);
