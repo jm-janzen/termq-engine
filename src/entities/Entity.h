@@ -45,7 +45,7 @@ class Entity {
         int   getDispColo();
 
     protected:
-        Window *w;
+        Window *w;  // TODO rm and place in Map
         vec2ui pos;
         char  disp_char;
         int   disp_colo;

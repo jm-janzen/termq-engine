@@ -5,6 +5,8 @@
 #include <string>
 
 #include "global/Global.h"  // includes difficulties
+#include "world/World.h"
+#include "world/Map.h"
 
 #include "game.h"
 #include "menu.h"
@@ -21,12 +23,14 @@ int startGame() {
 
     // Retrieve global refs
     Global *global = Global::get();
+    //World  *world  = World::get();
     int numCoins   = global->getNoCoins();
     int numEnemies = global->getNoEnemies();
 
     // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
+    Map map = Map(wgame);
 
     // Actors know about game window for movement
     Player player = Player(wgame);

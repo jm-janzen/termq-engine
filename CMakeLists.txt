@@ -37,6 +37,6 @@ else(NCURSES_FOUND)
     message(FATAL_ERROR "Could not find ncurses")
 endif(NCURSES_FOUND)
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors" )
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 add_subdirectory(src)
