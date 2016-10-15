@@ -4,6 +4,15 @@ Map::Map(Window *newW) {
     w = newW;
 }
 
+Map::~Map() {
+    std::map<int, Cell*>::iterator i = cells.begin();
+    while (i != cells.end()) {
+        delete i->second;
+        i++;
+    }
+    cells.clear();
+}
+
 /**
  * Draw all entities in cells.
  */
@@ -20,7 +29,7 @@ void Map::draw() {
 
 // FIXME return int key for pop reference?
 void Map::push(Entity &e) {
-    Cell *c = new Cell(e);  // XXX don't forget to clean up these ptrs !
+    Cell *c = new Cell(e);
     cells.insert(std::make_pair(++iter, c));
 }
 
@@ -32,6 +41,7 @@ void Map::rm(Entity &e) {
         Entity t = c.second->getEntity();
         if (e == t) {
             cells.erase(c.first);
+            delete c.second;
             break;
         }
     }

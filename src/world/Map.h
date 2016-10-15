@@ -12,6 +12,7 @@ using namespace std;
 class Map {
     public:
         Map(Window *newW);
+       ~Map();
 
         void draw();
 
