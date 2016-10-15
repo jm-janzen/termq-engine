@@ -22,7 +22,7 @@ struct Attributes {
 class Actor : public Entity {
     public:
 
-        Actor() {};
+        Actor();
         Actor(Window *newW);
 
         // Movement

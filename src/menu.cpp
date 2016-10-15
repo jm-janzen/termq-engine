@@ -5,6 +5,7 @@
 #include <random>
 
 #include "global/Global.h"
+#include "world/World.h"
 
 #include "menu.h"
 #include "game.h"
@@ -16,10 +17,11 @@ using namespace std;
 
 
 /*
- * Init Global ptr
+ * Init Global, World singletons
  */
 
 Global *Global::instance = 0;
+World  *World::instance = 0;
 
 void menuShow(WINDOW *wnd, string title);
 

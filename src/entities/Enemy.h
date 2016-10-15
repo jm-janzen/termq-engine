@@ -17,7 +17,7 @@ class Enemy : public Actor {
          *  default ctor, so we need to implement it (ie: `{}`).
          */
         Enemy() {}
-        Enemy(Window &w, Actor &a);
+        Enemy(Actor &a);
 
         void   computeAggro();
 

@@ -5,19 +5,19 @@
 
 #include "Entity.h"
 
-void Entity::render() {
-    w->draw(getPos(), getDispChar(), getDispColo());
+void Entity::render(Window &w) {
+    w.draw(getPos(), getDispChar(), getDispColo());
 }
 
 /*
  * Ray computation
  */
 
-Direction Entity::getDirection(Entity &a) {  // TODO add ref to target to Entity class (from Enemy)
+Direction Entity::getDirection(Entity &e) {
     int degrees = 0;
 
     vec2ui selfPos   = this->getPos();
-    vec2ui targetPos = a.getPos();
+    vec2ui targetPos = e.getPos();
 
     // Target is under me!
     if ( ! (selfPos == targetPos)) {

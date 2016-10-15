@@ -7,15 +7,14 @@
 #include "Actor.h"
 #include "Enemy.h"
 
-// Where am I drawn; who is my enemy?
-Enemy::Enemy(Window &w, Actor &a) : Actor(&w) {
+// Who is my enemy?
+Enemy::Enemy(Actor &a) : Actor() {
     setChar('X');
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 
     target = &a;
     computeAggro();
-
     setPosRand();
 }
 

@@ -5,6 +5,8 @@
 #include <string>
 
 #include "global/Global.h"  // includes difficulties
+#include "world/World.h"
+#include "world/Map.h"
 
 #include "game.h"
 #include "menu.h"
@@ -19,6 +21,14 @@ using namespace std;
 
 int startGame() {
 
+    /*
+     * Pre-game loop init.
+     * TODO
+     *  1) Init entities.
+     *  2) Init map with entities.
+     *  3) draw map.
+     */
+
     // Retrieve global refs
     Global *global = Global::get();
     int numCoins   = global->getNoCoins();
@@ -27,9 +37,10 @@ int startGame() {
     // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
+    Map map = Map(&wgame);
 
     // Actors know about game window for movement
-    Player player = Player(wgame);
+    Player player = Player();
 
     std::vector<Enemy> enemies;
     for (int i = 0; i < numEnemies; i++)
@@ -38,8 +49,6 @@ int startGame() {
     for (int i = 0; i < numCoins; i++)
         coins.push_back(Coin());
 
-
-    init_pair(2, COLOR_YELLOW, -1);
 
     /*
      * Check if Player & Enemy are too near or too far
@@ -53,12 +62,12 @@ int startGame() {
     init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
-            enemy = Enemy(wgame, player);
+            enemy = Enemy(player);
             distance = player.getDistance(enemy.getPos());
             if (distance > halfArea && distance < quarterArea) {
                 // XXX Display green shadow of enemies who were too close
                 enemy.setColo(COLOR_PAIR(3));
-                enemy.render();
+                enemy.render(wgame);
                 dangerClose = true;
                 break;
             } else {
@@ -67,14 +76,18 @@ int startGame() {
         }
     }
 
-    // Init placement of Player, Enemy, and Coins
-    player.render();
-    for (Enemy &enemy : enemies) {
-        enemy.render();
-    }
-    for (auto &coin : coins) {
-        wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
-    }
+    /* Init placement of Player, Enemy, and Coins
+     * Map prioritises drawing items in the reverse
+     * of the order that they were added
+     */
+    map.push(player);
+    for (Coin  &coin  : coins)   map.push(coin);
+    for (Enemy &enemy : enemies) map.push(enemy);
+
+
+    /*
+     * Game loop begin.
+     */
 
     int ch, coinsCollected = 0;
     string infoMsg = "";
@@ -82,7 +95,9 @@ int startGame() {
     while (isGameover == false) {
         // Advance record of world time
         global->tick();
-        wgame.refresh();
+
+        // Draw all entities
+        map.draw();
 
         ch      = wgame.getChar();
         infoMsg = "";
@@ -136,16 +151,14 @@ int startGame() {
 
         }
 
-        wgame.update();
-
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             // Don't do anything unless coin 'belongs' to world
             if (coin.getOwnership() == WORLD) {
-                wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
                 if (player.atop(coin.getPos())) {
                     coin.setOwnership(PLAYER);
                     player.addItem(coin);
+                    map.rm(coin);
 
                     if ( ++coinsCollected == numCoins) {
                         isGameover = true;
@@ -154,15 +167,10 @@ int startGame() {
             }
         }
 
-
-        // Display Player to indicated position
-        player.render();
-
         // Enemy, seek out player
         string proximityAlert = "";
         for (Enemy &enemy : enemies) {
             enemy.move();
-            enemy.render();
             if (enemy.isAdjacent(player.getPos())) {
                 proximityAlert = "!";
             }
@@ -195,14 +203,10 @@ int startGame() {
             + " " + proximityAlert
         );
 
-        wgame.refresh();
-
-
         for (Enemy &enemy : enemies) {
             // Game Over
             if (enemy.atop(player.getPos())) {
                 wgame.coloSplash(COLOR_PAIR(1));
-                wgame.refresh();
 
                 diagWin_game.push("GAME OVER!");
                 isGameover = true;
@@ -210,6 +214,11 @@ int startGame() {
             }
         }
     }
+
+    /*
+     * Post-game loop operations.
+     */
+    map.draw();  // Draw last frame.
 
     // TODO eventually return more information
     return player.getScore();
