@@ -207,7 +207,6 @@ int startGame() {
             // Game Over
             if (enemy.atop(player.getPos())) {
                 wgame.coloSplash(COLOR_PAIR(1));
-                map.draw();
 
                 diagWin_game.push("GAME OVER!");
                 isGameover = true;
@@ -217,8 +216,9 @@ int startGame() {
     }
 
     /*
-     * Post-game loop cleanup.
+     * Post-game loop operations.
      */
+    map.draw();  // Draw last frame.
 
     // TODO eventually return more information
     return player.getScore();
