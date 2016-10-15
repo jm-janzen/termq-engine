@@ -2,7 +2,6 @@
 
 Map::Map(Window *newW) {
     w = newW;
-    // TODO maybe init all cells in here based on game_area area
 }
 
 /**
@@ -14,7 +13,6 @@ void Map::draw() {
         vec2ui pos = c.second->getEntityPos();
         char   cha = c.second->getEntityChar();
         int    col = c.second->getEntityColo();
-        //printf("pos:(%d,%d), cha:%c, col:%d\n\r", pos.x, pos.y, cha, col);
         w->draw(pos, cha, col);
     }
     w->refresh();
@@ -33,7 +31,6 @@ void Map::rm(Entity &e) {
     for (auto const &c : cells) {
         Entity t = c.second->getEntity();
         if (e == t) {
-            //printf("rm:(%d,%d)\n", t.getPos().x, t.getPos().y);
             cells.erase(c.first);
             break;
         }
