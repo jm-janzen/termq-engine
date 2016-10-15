@@ -13,11 +13,11 @@ void Entity::render(Window &w) {
  * Ray computation
  */
 
-Direction Entity::getDirection(Entity &a) {  // TODO add ref to target to Entity class (from Enemy)
+Direction Entity::getDirection(Entity &e) {
     int degrees = 0;
 
     vec2ui selfPos   = this->getPos();
-    vec2ui targetPos = a.getPos();
+    vec2ui targetPos = e.getPos();
 
     // Target is under me!
     if ( ! (selfPos == targetPos)) {

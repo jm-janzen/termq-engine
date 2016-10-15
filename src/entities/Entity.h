@@ -20,7 +20,6 @@ class Entity {
          */
         void render(Window &w);
 
-        // TODO mark const
         bool operator==(Entity &e) {
             return (e.getPos() == getPos() && e.getDispChar() == getDispChar());
         }
