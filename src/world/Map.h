@@ -13,13 +13,16 @@ class Map {
     public:
         Map(Window *newW);
 
-        void draw();  // TODO draw contents of cells to w
+        void draw();
 
         void setCell(vec2ui vec, Cell cell);
-        void adds(Entity *e);
+        void push(Entity &e);
+        void rm(Entity &e);
+        Entity pop(int key);
     private:
         Window *w;
-        map<vec2ui, Cell> cells;
+        map<int, Cell*> cells;
+        int iter = 0;
 
 };
 

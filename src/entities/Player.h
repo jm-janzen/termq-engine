@@ -7,7 +7,7 @@
 
 class Player : public Actor {
     public:
-        Player(Window &w);
+        Player();
 
         void addItem(Item &i);
 

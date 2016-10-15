@@ -5,9 +5,8 @@
 
 #include "Entity.h"
 
-// TODO replace this with a simple getter - make Map draw
-void Entity::render() {
-    w->draw(getPos(), getDispChar(), getDispColo());
+void Entity::render(Window &w) {
+    w.draw(getPos(), getDispChar(), getDispColo());
 }
 
 /*

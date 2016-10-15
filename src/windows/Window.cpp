@@ -34,7 +34,7 @@ void Window::draw(vec2ui pos, char ch) {
     wmove(w, pos.y, pos.x);
     waddch(w, ch);
 }
-void Window::draw(vec2ui pos, char ch, chtype colo) {
+void Window::draw(vec2ui pos, char ch, chtype colo) { // XXX no colo
     wmove(w, pos.y, pos.x);
     waddch(w, ch | colo);
 }

@@ -21,7 +21,7 @@ Coin::Coin() {
             break;
     }
 
-    uint_fast8_t randx = (rand() % (game_area.right() -1) + 1);
-    uint_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
-    setPos({ randx, randy });
+    init_pair(2, COLOR_YELLOW, -1);
+    setColo(COLOR_PAIR(2));
+    setPosRand();
 }

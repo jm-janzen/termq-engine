@@ -2,26 +2,51 @@
 
 Map::Map(Window *newW) {
     w = newW;
+    // TODO maybe init all cells in here based on game_area area
 }
 
+/**
+ * Draw all entities in cells.
+ */
 void Map::draw() {
-    // POC TODO get map to draw contents of cells
-    init_pair(6, COLOR_YELLOW, -1);
-    w->draw({0,0}, 'J');
+    w->update();
+    for (auto const &c : cells) {
+        vec2ui pos = c.second->getEntityPos();
+        char   cha = c.second->getEntityChar();
+        int    col = c.second->getEntityColo();
+        //printf("pos:(%d,%d), cha:%c, col:%d\n\r", pos.x, pos.y, cha, col);
+        w->draw(pos, cha, col);
+    }
     w->refresh();
+}
 
-    vec2ui pos;
-    auto it = cells.begin();
-    for (auto const &v: cells) {
-        pos = it->first;
+// FIXME return int key for pop reference?
+void Map::push(Entity &e) {
+    Cell *c = new Cell(e);  // XXX don't forget to clean up these ptrs !
+    cells.insert(std::make_pair(++iter, c));
+}
+
+/**
+ * Remove an Entity from within map by its equality.
+ */
+void Map::rm(Entity &e) {
+    for (auto const &c : cells) {
+        Entity t = c.second->getEntity();
+        if (e == t) {
+            //printf("rm:(%d,%d)\n", t.getPos().x, t.getPos().y);
+            cells.erase(c.first);
+            break;
+        }
     }
 }
 
-void Map::setCell(vec2ui vec, Cell cell) {
-    cells[vec] = cell;
-}
+/**
+ * Get Cell's entity at `key' and delete it.
+ */
+Entity Map::pop(int key) {
+    auto i = cells.find(key)->first;
+    Entity e = cells[i]->getEntity();
+    cells.erase(i);
 
-void Map::adds(Entity *e) {
-    vec2ui v = e->getPos();
-    cells[v] = Cell(e);
+    return e;
 }

@@ -15,7 +15,15 @@
 class Entity {
 
     public:
-        void render();
+        /**
+         * Render this Entity explicitly to specific window.
+         */
+        void render(Window &w);
+
+        // TODO mark const
+        bool operator==(Entity &e) {
+            return (e.getPos() == getPos() && e.getDispChar() == getDispChar());
+        }
 
         // Check cardinal, intercardinal direction
         bool  isNorth(Entity &target);
@@ -45,10 +53,9 @@ class Entity {
         int   getDispColo();
 
     protected:
-        Window *w;  // TODO rm and place in Map
-        vec2ui pos;
-        char  disp_char;
-        int   disp_colo;
+        vec2ui pos      = {0, 0};
+        char  disp_char = char(16);
+        int   disp_colo = -1;
 
         Direction direction = H;
 };

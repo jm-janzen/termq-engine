@@ -6,6 +6,7 @@
 
 /*
  * Singleton candidate
+ * XXX unused for the nonse, just got through Map
  */
 class World {
     public:

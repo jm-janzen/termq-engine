@@ -6,24 +6,20 @@
 
 class Cell {
     public:
-        Cell();
-        Cell(Entity *e) { entity = e; }
-        void addEntity(Entity *e);
+        Cell(Entity &e) : entity(e){};
+
+        void addEntity(Entity &e);
         void rmEntity();
 
-        /*
-         * TODO guard against nullptr entity
-         */
-        Entity getEntity();
-        vec2ui getEntityPos();
-        char   getEntityChar();
-        int    getEntityColo();
+        Entity getEntity()     { return entity; }
+        vec2ui getEntityPos()  { return entity.getPos(); }
+        char   getEntityChar() { return entity.getDispChar(); }
+        int    getEntityColo() { return entity.getDispColo(); }
     private:
         /*
          * Use entity to derive pos, char, colo; other...
          */
-        Entity *entity;
-        // XXX probably does not need `pos' key (this is held in Map)
+        Entity &entity;
 };
 
 #endif

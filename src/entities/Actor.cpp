@@ -5,8 +5,7 @@
 
 #include "Actor.h"
 
-Actor::Actor(Window *newW) {
-    w = newW;
+Actor::Actor() {
     disp_colo = COLOR_PAIR(0);
 }
 
