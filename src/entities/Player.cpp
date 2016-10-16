@@ -9,6 +9,8 @@ Player::Player() : Actor() {
     init_pair(0, COLOR_WHITE, -1);
     setColo(COLOR_PAIR(0));
     setChar('@');
+    setType("Player");
+    setName("Noop");
     setPosRand();
 }
 

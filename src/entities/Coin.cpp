@@ -21,6 +21,7 @@ Coin::Coin() {
             break;
     }
 
+    setType("Coin");
     init_pair(2, COLOR_YELLOW, -1);
     setColo(COLOR_PAIR(2));
     setPosRand();

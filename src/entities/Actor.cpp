@@ -74,6 +74,7 @@ void Actor::wait() {
     tick();
 }
 
+// TODO maybe check other Actor here, and move back ?
 void Actor::move() {
     tick();
     step();

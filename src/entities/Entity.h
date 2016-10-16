@@ -44,17 +44,27 @@ class Entity {
         void  setPos(vec2ui newPos);
         void  setChar(char newChar);
         void  setColo(chtype newColo);
+        void setName(std::string name) { this->name = name; }
+        void setType(std::string type) { this->type = type; }
+        void setDesc(std::string desc) { this->desc = desc; }
 
         Direction getDirection(Entity &a);  // Get ray from self to target
 
         vec2ui getPos();
         char  getDispChar();
         int   getDispColo();
+        std::string getName() { return name; }
+        std::string getType() { return type; }
+        std::string getDesc() { return desc; }
 
     protected:
         vec2ui pos      = {0, 0};
         char  disp_char = char(16);
         int   disp_colo = -1;
+
+        std::string name = "";
+        std::string type = "";
+        std::string desc = "";
 
         Direction direction = H;
 };

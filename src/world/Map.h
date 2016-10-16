@@ -20,6 +20,8 @@ class Map {
         void push(Entity &e);
         void rm(Entity &e);
         Entity pop(int key);
+
+        bool checkCell(vec2ui const vec, std::string type);
     private:
         Window *w;
         map<int, Cell*> cells;

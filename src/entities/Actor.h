@@ -26,6 +26,7 @@ class Actor : public Entity {
         Actor(Window *newW);
 
         // Movement
+        // TODO maybe combine these and accept a Direction
         void  moveNorth();
         void  moveNorthEast();
         void  moveEast();

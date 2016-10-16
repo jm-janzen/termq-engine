@@ -10,6 +10,7 @@
 // Who is my enemy?
 Enemy::Enemy(Actor &a) : Actor() {
     setChar('X');
+    setType("Enemy");
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 

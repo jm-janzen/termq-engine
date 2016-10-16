@@ -57,3 +57,20 @@ Entity Map::pop(int key) {
 
     return e;
 }
+
+/**
+ * Check specific cell at `vec' for specific type of Entity
+ */
+bool Map::checkCell(vec2ui const vec, std::string type) {
+    bool result = false;
+    for (auto const &c : cells) {
+        std::string t = c.second->getEntity().getType();
+        vec2ui v = c.second->getEntityPos();
+        if (t == type && v == vec) {
+            result = true;
+            break;
+        }
+    }
+
+    return result == true;
+}

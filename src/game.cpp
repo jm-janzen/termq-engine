@@ -125,29 +125,29 @@ int startGame() {
             case KEY_UP:
             case 56:
             case 'k':
-                 player.moveNorth();
+                player.moveNorth();
                 break;
             case KEY_DOWN:
             case 50:
             case 'j':
-                 player.moveSouth();
+                player.moveSouth();
                 break;
             case KEY_LEFT:
             case 52:
             case 'h':
-                 player.moveWest();
+                player.moveWest();
                 break;
             case KEY_RIGHT:
             case 54:
             case 'l':
-                 player.moveEast();
+                player.moveEast();
                 break;
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
                 break;
             default:
                 player.wait();
-                infoMsg = "waiting...";
+                infoMsg = player.getName();
 
         }
 
