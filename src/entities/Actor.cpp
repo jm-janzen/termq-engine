@@ -75,31 +75,13 @@ void Actor::addTarget(Actor *a) {
 void  Actor::moveWest() {
     if (pos.x > game_area.left()) {
         pos.x--;
-        if (target != 0) {
-            if (atop(target->getPos())) {
-                pos.x++;
-                attack(*target);
-
-                if (target->getHP() <= 0) {
-                    target->setChar('x');
-                    target = 0;
-                }
-            }
-        } else {
-            move();
-        }
+        move();
     }
 }
 
 void  Actor::moveEast() {
     if (pos.x < game_area.right() - 1) {
         pos.x++;
-        if (target) {
-            if (target->getPos() == getPos()) {
-                pos.x--;
-                attack(*target);
-            }
-        }
         move();
     }
 }

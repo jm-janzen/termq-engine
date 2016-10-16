@@ -54,9 +54,6 @@ class Actor : public Entity {
         int_fast16_t getHP() { return attr.HP; }
         int_fast16_t getST() { return attr.ST; }
 
-        std::string getDescription() { return description; }
-        std::string getName() { return name; }
-
         void attack(Actor &a);
         int_fast8_t defend(uint_fast8_t dmg);
 
@@ -71,8 +68,6 @@ class Actor : public Entity {
         int   steps = 0;
         int   ticks = 0;
         Attributes attr;
-        std::string name = "Noop";
-        std::string description = "An insignificant creature.";
         std::vector<Actor> *targets;
         Actor *target = 0;
 };
