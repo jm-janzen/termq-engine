@@ -60,15 +60,11 @@ int startGame() {
     uint_fast8_t halfArea = (game_area.area() / 2);
     uint_fast8_t distance;
     bool dangerClose = true;
-    init_pair(3, COLOR_GREEN, -1);
-    size_t i = 0;
-    while (dangerClose == true || ++i < 1000) {  // XXX display Goldie Locks spawn band for debug
+    while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
             enemy = Enemy(player);
             distance = player.getDistance(enemy.getPos());
             if (distance < quarterArea || distance > halfArea) {
-                enemy.setColo(COLOR_PAIR(3));
-                enemy.render(wgame);
                 dangerClose = true;
                 break;
             } else {
@@ -76,6 +72,7 @@ int startGame() {
             }
         }
     }
+
 
     /* Init placement of Player, Enemy, and Coins
      * Map prioritises drawing items in the reverse
@@ -89,14 +86,6 @@ int startGame() {
     /*
      * Game loop begin.
      */
-    // Init placement of Player, Enemy, and Coins
-    for (Enemy &enemy : enemies) {
-        //printf("Player has target\n");
-        player.addTarget(&enemy);
-    }
-    for (auto &coin : coins) {
-        wgame.draw(coin.getPos(), coin.getDispChar(), COLOR_PAIR(2));
-    }
 
     int ch, coinsCollected = 0;
     string infoMsg = "";
@@ -178,7 +167,7 @@ int startGame() {
 
         // Enemy, seek out player
         string proximityAlert = "";
-        for (i = 0; i < enemies.size(); i++) {
+        for (size_t i = 0; i < enemies.size(); i++) {
             if (enemies[i].getHP() > 0) {  // TODO some sort of alive or dead flag
                 enemies[i].move();
                 if (enemies[i].isAdjacent(player.getPos())) {
@@ -198,9 +187,6 @@ int startGame() {
                 break;
             }
         }
-
-        /*XXX*/printf("no enems: %zu\n", enemies.size());
-
 
         diagWin_game.push(
             + "HP: "

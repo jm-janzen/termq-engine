@@ -75,7 +75,7 @@ void Actor::addTarget(Actor *a) {
 void  Actor::moveWest() {
     if (pos.x > game_area.left()) {
         pos.x--;
-        if (target == 0) {
+        if (target != 0) {
             if (atop(target->getPos())) {
                 pos.x++;
                 attack(*target);
