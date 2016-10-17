@@ -145,6 +145,8 @@ int startGame() {
             case KEY_ENTER: /* numpad enter */
             case '\n':      /* keyboard return */
                 break;
+            case 27:        /* ESC */
+                isGameover = true;
             default:
                 player.wait();
                 infoMsg = player.getName();
