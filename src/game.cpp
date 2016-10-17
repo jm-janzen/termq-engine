@@ -43,6 +43,7 @@ int startGame() {
     // Actors know about game window for movement
     Player player = Player();
 
+    // TODO Maybe combine with below...
     std::vector<Enemy> enemies;
     for (int i = 0; i < numEnemies; i++)
         enemies.push_back(Enemy());
@@ -56,6 +57,8 @@ int startGame() {
      * from each other.  Somewhere between a quarter
      * of a screen and half of a screen.
      */
+    //std::vector<Enemy*> enemies;
+        //enemies.push_back(new Enemy());
     uint_fast8_t quarterArea = (game_area.area() / 4);
     uint_fast8_t halfArea = (game_area.area() / 2);
     uint_fast8_t distance;
@@ -68,6 +71,7 @@ int startGame() {
                 dangerClose = true;
                 break;
             } else {
+                //enemies.push_back(enemy);
                 dangerClose = false;
             }
         }
@@ -99,6 +103,7 @@ int startGame() {
 
         ch      = wgame.getChar();
         infoMsg = "";
+        vec2ui prevPos = player.getPos();
 
         switch (ch) {
             /*
@@ -148,11 +153,21 @@ int startGame() {
                 infoMsg = player.getName();
 
         }
+        if (map.checkCell(player.getPos(), "Enemy")) {
+            //player.attack(&map.getEntity(player.getPos()));
+            for (Enemy &enemy : enemies) {
+                if (enemy.getPos() == player.getPos()) {
+                    player.attack(enemy);
+                    //printf("%ld\n\r", enemy.getHP());
+                }
+            }
+            player.setPos(prevPos);
+        }
 
         // Draw Coins again, and check if player has landed on
         for (auto &coin : coins) {
             // Don't do anything unless coin 'belongs' to world
-            if (coin.getOwnership() == WORLD) {
+            if (coin.getOwnership() == WORLD) {  // XXX without this, player still get invisicoins
                 if (player.atop(coin.getPos())) {
                     coin.setOwnership(PLAYER);
                     player.addItem(coin);
@@ -176,11 +191,17 @@ int startGame() {
             } else { // pop dead enemy
                 enemies.erase(enemies.begin() + i);
             }
+        }
 
+        for (Enemy &enemy : enemies) {
+            // Cleanup dead enemies
+            if (enemy.getHP() <= 0) {
+                //printf("Enemy %s is dead!\n", enemy.getType().c_str());
+                map.rm(enemy);
+            }
             // Game Over
-            if (enemies[i].atop(player.getPos()) && player.getHP() <= 0) {
+            if (enemy.atop(player.getPos())) {
                 wgame.coloSplash(COLOR_PAIR(1));
-                wgame.refresh();
 
                 diagWin_game.push("GAME OVER!");
                 isGameover = true;
@@ -211,17 +232,6 @@ int startGame() {
             + " nfo: " + infoMsg
             + " " + proximityAlert
         );
-
-        for (Enemy &enemy : enemies) {
-            // Game Over
-            if (enemy.atop(player.getPos())) {
-                wgame.coloSplash(COLOR_PAIR(1));
-
-                diagWin_game.push("GAME OVER!");
-                isGameover = true;
-                break;
-            }
-        }
     }
 
     /*

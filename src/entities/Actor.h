@@ -55,6 +55,7 @@ class Actor : public Entity {
         int_fast16_t getST() { return attr.ST; }
 
         void attack(Actor &a);
+        void attack(Entity *e);
         int_fast8_t defend(uint_fast8_t dmg);
 
         uint_fast8_t getChance() { return attr.LCK * 10; }

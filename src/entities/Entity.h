@@ -15,6 +15,8 @@
 class Entity {
 
     public:
+        //Entity(){};
+        //virtual ~Entity(){}
         /**
          * Render this Entity explicitly to specific window.
          */

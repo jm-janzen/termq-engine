@@ -35,6 +35,7 @@ void Map::push(Entity &e) {
 
 /**
  * Remove an Entity from within map by its equality.
+ * XXX not actually erasing from world
  */
 void Map::rm(Entity &e) {
     for (auto const &c : cells) {
@@ -74,3 +75,20 @@ bool Map::checkCell(vec2ui const vec, std::string type) {
 
     return result == true;
 }
+
+/**
+ * Get reference to Entity in a specific cell.
+ */
+Entity Map::getEntity(vec2ui const vec) {
+    int key;
+    std::map<int, Cell*>::iterator i = cells.begin();
+    while (i != cells.end()) {
+        i++;
+        key = i->first;
+        vec2ui v = i->second->getEntityPos();  // segfault
+        if (v == vec) break;
+    }
+
+    return cells[key]->getEntity();
+}
+

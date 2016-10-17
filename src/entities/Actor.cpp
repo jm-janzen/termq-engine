@@ -22,10 +22,7 @@ int_fast8_t Actor::defend(uint_fast8_t dmg) {
 
 void Actor::attack(Actor &a) {
     /*
-     * TODO
-     *  1) Compute chance of attack succeeding
-     *  2) Compute damage done
-     *  3) Send results to target Actor
+     * TODO Compute chance of attack succeeding
      *
      *  Attacker unlucky = `miss'
      *  Defender lucky   = `dodge'
@@ -33,6 +30,18 @@ void Actor::attack(Actor &a) {
     int_fast8_t dmgDealt = a.defend(getATK());
     if (dmgDealt == -1) target = NULL;
 }
+/*
+void Actor::attack(Entity *e) {
+    // TODO check if is child Actor
+
+    Actor* a = dynamic_cast<Actor*>(e);
+    if (a) {
+        int_fast8_t dmgDealt = a->defend(getATK());
+        if (dmgDealt == -1) target = NULL;
+    }
+    // Else, not an Actor
+}
+*/
 
 void Actor::addTarget(Actor *a) {
     //printf("target added\n");

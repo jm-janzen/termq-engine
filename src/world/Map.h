@@ -5,6 +5,7 @@
 #include <map>
 #include "../game.h"
 #include "../windows/Window.h"
+#include "../entities/Actor.h"
 #include "Cell.h"
 
 using namespace std;
@@ -22,6 +23,7 @@ class Map {
         Entity pop(int key);
 
         bool checkCell(vec2ui const vec, std::string type);
+        Entity getEntity(vec2ui const vec);
     private:
         Window *w;
         map<int, Cell*> cells;

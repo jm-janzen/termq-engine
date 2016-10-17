@@ -3,6 +3,7 @@
 
 #include "../game.h"
 #include "../entities/Entity.h"
+#include <tr1/memory>
 
 class Cell {
     public:
@@ -19,6 +20,7 @@ class Cell {
         /*
          * Use entity to derive pos, char, colo; other...
          */
+        // TODO maybe use a shared pointer here
         Entity &entity;
 };
 
