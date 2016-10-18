@@ -1,7 +1,7 @@
 # Terminal Quest
 ![travis build status]
 (https://travis-ci.org/jm-janzen/termq.svg?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ab15e0ae9f7748b8a9793290e9ee558a)](https://www.codacy.com/app/jmjanzen/termq?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jm-janzen/termq&amp;utm_campaign=Badge_Grade)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jm-janzen/termq/blob/master/LICENSE.md)
 
 A personal adventure with ncurses.
 
@@ -19,18 +19,18 @@ git clone https://github.com/jm-janzen/termq.git
 ```
 
 ```bash
-# Navigate to project directory
-cd termq
+# Navigate to project's build directory
+cd termq/build
 ```
 
 ```bash
 # Build the project locally
-cd build && cmake .. && make
+cmake .. && make -j4
 ```
 
 ```bash
 # Execute the compiled binary
-./bin/termq
+../bin/termq
 ```
 
 ## Future Plans
