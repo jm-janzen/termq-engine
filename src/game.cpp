@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <string>
+#include <algorithm>
 
 #include "global/Global.h"  // includes difficulties
 #include "world/World.h"
@@ -34,12 +35,10 @@ int startGame() {
     int numCoins   = global->getNoCoins();
     int numEnemies = global->getNoEnemies();
 
-    // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
     Map map = Map(&wgame);
 
-    // Actors know about game window for movement
     Player player = Player();
 
     std::vector<Enemy> enemies;
@@ -59,15 +58,11 @@ int startGame() {
     uint_fast8_t halfArea = (game_area.area() / 2);
     uint_fast8_t distance;
     bool dangerClose = true;
-    init_pair(3, COLOR_GREEN, -1);
     while (dangerClose == true) {
         for (Enemy &enemy : enemies) {
             enemy = Enemy(player);
             distance = player.getDistance(enemy.getPos());
-            if (distance > halfArea && distance < quarterArea) {
-                // XXX Display green shadow of enemies who were too close
-                enemy.setColo(COLOR_PAIR(3));
-                enemy.render(wgame);
+            if (distance < quarterArea || distance > halfArea) {
                 dangerClose = true;
                 break;
             } else {
@@ -75,6 +70,7 @@ int startGame() {
             }
         }
     }
+
 
     /* Init placement of Player, Enemy, and Coins
      * Map prioritises drawing items in the reverse
@@ -101,6 +97,7 @@ int startGame() {
 
         ch      = wgame.getChar();
         infoMsg = "";
+        vec2ui prevPos = player.getPos();
 
         switch (ch) {
             /*
@@ -152,46 +149,78 @@ int startGame() {
                 infoMsg = player.getName();
 
         }
+        if (map.checkCell(player.getPos(), "Enemy")) {
+            for (Enemy &enemy : enemies) {
+                if (enemy.getPos() == player.getPos()) {
+                    player.attack(enemy);
+                }
+            }
+            player.setPos(prevPos);
+        }
 
         // Draw Coins again, and check if player has landed on
+        // TODO replace this for..range with std iter for loop
         for (auto &coin : coins) {
-            // Don't do anything unless coin 'belongs' to world
-            if (coin.getOwnership() == WORLD) {
-                if (player.atop(coin.getPos())) {
-                    coin.setOwnership(PLAYER);
-                    player.addItem(coin);
-                    map.rm(coin);
+            if (player.atop(coin.getPos())) {
+                coin.setOwnership(PLAYER);
+                player.addItem(coin);
 
-                    if ( ++coinsCollected == numCoins) {
-                        isGameover = true;
-                    }
+                // Erase this coin if owned by Player
+                coins.erase(
+                    std::remove_if(
+                        coins.begin(),
+                        coins.end(),
+                        [](Coin& c) -> bool {
+                            return c.getOwnership() == PLAYER;
+                        }
+                    ),
+                    coins.end()
+                );
+
+                if ( ++coinsCollected == numCoins) {
+                    isGameover = true;
                 }
             }
         }
 
         // Enemy, seek out player
         string proximityAlert = "";
-        for (Enemy &enemy : enemies) {
-            enemy.move();
-            if (enemy.isAdjacent(player.getPos())) {
-                proximityAlert = "!";
+        for (size_t i = 0; i < enemies.size(); i++) {
+            if (enemies[i].getHP() > 0) {  // TODO some sort of alive or dead flag
+                enemies[i].move();
+                if (enemies[i].isAdjacent(player.getPos())) {
+                    proximityAlert += "!";
+                }
+            } else { // pop dead enemy
+                diagWin_game.push(player.getName()
+                        + " killed " + enemies[i].getType()
+                        + " " + enemies[i].getName() + "!");
+                enemies.erase(enemies.begin() + i);
             }
         }
 
+        for (Enemy &enemy : enemies) {
+            // Game Over
+            if (enemy.atop(player.getPos())) {
+                wgame.coloSplash(COLOR_PAIR(1));
+
+                diagWin_game.push("GAME OVER!");
+                isGameover = true;
+                break;
+            }
+        }
 
         diagWin_game.push(
-            + " HP: "
+            + "HP: "
             + std::to_string(player.getHP())
-            + " DF: "
-            + std::to_string(player.getDF())
+            + " DEF: "
+            + std::to_string(player.getDEF())
             + " ATK: "
             + std::to_string(player.getATK())
             + " ACT: "
             + std::to_string(player.getACT())
             + " LCK: "
             + std::to_string(player.getLCK())
-            + " nen: "
-            + std::to_string(numEnemies)
             + " stp: "
             + std::to_string(player.getSteps())
             + " ptk: "
@@ -205,16 +234,11 @@ int startGame() {
             + " " + proximityAlert
         );
 
-        for (Enemy &enemy : enemies) {
-            // Game Over
-            if (enemy.atop(player.getPos())) {
-                wgame.coloSplash(COLOR_PAIR(1));
-
-                diagWin_game.push("GAME OVER!");
-                isGameover = true;
-                break;
-            }
-        }
+        // Re-init map with refs to updated entities
+        map = Map(&wgame);
+        map.push(player);
+        for (Coin  &coin  : coins)   map.push(coin);
+        for (Enemy &enemy : enemies) map.push(enemy);
     }
 
     /*

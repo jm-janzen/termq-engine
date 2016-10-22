@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Item.h"
 #include "../global/Global.h"
 
@@ -11,6 +12,9 @@ Player::Player() : Actor() {
     setChar('@');
     setType("Player");
     setName("Noop");
+
+    attr.LCK = (rand() % 3);  // Player luck 0 to 3
+
     setPosRand();
 }
 

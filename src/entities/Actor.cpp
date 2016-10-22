@@ -9,6 +9,34 @@ Actor::Actor() {
     disp_colo = COLOR_PAIR(0);
 }
 
+int_fast8_t Actor::defend(uint_fast8_t dmg) {
+    int_fast8_t effectiveDMG = std::abs((getDEF()) + dmg);
+    attr.HP -= effectiveDMG;
+
+    if (attr.HP <= 0) {
+        return -1;
+    } else {
+        return effectiveDMG;
+    }
+}
+
+void Actor::attack(Actor &a) {
+    /*
+     * TODO Compute chance of attack succeeding
+     *
+     *  Attacker unlucky = `miss'
+     *  Defender lucky   = `dodge'
+     */
+    int_fast8_t dmgDealt = a.defend(getATK());
+    if (dmgDealt == -1) target = NULL;
+}
+
+void Actor::addTarget(Actor *a) {
+    if (a) {
+        target = a;
+    }
+}
+
 /*
  * Movement
  */
@@ -74,7 +102,6 @@ void Actor::wait() {
     tick();
 }
 
-// TODO maybe check other Actor here, and move back ?
 void Actor::move() {
     tick();
     step();
