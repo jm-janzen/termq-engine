@@ -35,15 +35,12 @@ int startGame() {
     int numCoins   = global->getNoCoins();
     int numEnemies = global->getNoEnemies();
 
-    // Declared internally, to prevent ctors from running before main
     DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
     Window wgame = Window(game_area);
     Map map = Map(&wgame);
 
-    // Actors know about game window for movement
     Player player = Player();
 
-    // TODO Maybe combine with below...
     std::vector<Enemy> enemies;
     for (int i = 0; i < numEnemies; i++)
         enemies.push_back(Enemy());
@@ -57,8 +54,6 @@ int startGame() {
      * from each other.  Somewhere between a quarter
      * of a screen and half of a screen.
      */
-    //std::vector<Enemy*> enemies;
-        //enemies.push_back(new Enemy());
     uint_fast8_t quarterArea = (game_area.area() / 4);
     uint_fast8_t halfArea = (game_area.area() / 2);
     uint_fast8_t distance;
