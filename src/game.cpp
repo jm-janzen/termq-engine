@@ -66,7 +66,6 @@ int startGame() {
                 dangerClose = true;
                 break;
             } else {
-                //enemies.push_back(enemy);
                 dangerClose = false;
             }
         }

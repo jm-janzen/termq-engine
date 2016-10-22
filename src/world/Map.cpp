@@ -35,7 +35,6 @@ void Map::push(Entity &e) {
 
 /**
  * Remove an Entity from within map by its equality.
- * XXX not actually erasing from world
  */
 void Map::rm(Entity &e) {
     for (auto const &c : cells) {
