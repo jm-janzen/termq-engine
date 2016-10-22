@@ -30,55 +30,15 @@ void Actor::attack(Actor &a) {
     int_fast8_t dmgDealt = a.defend(getATK());
     if (dmgDealt == -1) target = NULL;
 }
-/*
-void Actor::attack(Entity *e) {
-    // TODO check if is child Actor
-
-    Actor* a = dynamic_cast<Actor*>(e);
-    if (a) {
-        int_fast8_t dmgDealt = a->defend(getATK());
-        if (dmgDealt == -1) target = NULL;
-    }
-    // Else, not an Actor
-}
-*/
 
 void Actor::addTarget(Actor *a) {
-    //printf("target added\n");
-    //targets->push_back(*a);
     if (a) {
         target = a;
     }
 }
 
-// XXX garbage
-//bool Actor::hasTarget(vec2ui cell) {
-//    bool yes = false;
-//    for (auto &t : *targets) {
-//        printf("%d,%d; %d,%d\n\r", t.getPos().x, t.getPos().y, cell.x, cell.y);
-//        if (cell == t.getPos()) {  // XXX segfault?
-//            yes = true;
-//            //*target = t;  // XXX this causes segfault?
-//            printf("target assigned\n");
-//        } else {
-//
-//            printf("no target\n");
-//        }
-//    }
-//    return yes == true;
-//}
-
 /*
  * Movement
- */
-
-// TODO check for other actor here?
-/*
- * TODO
- * XXX just one target for now
- * 1) check adjacent
- * 2) check direction (moving to?)
- * 3) don't move -- attack!
  */
 
 void  Actor::moveWest() {
@@ -142,9 +102,7 @@ void Actor::wait() {
     tick();
 }
 
-// TODO maybe check other Actor here, and move back ?
 void Actor::move() {
-    // TODO place attack checking logic here, and move to prev if actor ?
     tick();
     step();
 }
