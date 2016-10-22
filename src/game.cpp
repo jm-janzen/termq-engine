@@ -156,28 +156,35 @@ int startGame() {
 
         }
         if (map.checkCell(player.getPos(), "Enemy")) {
-            //player.attack(&map.getEntity(player.getPos()));
             for (Enemy &enemy : enemies) {
                 if (enemy.getPos() == player.getPos()) {
                     player.attack(enemy);
-                    //printf("%ld\n\r", enemy.getHP());
                 }
             }
             player.setPos(prevPos);
         }
 
         // Draw Coins again, and check if player has landed on
+        // TODO replace this for..range with std iter for loop
         for (auto &coin : coins) {
-            // Don't do anything unless coin 'belongs' to world
-            if (coin.getOwnership() == WORLD) {  // XXX without this, player still get invisicoins
-                if (player.atop(coin.getPos())) {
-                    coin.setOwnership(PLAYER);
-                    player.addItem(coin);
-                    map.rm(coin);
+            if (player.atop(coin.getPos())) {
+                coin.setOwnership(PLAYER);
+                player.addItem(coin);
 
-                    if ( ++coinsCollected == numCoins) {
-                        isGameover = true;
-                    }
+                // Erase this coin if owned by Player
+                coins.erase(
+                    std::remove_if(
+                        coins.begin(),
+                        coins.end(),
+                        [](Coin& c) -> bool {
+                            return c.getOwnership() == PLAYER;
+                        }
+                    ),
+                    coins.end()
+                );
+
+                if ( ++coinsCollected == numCoins) {
+                    isGameover = true;
                 }
             }
         }
@@ -191,16 +198,14 @@ int startGame() {
                     proximityAlert += "!";
                 }
             } else { // pop dead enemy
+                diagWin_game.push(player.getName()
+                        + " killed " + enemies[i].getType()
+                        + " " + enemies[i].getName() + "!");
                 enemies.erase(enemies.begin() + i);
             }
         }
 
         for (Enemy &enemy : enemies) {
-            // Cleanup dead enemies
-            if (enemy.getHP() <= 0) {
-                //printf("Enemy %s is dead!\n", enemy.getType().c_str());
-                map.rm(enemy);
-            }
             // Game Over
             if (enemy.atop(player.getPos())) {
                 wgame.coloSplash(COLOR_PAIR(1));
@@ -234,6 +239,12 @@ int startGame() {
             + " nfo: " + infoMsg
             + " " + proximityAlert
         );
+
+        // Re-init map with refs to updated entities
+        map = Map(&wgame);
+        map.push(player);
+        for (Coin  &coin  : coins)   map.push(coin);
+        for (Enemy &enemy : enemies) map.push(enemy);
     }
 
     /*
