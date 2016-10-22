@@ -49,26 +49,13 @@ int startGame() {
         coins.push_back(Coin());
 
 
-    /*
-     * Check if Player & Enemy are too near or too far
-     * from each other.  Somewhere between a quarter
-     * of a screen and half of a screen.
-     */
+    // Check if Player & Enemy are too near from each other.
     uint_fast8_t quarterArea = (game_area.area() / 4);
-    uint_fast8_t halfArea = (game_area.area() / 2);
-    uint_fast8_t distance;
-    bool dangerClose = true;
-    while (dangerClose == true) {
-        for (Enemy &enemy : enemies) {
-            enemy = Enemy(player);
-            distance = player.getDistance(enemy.getPos());
-            if (distance < quarterArea || distance > halfArea) {
-                dangerClose = true;
-                break;
-            } else {
-                dangerClose = false;
-            }
-        }
+    for (Enemy &enemy : enemies) {
+        enemy = Enemy(player);
+        do {
+            enemy.setPosRand();
+        } while (player.getDistance(enemy.getPos()) < quarterArea);
     }
 
 
