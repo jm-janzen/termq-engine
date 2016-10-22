@@ -200,6 +200,8 @@ int startGame() {
         diagWin_game.push(
             + "HP: "
             + std::to_string(player.getHP())
+            + " ST: "
+            + std::to_string(player.getST())
             + " DEF: "
             + std::to_string(player.getDEF())
             + " ATK: "

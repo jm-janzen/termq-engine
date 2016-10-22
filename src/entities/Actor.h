@@ -27,7 +27,6 @@ class Actor : public Entity {
         Actor(Window *newW);
 
         // Movement
-        // TODO maybe combine these and accept a Direction
         void  moveNorth();
         void  moveNorthEast();
         void  moveEast();
@@ -42,7 +41,7 @@ class Actor : public Entity {
         void  wait();
         void  tick();
         void  step();
-        void  move();  // tick + step
+        bool  move();  // Check stamina, and try to move
 
         int   getSteps() { return steps; }
         int   getTicks() { return ticks; }
@@ -53,6 +52,9 @@ class Actor : public Entity {
         uint_fast8_t getLCK() { return attr.LCK; }
         int_fast16_t getHP() { return attr.HP; }
         int_fast16_t getST() { return attr.ST; }
+
+        void drainHP(int_fast8_t drainAmt) { attr.HP -= drainAmt; }
+        void drainST(int_fast8_t drainAmt) { attr.ST -= drainAmt; }
 
         void attack(Actor &a);
         void attack(Entity *e);
