@@ -30,7 +30,14 @@ void Actor::attack(Actor &a) {
      */
     drainST(10);
     int_fast8_t dmgDealt = a.defend(getATK());
-    if (dmgDealt == -1) target = NULL;  // Target is dead
+    if (dmgDealt == -1) {  // Target is dead
+        target = NULL;
+        messages[++lastMessage] = getType() + " " + getName() + " kills " + a.getType();
+    } else {
+        messages[++lastMessage] = getType() + " " + getName()
+            + " attacks " + a.getType() + " for "
+            + std::to_string(dmgDealt) + " damage";
+    }
 }
 
 void Actor::addTarget(Actor *a) {

@@ -52,6 +52,8 @@ class Actor : public Entity {
         uint_fast8_t getLCK() { return attr.LCK; }
         int_fast16_t getHP() { return attr.HP; }
         int_fast16_t getST() { return attr.ST; }
+        std::string getLastMessage() { return messages[lastMessage]; }
+        std::string getNewMessages();  // TODO return only un-previously-returned messages
 
         void drainHP(int_fast8_t drainAmt) { attr.HP -= drainAmt; }
         void drainST(int_fast8_t drainAmt) { attr.ST -= drainAmt; }
@@ -73,6 +75,9 @@ class Actor : public Entity {
         Attributes attr;
         std::vector<Actor> *targets;
         Actor *target = 0;
+
+        std::string messages[255];
+        unsigned int lastMessage = 0;
 };
 
 #endif

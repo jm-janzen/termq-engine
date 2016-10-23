@@ -11,6 +11,7 @@ class Player : public Actor {
         Player();
 
         void addItem(Item &i);
+        std::vector<Item> getItems() { return items; }
 
         int  getScore();
     private:

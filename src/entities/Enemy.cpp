@@ -11,7 +11,9 @@
 Enemy::Enemy(Actor &a) : Actor() {
     setChar('X');
     setType("Enemy");
+    setName("Xarg");
     attr.HP = 30;
+    attr.ACT = 1;
     init_pair(1, COLOR_RED, -1);
     disp_colo = COLOR_PAIR(1);
 
