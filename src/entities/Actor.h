@@ -3,21 +3,23 @@
 #define ACTOR_H
 
 #include <vector>
-#include <cstdlib>
-#include <ncurses.h>
 
 #include "../directions.h"
 #include "../game.h"
 #include "../windows/Window.h"
 #include "Entity.h"
 
+// XXX perhaps these should to floats
 struct Attributes {
     uint_fast8_t ATK = 1;
     uint_fast8_t DEF = 0;
     uint_fast8_t ACT = 1;
     uint_fast8_t LCK = 1;
     int_fast8_t HP = 100;
-    int_fast8_t ST = 100;  // Attacking/Defending uses stamina, which is required to move
+    int_fast8_t ST = 100;
+
+    int_fast8_t maxHP = 100;
+    int_fast8_t maxST = 100;
 };
 
 class Actor : public Entity {
@@ -52,6 +54,8 @@ class Actor : public Entity {
         uint_fast8_t getLCK() { return attr.LCK; }
         int_fast16_t getHP() { return attr.HP; }
         int_fast16_t getST() { return attr.ST; }
+        int_fast16_t getMaxHP() { return attr.maxHP; }
+        int_fast16_t getMaxST() { return attr.maxST; }
         std::string getLastMessage() { return messages[lastMessage]; }
         std::string getNewMessages();  // TODO return only un-previously-returned messages
 
