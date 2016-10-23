@@ -11,8 +11,8 @@ Actor::Actor() {
 
 // TODO implement chance to block
 int_fast8_t Actor::defend(uint_fast8_t dmg) {
-    int_fast8_t effectiveDMG = std::abs((getDEF()) + dmg);
-    attr.HP -= effectiveDMG;
+    int_fast8_t effectiveDMG = std::abs((getDEF()) - dmg);
+    drainHP(effectiveDMG);
 
     if (attr.HP <= 0) {
         return -1;
@@ -114,6 +114,9 @@ void Actor::wait() {
     } else if (getST() < 100) {
         attr.ST += 5;
     }
+
+    messages[++lastMessage] = getType() + " " + getName() + " rests...";
+
     tick();
 }
 
@@ -126,6 +129,9 @@ void Actor::wait() {
 bool Actor::move() {
     tick();
     if (getST() > 0) step();
+
+
+    messages[++lastMessage] = "";
 
     return (getST() > 0);
 }

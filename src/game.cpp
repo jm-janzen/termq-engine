@@ -16,6 +16,7 @@
 #include "entities/Coin.h"
 #include "windows/Window.h"
 #include "windows/DiagWindow.h"
+#include "windows/StatusBar.h"
 
 using namespace std;
 
@@ -35,12 +36,16 @@ int startGame() {
     int numCoins   = global->getNoCoins();
     int numEnemies = global->getNoEnemies();
 
-    DiagWindow diagWin_game = DiagWindow({{41, 1}, {100,10}});
+    // Setup Windows
+    DiagWindow diagWin_game = DiagWindow({{45, 1}, {80,10}});
     Window wgame = Window(game_area);
     Map map = Map(&wgame);
 
+    // StatusBar needs an Actor
     Player player = Player();
+    StatusBar  statusBar    = StatusBar ({{41, 1}, {80, 4}}, player);
 
+    // Setup non-Player entities
     std::vector<Enemy> enemies;
     for (int i = 0; i < numEnemies; i++)
         enemies.push_back(Enemy());
@@ -59,7 +64,8 @@ int startGame() {
     }
 
 
-    /* Init placement of Player, Enemy, and Coins
+    /*
+     * Init placement of Player, Enemy, and Coins
      * Map prioritises drawing items in the reverse
      * of the order that they were added
      */
@@ -81,6 +87,9 @@ int startGame() {
 
         // Draw all entities
         map.draw();
+
+        statusBar.refresh();
+        diagWin_game.refresh();
 
         infoMsg = "";
         vec2ui prevPos = player.getPos();
@@ -141,10 +150,14 @@ int startGame() {
             for (Enemy &enemy : enemies) {
                 if (enemy.getPos() == player.getPos()) {
                     player.attack(enemy);
-                    diagWin_game.push(player.getLastMessage());
                 }
             }
             player.setPos(prevPos);
+        }
+
+        std::string playerLastMessage = player.getLastMessage();
+        if (playerLastMessage != "") {
+            diagWin_game.push(playerLastMessage);
         }
 
         // Draw Coins again, and check if player has landed on
@@ -194,42 +207,17 @@ int startGame() {
             }
         }
 
-        for (Enemy &enemy : enemies) {
-            // Game Over
-            if (enemy.atop(player.getPos())) {
-                wgame.coloSplash(COLOR_PAIR(1));
-
-                diagWin_game.push("GAME OVER!");
-                isGameover = true;
-                break;
-            }
+        // Game Over
+        if (player.getHP() <= 0) {
+            wgame.coloSplash(COLOR_PAIR(1));  // Red
+            diagWin_game.push("GAME OVER!");
+            isGameover = true;
+            break;
         }
 
-        diagWin_game.push(
-            + "HP: "
-            + std::to_string(player.getHP())
-            + " ST: "
-            + std::to_string(player.getST())
-            + " DEF: "
-            + std::to_string(player.getDEF())
-            + " ATK: "
-            + std::to_string(player.getATK())
-            + " ACT: "
-            + std::to_string(player.getACT())
-            + " LCK: "
-            + std::to_string(player.getLCK())
-            + " stp: "
-            + std::to_string(player.getSteps())
-            + " ptk: "
-            + std::to_string(player.getTicks())
-            + " gtk: "
-            + std::to_string(global->getTicks())
-            + " scr: "
-            + std::to_string(player.getScore())
-            + " dif: " + global->getDifficultyStr()
-            + " nfo: " + infoMsg
-            + " " + proximityAlert
-        );
+        // Redraw player's statusbar
+        statusBar.refresh();
+
 
         // Re-init map with refs to updated entities
         map = Map(&wgame);
