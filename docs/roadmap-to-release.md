@@ -4,16 +4,16 @@ There are four major milestones planned for termq, which will take it from conce
 
 ## Pre-alpha
 - Started:  25/07/2016
-- Finished:
+- Finished: 23/10/2016
 - Deadline: 30/10/2016
 
 ### Goals
-- [ ] Design and implement core architecture.
-- [ ] Stub out major components, classes.
-- [ ] Gameplay flow from start to finish.
+- [x] Design and implement core architecture.
+- [x] Stub out major components, classes.
+- [x] Gameplay flow from start to finish.
 
 ## Alpha
-- Started:
+- Started:  23/10/2016
 - Finished:
 - Deadline: 30/01/2017
 
