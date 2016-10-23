@@ -49,26 +49,13 @@ int startGame() {
         coins.push_back(Coin());
 
 
-    /*
-     * Check if Player & Enemy are too near or too far
-     * from each other.  Somewhere between a quarter
-     * of a screen and half of a screen.
-     */
+    // Check if Player & Enemy are too near from each other.
     uint_fast8_t quarterArea = (game_area.area() / 4);
-    uint_fast8_t halfArea = (game_area.area() / 2);
-    uint_fast8_t distance;
-    bool dangerClose = true;
-    while (dangerClose == true) {
-        for (Enemy &enemy : enemies) {
-            enemy = Enemy(player);
-            distance = player.getDistance(enemy.getPos());
-            if (distance < quarterArea || distance > halfArea) {
-                dangerClose = true;
-                break;
-            } else {
-                dangerClose = false;
-            }
-        }
+    for (Enemy &enemy : enemies) {
+        enemy = Enemy(player);
+        do {
+            enemy.setPosRand();
+        } while (player.getDistance(enemy.getPos()) < quarterArea);
     }
 
 
@@ -85,7 +72,7 @@ int startGame() {
      * Game loop begin.
      */
 
-    int ch, coinsCollected = 0;
+    int coinsCollected = 0;
     string infoMsg = "";
     bool isGameover = false;
     while (isGameover == false) {
@@ -95,11 +82,10 @@ int startGame() {
         // Draw all entities
         map.draw();
 
-        ch      = wgame.getChar();
         infoMsg = "";
         vec2ui prevPos = player.getPos();
 
-        switch (ch) {
+        switch (wgame.getChar()) {
             /*
              * Diagonal keys
              */
@@ -144,15 +130,18 @@ int startGame() {
                 break;
             case 27:        /* ESC */
                 isGameover = true;
+                break;
             default:
                 player.wait();
                 infoMsg = player.getName();
 
         }
+
         if (map.checkCell(player.getPos(), "Enemy")) {
             for (Enemy &enemy : enemies) {
                 if (enemy.getPos() == player.getPos()) {
                     player.attack(enemy);
+                    diagWin_game.push(player.getLastMessage());
                 }
             }
             player.setPos(prevPos);
@@ -184,17 +173,23 @@ int startGame() {
         }
 
         // Enemy, seek out player
+        std::string enemyLastMessage = "";
         string proximityAlert = "";
         for (size_t i = 0; i < enemies.size(); i++) {
-            if (enemies[i].getHP() > 0) {  // TODO some sort of alive or dead flag
-                enemies[i].move();
-                if (enemies[i].isAdjacent(player.getPos())) {
-                    proximityAlert += "!";
+            if (enemies[i].getHP() > 0) {
+
+                // Number of moves == enemy's ACT attribute
+                for (size_t j = 0; j < enemies[i].getACT(); j++) {
+                    enemies[i].move();
+                    enemyLastMessage = enemies[i].getLastMessage();
+                    if (enemyLastMessage != "") {
+                        diagWin_game.push(enemyLastMessage);
+                    }
                 }
+
+                // One `!' for each enemy in combat range
+                if (enemies[i].isAdjacent(player.getPos())) proximityAlert += "!";
             } else { // pop dead enemy
-                diagWin_game.push(player.getName()
-                        + " killed " + enemies[i].getType()
-                        + " " + enemies[i].getName() + "!");
                 enemies.erase(enemies.begin() + i);
             }
         }
@@ -213,6 +208,8 @@ int startGame() {
         diagWin_game.push(
             + "HP: "
             + std::to_string(player.getHP())
+            + " ST: "
+            + std::to_string(player.getST())
             + " DEF: "
             + std::to_string(player.getDEF())
             + " ATK: "

@@ -26,19 +26,19 @@ class Global {
                     break;
                 case EASY:
                     noCoins = 50;
-                    noEnemies = 1;
+                    noEnemies = 3;
                     break;
                 case MEDIUM:
                     noCoins = 10;
-                    noEnemies = 1;
+                    noEnemies = 5;
                     break;
                 case HARD:
                     noCoins = 10;
-                    noEnemies = 2;
+                    noEnemies = 10;
                     break;
                 case NIGHTMARE:
                     noCoins = 10;
-                    noEnemies = 3;
+                    noEnemies = 50;
                     break;
             }
         };
