@@ -7,7 +7,7 @@ A personal adventure with ncurses.
 
 ## Requirements
 
-Requires `g++ 4.3` or `clang++ 3.8`, `libncurses5-dev`.
+Requires (`g++ 4.3` or `clang++ 3.8`), `libncurses5-dev`, `cmake 2.8.12.2`.
 
 ---
 
