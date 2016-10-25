@@ -1,8 +1,14 @@
 #include <gtest/gtest.h>
-#include "../entities/Entity.h"
+#include "../src/game.h"
+#include "../src/entities/Entity.h"
 
-TEST( a, b ) {
-    ASSERT_EQ( "OINK", "OINK" );
+TEST( Entity, Position ) {
+    Entity e;
+    e.setPos({0,0});
+
+    vec2ui expect = {0,0};
+
+    ASSERT_EQ(e.getPos(), expect);
 }
 TEST( b, b ) {
     ASSERT_EQ( "OINK", "OINK" );

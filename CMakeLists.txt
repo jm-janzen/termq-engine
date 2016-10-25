@@ -45,3 +45,5 @@ endif(NCURSES_FOUND)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 add_subdirectory(src)
+add_subdirectory(test)
+
