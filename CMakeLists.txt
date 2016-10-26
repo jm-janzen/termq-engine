@@ -61,4 +61,5 @@ add_subdirectory(src)
 
 add_subdirectory(test)
 enable_testing()
-add_test(test1 MyTest COMMAND Test)
+
+add_test(test1 test/Test)

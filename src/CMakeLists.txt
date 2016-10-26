@@ -3,6 +3,9 @@ file(GLOB_RECURSE termq_SOURCES "*.cpp")
 file(GLOB_RECURSE termq_HEADERS "*.h")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+# Add all sources except main.cpp
+# TODO include all, then remove main.cpp
 add_library(TERMQ_LIB
     directions.h
     game.h
