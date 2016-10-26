@@ -13,6 +13,7 @@ before_install:
     - sudo apt-get install clang-3.8 -y
     - sudo apt-get install libncurses5-dev
     - sudo apt-get install libc++-dev
+    - sudo apt-get install libgtest-dev
 
 env: COMPILER_NAME=clang CXX=clang++-3.8 CC=clang-3.8
 addons:
