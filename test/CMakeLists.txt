@@ -12,9 +12,9 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 #add_executable(test_termq ${test_SOURCES})
 #target_link_libraries(test_termq ${GTEST_LIBRARIES} ${NCURSES_LIBRARIES} pthread)
-target_link_libraries(test_termq ${GTEST_LIBRARIES} ${NCURSES_LIBRARIES} ${termq_LIBRARIES} pthread)
+#target_link_libraries(test_termq ${GTEST_LIBRARIES} ${NCURSES_LIBRARIES} ${termq_LIBRARIES} pthread)
 
 #add_library(test_termq ${test_SOURCES})
-add_executable(test_termq ${test_SOURCES})
-target_include_directories(test_termq PUBLIC include)
+#add_executable(test_termq ${test_SOURCES})
+#target_include_directories(test_termq PUBLIC include)
 

@@ -57,15 +57,9 @@ ExternalProject_Add(googletest
     # Disable install step
     INSTALL_COMMAND ""
     )
-
-# Specify include dir
-ExternalProject_Get_Property(googletest source_dir)
-set(GTEST_INCLUDE_DIRS ${source_dir}/googletest/include PARENT_SCOPE)
-
-# Specify MainTest's link libraries
-ExternalProject_Get_Property(googletest binary_dir)
-set(GTEST_LIBS_DIR ${binary_dir}/googlemock/gtest PARENT_SCOPE)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 
 add_subdirectory(src)
-#add_subdirectory(test)
+add_subdirectory(test)
 
