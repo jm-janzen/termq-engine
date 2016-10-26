@@ -62,4 +62,5 @@ add_subdirectory(src)
 add_subdirectory(test)
 enable_testing()
 
-add_test(test1 test/Test)
+add_test(TEST_VEC2UI test/Test_vec2ui)
+add_test(TEST_ENTITY test/Test_entity)

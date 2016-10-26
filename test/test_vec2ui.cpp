@@ -1,12 +1,9 @@
 
 #include "gtest/gtest.h"
 
-#include "../src/entities/Entity.h"
 #include "../src/game.h"
 
 TEST(vec2ui, equality) {
-    Entity e;
-    e.setPos({0,0});
     vec2ui a = {0,0};
     vec2ui b = {0,0};
 
@@ -22,28 +19,6 @@ TEST(vec2ui, inequality) {
 
     bool expect = false;
     bool actual = (a == b);
-
-    ASSERT_EQ( expect, actual );
-}
-
-// TODO separate these tests
-
-TEST(Entity, pos) {
-    Entity e;
-    e.setPos({0,0});
-
-    vec2ui expect = {0,0};
-    vec2ui actual = e.getPos();
-
-    ASSERT_EQ( expect, actual );
-}
-
-TEST(Entity, disp_char) {
-    Entity e;
-    e.setChar('T');
-
-    char expect = 'T';
-    char actual = e.getDispChar();
 
     ASSERT_EQ( expect, actual );
 }
