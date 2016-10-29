@@ -4,6 +4,29 @@
 #include "../src/entities/Entity.h"
 #include "../src/game.h"
 
+/*
+ * Method tests
+ */
+
+TEST(Entity, equality) {
+    Entity e1;
+    Entity e2;
+    e1.setPos({0,0});
+    e2.setPos({0,0});
+    e1.setChar('&');
+    e2.setChar('&');
+
+    bool expect = true;
+    bool actual = (e1 == e2);
+
+    ASSERT_EQ( expect, actual );
+}
+
+
+/*
+ * Member get/set tests
+ */
+
 TEST(Entity, pos) {
     Entity e;
     e.setPos({0,0});
@@ -20,6 +43,47 @@ TEST(Entity, disp_char) {
 
     char expect = 'T';
     char actual = e.getDispChar();
+
+    ASSERT_EQ( expect, actual );
+}
+
+TEST(Entity, disp_colo) {
+    Entity e;
+    init_pair(0, COLOR_WHITE, -1);
+    e.setColo(COLOR_PAIR(0));
+
+    int expect = COLOR_PAIR(0);
+    int actual = e.getDispColo();
+
+    ASSERT_EQ( expect, actual );
+}
+
+TEST(Entity, name) {
+    Entity e;
+    e.setName("Yours truly");
+
+    std::string expect = "Yours truly";
+    std::string actual = e.getName();
+
+    ASSERT_EQ( expect, actual );
+}
+
+TEST(Entity, type) {
+    Entity e;
+    e.setName("Introvert");
+
+    std::string expect = "Introvert";
+    std::string actual = e.getName();
+
+    ASSERT_EQ( expect, actual );
+}
+
+TEST(Entity, desc) {
+    Entity e;
+    e.setName("Just another dreamer");
+
+    std::string expect = "Just another dreamer";
+    std::string actual = e.getName();
 
     ASSERT_EQ( expect, actual );
 }
