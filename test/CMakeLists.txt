@@ -1,7 +1,6 @@
 
 include_directories(${TEST_SOURCE_DIR}/src)
 
-#add_executable(Test test.cpp)
 add_executable(Test_vec2ui test_vec2ui.cpp)
 target_link_libraries(Test_vec2ui
     gtest
