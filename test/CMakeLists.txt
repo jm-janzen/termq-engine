@@ -1,20 +1,18 @@
-project(test_termq)
 
-#file(GLOB_RECURSE test_SOURCES "../src/*.cpp")
-#file(GLOB_RECURSE test_HEADERS "../src/*.h")
-file(GLOB_RECURSE test_SOURCES "*.cpp")
-file(GLOB_RECURSE test_HEADERS "*.h")
-#message("TEST SOURCES:" ${test_SOURCES})
- 
-# Locate GTest
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(${TEST_SOURCE_DIR}/src)
 
-#add_executable(test_termq ${test_SOURCES})
-#target_link_libraries(test_termq ${GTEST_LIBRARIES} ${NCURSES_LIBRARIES} pthread)
-#target_link_libraries(test_termq ${GTEST_LIBRARIES} ${NCURSES_LIBRARIES} ${termq_LIBRARIES} pthread)
+#add_executable(Test test.cpp)
+add_executable(Test_vec2ui test_vec2ui.cpp)
+target_link_libraries(Test_vec2ui
+    gtest
+    pthread
+)
 
-#add_library(test_termq ${test_SOURCES})
-#add_executable(test_termq ${test_SOURCES})
-#target_include_directories(test_termq PUBLIC include)
+add_executable(Test_entity test_entity.cpp)
+target_link_libraries(Test_entity
+    TERMQ_LIB
+    gtest
+    pthread
+    ${NCURSES_LIBRARIES}
+)
 

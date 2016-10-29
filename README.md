@@ -25,7 +25,18 @@ cd termq/build
 
 ```bash
 # Build the project locally
-cmake .. && make -j4
+cmake .. && make -j4  # or cmake --build .
+```
+
+## Testing instructions
+```bash
+cd termq/build
+
+# Run all tests
+ctest -V
+
+# Run specific test binaries
+./test/Test_[GROUP]  # Eg: ./test/Test_entity  (BUG: ncurses may interfere with terminal output)
 ```
 
 ```bash

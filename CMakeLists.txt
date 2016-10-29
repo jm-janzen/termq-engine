@@ -1,6 +1,7 @@
 
 cmake_minimum_required(VERSION 2.8.12)
 project (termq)
+enable_language(CXX)
 
 include(CheckCXXCompilerFlag)
 
@@ -18,15 +19,12 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
-
 include(FindPackageHandleStandardArgs)
-
 find_path(NCURSES_INCLUDES
             NAMES ncurses.h
             PATHS
             ${INCLUDE_INSTALL_DIR}
 )
-
 find_library(NCURSES_LIBRARIES
                 NAMES ncurses
                 PATHS
@@ -41,7 +39,6 @@ if(NCURSES_FOUND)
 else(NCURSES_FOUND)
     message(FATAL_ERROR "Could not find ncurses")
 endif(NCURSES_FOUND)
-
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 include(ExternalProject)
@@ -58,8 +55,13 @@ ExternalProject_Add(googletest
     INSTALL_COMMAND ""
     )
 find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_subdirectory(src)
-add_subdirectory(test)
 
+add_subdirectory(test)
+enable_testing()
+
+add_test(TEST_VEC2UI test/Test_vec2ui)
+add_test(TEST_ENTITY test/Test_entity)
