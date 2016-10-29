@@ -16,9 +16,9 @@ before_install:
     - sudo apt-get install libgtest-dev
     # gtest porkaround
     - cd /usr/src/gtest
-    - sudo -i cmake .
-    - sudo -i make
-    - sudo -i mv libgtest* /usr/lib/
+    - sudo cmake .
+    - sudo make
+    - sudo mv libgtest* /usr/lib/
     - cd "${TRAVIS_BUILD_DIR}"
 
 env: COMPILER_NAME=clang CXX=clang++-3.8 CC=clang-3.8
