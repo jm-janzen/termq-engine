@@ -10,6 +10,7 @@ before_install:
     - if [ "$CXX" == "g++" ]; then export CXX="g++-4.8"; fi
     - sudo add-apt-repository ppa:adrozdoff/llvm-backport -y
     - sudo apt-get update -q
+    - sudo apt-get install cmake gcc g++
     - sudo apt-get install clang-3.8 -y
     - sudo apt-get install libncurses5-dev
     - sudo apt-get install libc++-dev
