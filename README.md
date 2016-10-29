@@ -28,6 +28,11 @@ cd termq/build
 cmake .. && make -j4  # or cmake --build .
 ```
 
+```bash
+# Execute the compiled binary
+../bin/termq
+```
+
 ## Testing instructions
 ```bash
 cd termq/build
@@ -39,10 +44,6 @@ ctest -V
 ./test/Test_[GROUP]  # Eg: ./test/Test_entity  (BUG: ncurses may interfere with terminal output)
 ```
 
-```bash
-# Execute the compiled binary
-../bin/termq
-```
 
 ## Future Plans
 
