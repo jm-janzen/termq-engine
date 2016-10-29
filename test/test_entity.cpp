@@ -22,6 +22,28 @@ TEST(Entity, equality) {
     ASSERT_EQ( expect, actual );
 }
 
+/* Direction tests */
+TEST(Entity, isDirection) {
+    Entity e1;
+    Entity e2;
+    e1.setPos({1,1}); // source
+    e2.setPos({0,0}); // target
+
+    // target is NorthWest of source
+    bool expect = (
+           !e1.isNorth(e2)
+        && !e1.isSouth(e2)
+        && !e1.isEast(e2)
+        && !e1.isWest(e2)
+        && !e1.isNorthEast(e2)
+        && !e1.isSouthEast(e2)
+        && !e1.isSouthWest(e2)
+        &&  e1.isNorthWest(e2)
+    );
+    bool actual = true;
+
+    ASSERT_EQ( expect, actual );
+}
 
 /*
  * Member get/set tests

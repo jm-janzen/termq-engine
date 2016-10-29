@@ -3,11 +3,12 @@ dist: trusty
 os: linux
 language: cpp
 compiler:
-    - clang
+    - clang++
     - g++
 before_install:
     - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8"; fi
     - if [ "$CXX" == "g++" ]; then export CXX="g++-4.8"; fi
+    - export CC=gcc
     - sudo add-apt-repository ppa:adrozdoff/llvm-backport -y
     - sudo apt-get update -q
     - sudo apt-get install cmake gcc g++
