@@ -119,6 +119,10 @@ void Entity::setPos(vec2ui newPos) {
 void Entity::setPosRand() {
     uint_fast8_t randx = (rand() % (game_area.right() -1) + 1);
     uint_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
+
+    spdlog::get("termq")->info("Randomising Entity \"{}\" pos from ({},{}) to ({},{})",
+            getType(), getPos().x, getPos().y, randx, randy);
+
     setPos({ randx, randy });
 }
 
