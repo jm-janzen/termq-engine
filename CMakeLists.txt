@@ -30,16 +30,23 @@ find_library(NCURSES_LIBRARIES
                 PATHS
                 ${LIB_INSTALL_DIR}
 )
+include_directories("spdlog" REQUIRED)
+#find_path(SPDLOG_INCLUDES
+#    NAMES spdlog.h
+#    PATHS
+#    ${INCLUDE_INSTALL_DIR}
+#)
+include_directories("src" REQUIRED)
+
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 find_package_handle_standard_args(ncurses DEFAULT_MSG NCURSES_INCLUDES NCURSES_LIBRARIES)
-
 if(NCURSES_FOUND)
     message(STATUS "Found ncurses: ${NCURSES_LIBRARIES}")
     message(STATUS "Found c++11 compiler: ${CMAKE_CXX_COMPILER}")
 else(NCURSES_FOUND)
     message(FATAL_ERROR "Could not find ncurses")
 endif(NCURSES_FOUND)
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 include(ExternalProject)
 ExternalProject_Add(googletest

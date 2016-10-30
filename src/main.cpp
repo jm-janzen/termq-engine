@@ -1,11 +1,17 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "spdlog/spdlog.h"
+
 #include "menu.h"
 
 using namespace std;
 
 int main() {
+    // Init basic log
+    auto console = spdlog::basic_logger_mt("console", "logs/termq.log");
+    console->info("Hello logging world!");
+
     srand(time(0));
 
     int playerScore = 0;
