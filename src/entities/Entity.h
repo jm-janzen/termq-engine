@@ -15,6 +15,7 @@
 class Entity {
 
     public:
+        Entity();
         /**
          * Render this Entity explicitly to specific window.
          */

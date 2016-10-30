@@ -2,9 +2,18 @@
 #include <ncurses.h>
 #include <math.h>
 #include <cmath>
+#include <sstream>
 
+#include "../spdlog/spdlog.h"
 #include "Entity.h"
 
+Entity::Entity() {
+    std::ostringstream address;
+    address << (void const*)this;
+    std::string a = address.str();
+
+    spdlog::get("termq")->info("Instantiating Entity \"{}\"", a);
+}
 void Entity::render(Window &w) {
     w.draw(getPos(), getDispChar(), getDispColo());
 }

@@ -1,5 +1,6 @@
 
 #include "gtest/gtest.h"
+#include "../src/spdlog/spdlog.h"
 
 #include "../src/entities/Entity.h"
 #include "../src/game.h"
@@ -9,8 +10,8 @@
  */
 
 TEST(Entity, equality) {
-    Entity e1;
-    Entity e2;
+    Entity e1 = Entity();
+    Entity e2 = Entity();
     e1.setPos({0,0});
     e2.setPos({0,0});
     e1.setChar('&');
@@ -24,8 +25,8 @@ TEST(Entity, equality) {
 
 /* Direction tests */
 TEST(Entity, isDirection) {
-    Entity e1;
-    Entity e2;
+    Entity e1 = Entity();
+    Entity e2 = Entity();
     e1.setPos({1,1}); // source
     e2.setPos({0,0}); // target
 
@@ -46,7 +47,7 @@ TEST(Entity, isDirection) {
 }
 
 TEST(Entity, atop) {
-    Entity e;
+    Entity e = Entity();
     e.setPos({0,0});
     vec2ui nextToEntity = {1,1};
 
@@ -57,7 +58,7 @@ TEST(Entity, atop) {
 }
 
 TEST(Entity, isAdjacent) {
-    Entity e;
+    Entity e = Entity();
     e.setPos({0,0});
     vec2ui onEntity = {0,0};
 
@@ -68,7 +69,7 @@ TEST(Entity, isAdjacent) {
 }
 
 TEST(Entity, getDistance) {
-    Entity e;
+    Entity e = Entity();
     e.setPos({0,0});
     vec2ui nearBy = {10,10};
 
@@ -79,7 +80,7 @@ TEST(Entity, getDistance) {
 }
 
 TEST(Entity, set_getPosRand) {
-    Entity e;
+    Entity e = Entity();
     e.setPos({0,0});
     e.setPosRand();
 
@@ -94,8 +95,8 @@ TEST(Entity, set_getPosRand) {
 }
 
 TEST(Entity, getDirection) {
-    Entity e1;
-    Entity e2;
+    Entity e1 = Entity();
+    Entity e2 = Entity();
     e1.setPos({0,0});
     e2.setPos({5,0});
 
@@ -106,7 +107,7 @@ TEST(Entity, getDirection) {
 }
 
 TEST(Entity, render) {
-    Entity e;
+    Entity e = Entity();
     Window w({{0,0},{10,10}});  // 10x10 Window in top-left position
     e.render(w);  // Void function - deprecated anyway
 }
@@ -116,7 +117,7 @@ TEST(Entity, render) {
  */
 
 TEST(Entity, pos) {
-    Entity e;
+    Entity e = Entity();
     e.setPos({0,0});
 
     vec2ui expect = {0,0};
@@ -126,7 +127,7 @@ TEST(Entity, pos) {
 }
 
 TEST(Entity, disp_char) {
-    Entity e;
+    Entity e = Entity();
     e.setChar('T');
 
     char expect = 'T';
@@ -136,7 +137,7 @@ TEST(Entity, disp_char) {
 }
 
 TEST(Entity, disp_colo) {
-    Entity e;
+    Entity e = Entity();
     init_pair(0, COLOR_WHITE, -1);
     e.setColo(COLOR_PAIR(0));
 
@@ -147,7 +148,7 @@ TEST(Entity, disp_colo) {
 }
 
 TEST(Entity, name) {
-    Entity e;
+    Entity e = Entity();
     e.setName("Yours truly");
 
     std::string expect = "Yours truly";
@@ -157,7 +158,7 @@ TEST(Entity, name) {
 }
 
 TEST(Entity, type) {
-    Entity e;
+    Entity e = Entity();
     e.setName("Introvert");
 
     std::string expect = "Introvert";
@@ -167,7 +168,7 @@ TEST(Entity, type) {
 }
 
 TEST(Entity, desc) {
-    Entity e;
+    Entity e = Entity();
     e.setName("Just another dreamer");
 
     std::string expect = "Just another dreamer";
@@ -177,7 +178,18 @@ TEST(Entity, desc) {
 }
 
 int main(int argc, char **argv) {
+    /*
+     * NB: If this logger is not initialised, tests will fail.
+     */
+    auto daily_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/testing", "log", 1024 * 24, 0);
+    auto logger = std::make_shared<spdlog::logger>("termq", daily_sink);
+    spdlog::register_logger(logger);
+
+    spdlog::get("termq")->info("START TESTING");
+
     testing::InitGoogleTest(&argc, argv);
+
+    spdlog::get("termq")->info("DONE TESTING");
     return RUN_ALL_TESTS();
 }
 

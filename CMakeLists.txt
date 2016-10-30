@@ -7,10 +7,9 @@ include(CheckCXXCompilerFlag)
 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable -pthread" )
 
-#option(USE_CLANG "build application with clang" ON)
-#if(USE_CLANG)
-#	set(CMAKE_CXX_COMPILER "clang++")
+include_directories("src" REQUIRED)  # set as base dir for in-source `#includes'
 
 if(COMPILER_SUPPORTS_CXX11)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -19,26 +18,18 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
+
 include(FindPackageHandleStandardArgs)
 find_path(NCURSES_INCLUDES
-            NAMES ncurses.h
-            PATHS
-            ${INCLUDE_INSTALL_DIR}
+    NAMES ncurses.h
+    PATHS
+    ${INCLUDE_INSTALL_DIR}
 )
 find_library(NCURSES_LIBRARIES
-                NAMES ncurses
-                PATHS
-                ${LIB_INSTALL_DIR}
+    NAMES ncurses
+    PATHS
+    ${LIB_INSTALL_DIR}
 )
-include_directories("spdlog" REQUIRED)
-#find_path(SPDLOG_INCLUDES
-#    NAMES spdlog.h
-#    PATHS
-#    ${INCLUDE_INSTALL_DIR}
-#)
-include_directories("src" REQUIRED)
-
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic-errors -Wno-unused-variable" )
 
 find_package_handle_standard_args(ncurses DEFAULT_MSG NCURSES_INCLUDES NCURSES_LIBRARIES)
 if(NCURSES_FOUND)
@@ -60,7 +51,8 @@ ExternalProject_Add(googletest
     PREFIX "${CMAKE_CURRENT_BINARY_DIR}"
     # Disable install step
     INSTALL_COMMAND ""
-    )
+)
+
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
