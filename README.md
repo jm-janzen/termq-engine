@@ -16,19 +16,13 @@ Requires (`g++ 4.3` or `clang++ 3.8`), `libncurses5-dev`, `cmake 2.8.12.2`.
 ```bash
 # Copy the source files
 git clone https://github.com/jm-janzen/termq.git
-```
 
-```bash
 # Navigate to project's build directory
 cd termq/build
-```
 
-```bash
 # Build the project locally
 cmake .. && make -j4  # or cmake --build .
-```
 
-```bash
 # Execute the compiled binary
 ../bin/termq
 ```
