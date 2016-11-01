@@ -24,13 +24,7 @@ using namespace std;
 
 int startGame() {
 
-    /*
-     * Pre-game loop init.
-     * TODO
-     *  1) Init entities.
-     *  2) Init map with entities.
-     *  3) draw map.
-     */
+    spdlog::get("termq")->info("startGame()");
 
     // Retrieve global refs
     Global *global = Global::get();
@@ -235,6 +229,7 @@ int startGame() {
     map.draw();  // Draw last frame.
 
     // TODO eventually return more information
+    spdlog::get("termq")->info("startGame() // return {}", player.getScore());
     return player.getScore();
 }
 

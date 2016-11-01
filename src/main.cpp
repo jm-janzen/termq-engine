@@ -13,7 +13,7 @@ int main() {
     auto logger = std::make_shared<spdlog::logger>("termq", daily_sink);
     spdlog::register_logger(logger);
 
-    spdlog::get("termq")->info("START GAME");
+    spdlog::get("termq")->info(" --- START ---");
 
     srand(time(0));
 
@@ -30,6 +30,6 @@ int main() {
     printf("score:      %d\n", playerScore);
     printf("~~~~~~~~~~~~~~~~~\n");
 
-    spdlog::get("termq")->info("DONE GAME");
+    spdlog::get("termq")->info(" --- STOP ---");
     return 0;
 }
