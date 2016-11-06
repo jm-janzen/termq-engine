@@ -33,4 +33,4 @@ addons:
             - g++-4.8
             - clang++-3.8
 script:
-    cd build && cmake .. && make
+    - cd build && cmake .. && make -j10 && ctest -VV

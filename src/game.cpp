@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <time.h>
 #include <stdio.h>
+#include "spdlog/spdlog.h"
 
 #include <string>
 #include <algorithm>
@@ -23,13 +24,7 @@ using namespace std;
 
 int startGame() {
 
-    /*
-     * Pre-game loop init.
-     * TODO
-     *  1) Init entities.
-     *  2) Init map with entities.
-     *  3) draw map.
-     */
+    spdlog::get("termq")->info("startGame()");
 
     // Retrieve global refs
     Global *global = Global::get();
@@ -43,7 +38,7 @@ int startGame() {
 
     // StatusBar needs an Actor
     Player player = Player();
-    StatusBar  statusBar    = StatusBar ({{41, 1}, {80, 4}}, player);
+    StatusBar statusBar = StatusBar({{41, 1}, {80, 4}}, player);
 
     // Setup non-Player entities
     std::vector<Enemy> enemies;
@@ -203,12 +198,14 @@ int startGame() {
                 // One `!' for each enemy in combat range
                 if (enemies[i].isAdjacent(player.getPos())) proximityAlert += "!";
             } else { // pop dead enemy
+                spdlog::get("termq")->info("Pop Enemy \"{}\"", enemies[i].getName());
                 enemies.erase(enemies.begin() + i);
             }
         }
 
         // Game Over
         if (player.getHP() <= 0) {
+            spdlog::get("termq")->info("Player dead, HP == {}", player.getHP());
             wgame.coloSplash(COLOR_PAIR(1));  // Red
             diagWin_game.push("GAME OVER!");
             isGameover = true;
@@ -232,6 +229,7 @@ int startGame() {
     map.draw();  // Draw last frame.
 
     // TODO eventually return more information
+    spdlog::get("termq")->info("startGame() // return {}", player.getScore());
     return player.getScore();
 }
 
