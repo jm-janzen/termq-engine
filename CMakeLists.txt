@@ -71,3 +71,4 @@ enable_testing()
 
 add_test(TEST_VEC2UI test/Test_vec2ui)
 add_test(TEST_ENTITY test/Test_entity)
+add_test(TEST_ITEM   test/Test_item)

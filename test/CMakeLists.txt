@@ -15,3 +15,11 @@ target_link_libraries(Test_entity
     ${NCURSES_LIBRARIES}
 )
 
+add_executable(Test_item test_item.cpp)
+target_link_libraries(Test_item
+    TERMQ_LIB
+    gtest
+    pthread
+    ${NCURSES_LIBRARIES}
+)
+
