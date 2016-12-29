@@ -19,6 +19,5 @@ add_library(TERMQ_LIB
 )
 
 # Add library target `termq'
-add_library(termq ${lib_src})
-target_link_libraries(termq PRIVATE ${NCURSES_LIBRARIES})
-
+add_library(termq_lib ${lib_src})
+target_link_libraries(termq_lib PRIVATE ${NCURSES_LIBRARIES})
