@@ -1,6 +1,6 @@
 # Terminal Quest
 ![travis build status]
-(https://travis-ci.org/jm-janzen/termq.svg?branch=master)
+(https://travis-ci.org/jm-janzen/termq-engine.svg?branch=master)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jm-janzen/termq/blob/master/LICENSE.md)
 
 A personal adventure with ncurses.
