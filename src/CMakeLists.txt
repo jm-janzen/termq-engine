@@ -10,7 +10,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 add_library(TERMQ_LIB
     directions.h
     game.h
-    gameover.cpp
     gameover.h
     menu.h
     entities/Actor.cpp
