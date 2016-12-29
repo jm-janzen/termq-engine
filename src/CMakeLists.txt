@@ -18,6 +18,14 @@ add_library(TERMQ_LIB
     ${lib_src}
 )
 
+message("Exporting termq-engine as a library ...")
+
 # Add library target `termq'
 add_library(termq_lib ${lib_src})
 target_link_libraries(termq_lib PRIVATE ${NCURSES_LIBRARIES})
+
+install(TARGETS termq_lib DESTINATION lib EXPORT termq_lib-targets)
+install(EXPORT termq_lib-targets DESTINATION lib/termq_lib)
+
+message("Exported to ${CMAKE_CURRENT_LIST_DIR}/lib")
+
