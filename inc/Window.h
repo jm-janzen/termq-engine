@@ -5,7 +5,7 @@
 #include <string>
 #include <array>
 
-#include "../game.h"
+#include "game.h"
 
 // Used to define a datatype for calls to wborder
 struct Border {

@@ -1,5 +1,5 @@
 
-include_directories(${TEST_SOURCE_DIR}/src)
+include_directories("${PROJECT_SOURCE_DIR}/inc")
 
 add_executable(Test_vec2ui test_vec2ui.cpp)
 set_target_properties(termq_lib PROPERTIES LINKER_LANGUAGE CXX)

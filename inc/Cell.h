@@ -1,8 +1,8 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "../game.h"
-#include "../entities/Entity.h"
+#include "game.h"
+#include "Entity.h"
 
 class Cell {
     public:

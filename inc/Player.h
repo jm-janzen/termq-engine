@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "../game.h"
+#include "game.h"
 #include "Actor.h"
 #include "Enemy.h"
 #include "Item.h"

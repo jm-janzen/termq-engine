@@ -3,7 +3,7 @@
 
 #include "Item.h"
 #include "Coin.h"
-#include "../game.h"
+#include "game.h"
 
 Coin::Coin() {
     switch(rand() % 3) {

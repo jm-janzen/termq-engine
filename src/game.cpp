@@ -6,18 +6,18 @@
 #include <string>
 #include <algorithm>
 
-#include "global/Global.h"  // includes difficulties
-#include "world/World.h"
-#include "world/Map.h"
+#include "Global.h"  // includes difficulties
+#include "World.h"
+#include "Map.h"
 
 #include "game.h"
 #include "menu.h"
-#include "entities/Player.h"
-#include "entities/Enemy.h"
-#include "entities/Coin.h"
-#include "windows/Window.h"
-#include "windows/DiagWindow.h"
-#include "windows/StatusBar.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Coin.h"
+#include "Window.h"
+#include "DiagWindow.h"
+#include "StatusBar.h"
 
 using namespace std;
 

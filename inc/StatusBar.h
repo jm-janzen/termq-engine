@@ -3,8 +3,8 @@
 
 #include <string>
 #include "Window.h"
-#include "../entities/Actor.h"
-#include "../game.h"
+#include "Actor.h"
+#include "game.h"
 
 class StatusBar : public Window {
     public:

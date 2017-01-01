@@ -5,14 +5,14 @@
 #include <random>
 
 #include "spdlog/spdlog.h"
-#include "global/Global.h"
-#include "world/World.h"
+#include "Global.h"
+#include "World.h"
 
 #include "menu.h"
 #include "game.h"
 #include "gameover.h"
-#include "windows/DiagWindow.h"
-#include "windows/MenuWindow.h"
+#include "DiagWindow.h"
+#include "MenuWindow.h"
 
 using namespace std;
 

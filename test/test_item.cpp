@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "../src/spdlog/spdlog.h"
 
-#include "../src/entities/Item.h"
+#include "Item.h"
 
 TEST(item, set_getValue) {
     Item item;

@@ -1,6 +1,6 @@
 #include <string>
 
-#include "../game.h"
+#include "game.h"
 #include "DiagWindow.h"
 
 DiagWindow::DiagWindow(rect dim) : Window(dim) {

@@ -1,6 +1,4 @@
 
-#set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-
 # Assign all source files recursively to `lib_src'
 file(GLOB_RECURSE lib_src *.cpp)
 
@@ -13,8 +11,9 @@ if(TARGET termq_lib)  # Guard for multiple targets
     message("termq_lib is already defined")
 else()
 
-    # Finally add them
-    add_library(termq_lib ${lib_src})
+    include_directories("${PROJECT_SOURCE_DIR}/inc")
+
+    add_library(termq_lib ${lib_src} ${lib_inc})
 
     target_link_libraries(termq_lib PRIVATE ${NCURSES_LIBRARIES})
 

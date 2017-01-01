@@ -2,8 +2,8 @@
 #define MENUWINDOW_H
 
 #include "Window.h"
-#include "../menu.h"
-#include "../global/difficulty-levels.h"
+#include "menu.h"
+#include "difficulty-levels.h"
 
 class MenuWindow : public Window {
     public:

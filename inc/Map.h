@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <map>
-#include "../game.h"
-#include "../windows/Window.h"
-#include "../entities/Actor.h"
+#include "game.h"
+#include "Window.h"
+#include "Actor.h"
 #include "Cell.h"
 
 using namespace std;

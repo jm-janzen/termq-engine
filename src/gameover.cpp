@@ -1,6 +1,6 @@
 #include <string>
 
-#include "windows/MenuWindow.h"
+#include "MenuWindow.h"
 
 
 bool gameover() {

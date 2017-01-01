@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "../game.h"
-#include "../global/Global.h"
+#include "game.h"
+#include "Global.h"
 
-#include "../windows/Window.h"
+#include "Window.h"
 #include "Actor.h"
 
 class Enemy : public Actor {

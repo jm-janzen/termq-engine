@@ -1,7 +1,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "../game.h"
+#include "game.h"
 #include "Entity.h"
 
 enum Ownership {
