@@ -6,10 +6,10 @@
 #include <cstdlib>
 #include <ncurses.h>
 
-#include "../directions.h"
-#include "../game.h"
+#include "directions.h"
+#include "game.h"
 
-#include "../windows/Window.h"
+#include "Window.h"
 #include "Entity.h"
 
 class Entity {

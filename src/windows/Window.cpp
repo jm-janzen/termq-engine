@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "../game.h"
+#include "game.h"
 #include "Window.h"
 
 /**

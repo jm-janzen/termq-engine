@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
-#include "../global/Global.h"
+#include "Global.h"
 #include "../spdlog/spdlog.h"
-#include "../game.h"
+#include "game.h"
 #include "Actor.h"
 #include "Enemy.h"
 

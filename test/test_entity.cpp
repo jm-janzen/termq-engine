@@ -2,8 +2,8 @@
 #include "gtest/gtest.h"
 #include "../src/spdlog/spdlog.h"
 
-#include "../src/entities/Entity.h"
-#include "../src/game.h"
+#include "Entity.h"
+#include "game.h"
 
 /*
  * Method tests

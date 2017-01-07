@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
-#include "../global/Global.h"
+#include "Global.h"
 
 Player::Player() : Actor() {
     init_pair(0, COLOR_WHITE, -1);

@@ -1,6 +1,6 @@
 #include <string>
 
-#include "../game.h"
+#include "game.h"
 #include "MenuWindow.h"
 
 

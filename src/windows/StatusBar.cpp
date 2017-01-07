@@ -1,7 +1,7 @@
 
 #include <string>
 
-#include "../game.h"
+#include "game.h"
 #include "StatusBar.h"
 
 void StatusBar::refresh() {

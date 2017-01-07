@@ -1,7 +1,7 @@
 
 #include "gtest/gtest.h"
 
-#include "../src/game.h"
+#include "game.h"
 
 TEST(vec2ui, equality) {
     vec2ui a = {0,0};

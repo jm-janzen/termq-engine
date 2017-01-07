@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include "../directions.h"
-#include "../game.h"
-#include "../windows/Window.h"
+#include "directions.h"
+#include "game.h"
+#include "Window.h"
 #include "Entity.h"
 
 // XXX perhaps these should to floats
