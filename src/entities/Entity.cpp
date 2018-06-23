@@ -4,15 +4,12 @@
 #include <cmath>
 #include <sstream>
 
-#include "../spdlog/spdlog.h"
 #include "Entity.h"
 
 Entity::Entity() {
     std::ostringstream address;
     address << (void const*)this;
     std::string a = address.str();
-
-    spdlog::get("termq")->info("Instantiating Entity \"{}\"", a);
 }
 void Entity::render(Window &w) {
     w.draw(getPos(), getDispChar(), getDispColo());
@@ -119,9 +116,6 @@ void Entity::setPos(vec2ui newPos) {
 void Entity::setPosRand() {
     uint_fast8_t randx = (rand() % (game_area.right() -1) + 1);
     uint_fast8_t randy = (rand() % (game_area.bot()   -1) + 1);
-
-    spdlog::get("termq")->info("Randomising Entity \"{}\" pos from ({},{}) to ({},{})",
-            getType(), getPos().x, getPos().y, randx, randy);
 
     setPos({ randx, randy });
 }

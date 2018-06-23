@@ -20,13 +20,6 @@ else()
 endif()
 message(STATUS "Found c++11 compiler: ${CMAKE_CXX_COMPILER}")
 
-# Create necessary logs dir for spdlog
-set(LOG_DIR "logs")
-add_custom_target(make-logs-dir ALL
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${LOG_DIR}
-)
-message(STATUS "Creating logs directory build/${LOG_DIR}")
-
 include(FindPackageHandleStandardArgs)
 find_path(NCURSES_INCLUDES
     NAMES ncurses.h

@@ -2,7 +2,6 @@
 #include <ncurses.h>
 
 #include "Global.h"
-#include "../spdlog/spdlog.h"
 #include "game.h"
 #include "Actor.h"
 #include "Enemy.h"
@@ -57,9 +56,6 @@ void Enemy::move() {
         if (lucky) {
             if (target->getHP() <= 0) setPos(target->getPos());
             else attack(*target);
-
-            spdlog::get("termq")->info("{} attack odds {}/{}, rolled a {} ({})"
-                , getName(), modifier, pool, roll, (lucky ? "success!" : "failure"));
         }
     } else if (getDistance(target->getPos()) <= aggro) {
         // If target unlucky, seek

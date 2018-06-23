@@ -1,6 +1,5 @@
 
 #include "gtest/gtest.h"
-#include "../src/spdlog/spdlog.h"
 
 #include "Entity.h"
 #include "game.h"
@@ -178,18 +177,7 @@ TEST(Entity, desc) {
 }
 
 int main(int argc, char **argv) {
-    /*
-     * NB: If this logger is not initialised, tests will fail.
-     */
-    auto daily_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/testing", "log", 1024 * 24, 0);
-    auto logger = std::make_shared<spdlog::logger>("termq", daily_sink);
-    spdlog::register_logger(logger);
-
-    spdlog::get("termq")->info("START TESTING");
-
     testing::InitGoogleTest(&argc, argv);
-
-    spdlog::get("termq")->info("DONE TESTING");
     return RUN_ALL_TESTS();
 }
 

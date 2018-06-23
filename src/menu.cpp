@@ -4,7 +4,6 @@
 #include <string>
 #include <random>
 
-#include "spdlog/spdlog.h"
 #include "Global.h"
 #include "World.h"
 
@@ -48,7 +47,6 @@ int init() {
 }
 
 int run() {
-    spdlog::get("termq")->info("run()");
 
     Global *g = Global::get();
     g->setDifficulty(MEDIUM);
@@ -102,8 +100,6 @@ int run() {
         menuWin.drawBorder();
         selection = menuWin.getSelection();
         if (in_array(selection, menuItems)) {
-
-            spdlog::get("termq")->info("selection \"{}\"", selection);
 
             if (selection == "quit") {  // Exit
                 break;
